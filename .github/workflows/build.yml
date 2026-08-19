@@ -1,0 +1,35 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build
+        run: |
+          xcodebuild \
+            -project AutorunsLite.xcodeproj \
+            -scheme AutorunsLite \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build
+
+      - name: Test
+        run: |
+          xcodebuild \
+            -project AutorunsLite.xcodeproj \
+            -scheme AutorunsLite \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            test
