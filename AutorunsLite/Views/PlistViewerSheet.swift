@@ -9,14 +9,14 @@ struct PlistViewerSheet: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 VStack(alignment: .leading) {
-                    Text("plist")
+                    Text(L10n.text("plist_viewer.title"))
                         .font(.headline)
                     Text(plistPath)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button("關閉") { dismiss() }
+                Button(L10n.text("common.close")) { dismiss() }
                     .keyboardShortcut(.cancelAction)
                     .textSelection(.disabled)
             }
@@ -46,7 +46,7 @@ struct PlistViewerSheet: View {
                let text = String(data: xml, encoding: .utf8) {
                 return text
             }
-            return "無法讀取 plist：\(error.localizedDescription)"
+            return L10n.text("plist_viewer.read_failed", ["message": error.localizedDescription])
         }
     }
 }
@@ -64,10 +64,10 @@ struct SessionLogSheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("工作階段紀錄")
+                Text(L10n.text("session_log.title"))
                     .font(.headline)
                 Spacer()
-                Button("關閉") { dismiss() }
+                Button(L10n.text("common.close")) { dismiss() }
                     .textSelection(.disabled)
             }
 
@@ -78,7 +78,7 @@ struct SessionLogSheet: View {
                             .font(.system(.body, design: .monospaced))
                     }
                     if entries.isEmpty {
-                        Text("尚無紀錄")
+                        Text(L10n.text("session_log.empty"))
                             .foregroundStyle(.secondary)
                     }
                 }

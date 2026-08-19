@@ -13,7 +13,7 @@ struct SafetyClassifier: Sendable {
         }
         return SafetyVerdict(
             classification: .safe,
-            reason: "殘留的第三方 User LaunchAgent，執行檔已不存在，可停用並保留 plist。",
+            reason: L10n.text("safety.reason.safe"),
             item: item
         )
     }
@@ -27,16 +27,16 @@ struct SafetyClassifier: Sendable {
 
     private func protectedReason(_ item: StartupItem) -> String? {
         if item.label.lowercased().hasPrefix("com.apple.") {
-            return "Apple 系統項目，禁止自動處理。"
+            return L10n.text("safety.reason.apple_label")
         }
         if item.origin == .appleSystem {
-            return "Apple/System 來源，禁止自動處理。"
+            return L10n.text("safety.reason.apple_origin")
         }
         if isSIPProtected(item) {
-            return "位於系統保護路徑，禁止自動處理。"
+            return L10n.text("safety.reason.sip_path")
         }
         if item.isSystemProtected {
-            return "受保護的系統項目，禁止自動處理。"
+            return L10n.text("safety.reason.system_protected")
         }
         return nil
     }
@@ -44,49 +44,55 @@ struct SafetyClassifier: Sendable {
     private func reviewReason(_ item: StartupItem) -> String? {
         switch item.type {
         case .launchDaemon:
-            return "LaunchDaemon 可能需要管理者權限，改列入手動確認。"
+            return L10n.text("safety.reason.launch_daemon")
         case .systemLaunchAgent:
-            return "System LaunchAgent 不納入自動處理。"
+            return L10n.text("safety.reason.system_launch_agent")
+        case .loginItem:
+            return L10n.text("safety.reason.login_item")
+        case .backgroundTask:
+            return L10n.text("safety.reason.background_task")
+        case .smAppService:
+            return L10n.text("safety.reason.smappservice")
         case .userLaunchAgent:
             break
         }
 
         if item.origin == .unknown {
-            return "來源無法完全判斷，改列入手動確認。"
+            return L10n.text("safety.reason.origin_unknown")
         }
         if item.executableExists {
-            return "執行檔仍存在，不自動處理。"
+            return L10n.text("safety.reason.executable_exists")
         }
         if appStillInstalled(item) {
-            return "App 仍安裝，改列入手動確認。"
+            return L10n.text("safety.reason.app_still_installed")
         }
         if !item.loadStatus.isOrphaned {
-            return "不是殘留項目，只提供建議、不自動執行。"
+            return L10n.text("safety.reason.not_orphaned")
         }
         if hasKeepAlive(item) {
-            return "KeepAlive 項目改列入手動確認。"
+            return L10n.text("safety.reason.keepalive")
         }
         if looksLikeUpdaterOrHelper(item) {
-            return "名稱類似 updater / helper，改列入手動確認。"
+            return L10n.text("safety.reason.updater_helper")
         }
         return nil
     }
 
     private func missingSafeRequirement(_ item: StartupItem) -> String? {
         guard item.type == .userLaunchAgent else {
-            return "僅優先處理 User LaunchAgent。"
+            return L10n.text("safety.reason.only_user_launch_agent")
         }
         guard item.origin == .thirdParty else {
-            return "僅處理可判定的第三方項目。"
+            return L10n.text("safety.reason.only_third_party")
         }
         guard item.loadStatus.isOrphaned else {
-            return "僅處理殘留項目。"
+            return L10n.text("safety.reason.only_orphaned")
         }
         guard !item.executableExists else {
-            return "執行檔仍存在。"
+            return L10n.text("safety.reason.executable_still_exists_short")
         }
         guard FileManager.default.fileExists(atPath: item.plistPath) else {
-            return "plist 已不存在，無法安全處理。"
+            return L10n.text("safety.reason.plist_missing")
         }
         return nil
     }

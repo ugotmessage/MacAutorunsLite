@@ -14,78 +14,96 @@ struct ContentView: View {
             StartupDetailView(viewModel: viewModel)
                 .navigationSplitViewColumnWidth(min: 320, ideal: 380)
         }
-        .searchable(text: $viewModel.searchText, prompt: "搜尋 Label、路徑、執行檔")
+        .searchable(text: $viewModel.searchText, prompt: L10n.text("app.search_prompt"))
         .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button {
+                    Task { await viewModel.loadSystemStartupItems() }
+                } label: {
+                    Label(
+                        viewModel.includeSystemItems ? L10n.text("app.toolbar.system_items_loaded") : L10n.text("app.toolbar.load_system_items"),
+                        systemImage: viewModel.includeSystemItems ? "checkmark.seal" : "externaldrive.badge.plus"
+                    )
+                }
+                .disabled(viewModel.isLoading || viewModel.isPerformingSafeAction || viewModel.includeSystemItems)
+                .help(L10n.text("app.toolbar.load_system_items_help"))
+            }
             ToolbarItem(placement: .automatic) {
                 Button {
                     viewModel.presentSafeActionPreview()
                 } label: {
                     Label(
                         viewModel.safeActionCount > 0
-                            ? "安全處理 \(viewModel.safeActionCount)"
-                            : "安全處理",
+                            ? L10n.text("app.toolbar.safe_action_count", ["count": "\(viewModel.safeActionCount)"])
+                            : L10n.text("app.toolbar.safe_action"),
                         systemImage: "checkmark.shield"
                     )
                 }
                 .disabled(viewModel.isLoading || viewModel.isPerformingSafeAction)
                 .help(
                     viewModel.safeActionCount > 0
-                        ? "\(viewModel.safeActionCount) 個項目可安全處理"
-                        : "沒有可自動處理的低風險殘留項目"
+                        ? L10n.text("app.toolbar.safe_action_help_available", ["count": "\(viewModel.safeActionCount)"])
+                        : L10n.text("app.toolbar.safe_action_help_none")
                 )
             }
             ToolbarItem(placement: .automatic) {
                 Button {
                     Task { await viewModel.refresh() }
                 } label: {
-                    Label("重新整理", systemImage: "arrow.clockwise")
+                    Label(L10n.text("app.toolbar.refresh"), systemImage: "arrow.clockwise")
                 }
                 .keyboardShortcut("r", modifiers: [.command])
                 .disabled(viewModel.isLoading)
             }
             ToolbarItem(placement: .automatic) {
                 Menu {
-                    Button("重新掃描", systemImage: "arrow.clockwise") {
+                    Button(L10n.text("app.menu.rescan"), systemImage: "arrow.clockwise") {
                         Task { await viewModel.refresh() }
                     }
                     .disabled(viewModel.isLoading)
-                    Button("安全處理", systemImage: "checkmark.shield") {
+                    Button(L10n.text("app.toolbar.load_system_items"), systemImage: "externaldrive.badge.plus") {
+                        Task { await viewModel.loadSystemStartupItems() }
+                    }
+                    .disabled(viewModel.isLoading || viewModel.includeSystemItems)
+                    Button(L10n.text("app.toolbar.safe_action"), systemImage: "checkmark.shield") {
                         viewModel.presentSafeActionPreview()
                     }
                     .disabled(viewModel.isLoading || viewModel.isPerformingSafeAction)
-                    Button("復原上次安全處理", systemImage: "arrow.uturn.backward") {
+                    Button(L10n.text("app.menu.undo_last_safe_action"), systemImage: "arrow.uturn.backward") {
                         Task { await viewModel.undoLastSafeAction() }
                     }
                     .disabled(!viewModel.canUndoSafeAction || viewModel.isPerformingSafeAction)
                     Divider()
-                    Button("開啟 macOS Login Items", systemImage: "person.crop.circle") {
+                    Button(L10n.text("app.menu.open_login_items"), systemImage: "person.crop.circle") {
                         viewModel.openLoginItems()
                     }
                     Divider()
-                    Button("設定…", systemImage: "gearshape") {
+                    Button(L10n.text("app.menu.settings"), systemImage: "gearshape") {
                         openAppSettings()
                     }
-                    Picker("外觀", selection: settings.appearanceModeBinding) {
+                    Picker(L10n.text("app.menu.appearance"), selection: settings.appearanceModeBinding) {
                         ForEach(AppearanceMode.allCases) { mode in
                             Text(mode.displayName)
                                 .tag(mode)
                         }
                     }
-                    Button("工作階段紀錄", systemImage: "text.alignleft") {
+                    Button(L10n.text("app.menu.session_log"), systemImage: "text.alignleft") {
                         viewModel.showingDebugLog = true
                     }
                 } label: {
-                    Label("更多", systemImage: "ellipsis.circle")
+                    Label(L10n.text("common.more"), systemImage: "ellipsis.circle")
                 }
             }
         }
-        .navigationTitle("Autoruns Lite")
+        .navigationTitle(L10n.text("app.window_title"))
         .task {
             // XCTest launches this app as TEST_HOST; skip the automatic scan
             // so tests can drive launchctl themselves.
             guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else {
                 return
             }
+            // Let the window appear before the first scan starts.
+            await Task.yield()
             await viewModel.refresh()
         }
         .sheet(item: $viewModel.operationFailure) { failure in
@@ -142,23 +160,23 @@ struct ContentView: View {
             ),
             titleVisibility: .visible
         ) {
-            Button("停用") {
+            Button(L10n.text("common.disable")) {
                 Task { await viewModel.confirmDisable() }
             }
-            Button("取消", role: .cancel) {
+            Button(L10n.text("common.cancel"), role: .cancel) {
                 viewModel.cancelDisable()
             }
         } message: {
-            Text("這會阻止 launchd 自動啟動此項目。\n原始 plist 不會被刪除。")
+            Text(L10n.text("disable_confirm.message"))
         }
         .overlay {
             if viewModel.isPerformingSafeAction {
-                ProgressView("正在處理…")
+                ProgressView(L10n.text("app.progress.working"))
                     .padding(16)
                     .background(Color(nsColor: .controlBackgroundColor))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             } else if viewModel.isLoading {
-                ProgressView("正在掃描…")
+                ProgressView(viewModel.loadingMessage)
                     .padding(16)
                     .background(Color(nsColor: .controlBackgroundColor))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -168,9 +186,9 @@ struct ContentView: View {
 
     private var disableTitle: String {
         if let item = viewModel.pendingDisableItem {
-            return "停用 \(item.label)？"
+            return L10n.text("disable_confirm.title_with_label", ["label": item.label])
         }
-        return "停用此項目？"
+        return L10n.text("disable_confirm.title_generic")
     }
 
     private func openAppSettings() {

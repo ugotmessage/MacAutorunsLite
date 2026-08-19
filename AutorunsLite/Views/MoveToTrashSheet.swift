@@ -7,43 +7,43 @@ struct MoveToTrashSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("將啟動設定移到垃圾桶？")
+            Text(L10n.text("trash.title"))
                 .font(.title2.weight(.semibold))
 
             Text(item.label)
                 .font(.body.monospaced().weight(.semibold))
 
-            Text("此項目的執行檔已不存在，MacAutorunsLite 判定它可能是舊 App 的殘留啟動設定。")
+            Text(L10n.text("trash.intro"))
                 .font(.callout)
                 .foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("將執行：")
+                Text(L10n.text("safe_action.will_do"))
                     .font(.headline)
-                Label("若仍載入則先停止", systemImage: "checkmark")
-                Label("停用 launchd 項目", systemImage: "checkmark")
-                Label("將 plist 移到垃圾桶", systemImage: "checkmark")
+                Label(L10n.text("trash.will_stop_if_loaded"), systemImage: "checkmark")
+                Label(L10n.text("trash.will_disable_launchd"), systemImage: "checkmark")
+                Label(L10n.text("trash.will_move_plist"), systemImage: "checkmark")
             }
             .font(.callout)
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("不會：")
+                Text(L10n.text("safe_action.will_not"))
                     .font(.headline)
-                Label("刪除其他 App 檔案", systemImage: "xmark")
-                Label("修改 Apple 系統服務", systemImage: "xmark")
+                Label(L10n.text("trash.will_not_delete_other_files"), systemImage: "xmark")
+                Label(L10n.text("trash.will_not_modify_apple"), systemImage: "xmark")
             }
             .font(.callout)
             .foregroundStyle(.secondary)
 
-            Text("此操作可從 macOS 垃圾桶手動復原。")
+            Text(L10n.text("trash.reversible_note"))
                 .font(.callout)
                 .foregroundStyle(.secondary)
 
             HStack {
-                Button("取消", action: onCancel)
+                Button(L10n.text("common.cancel"), action: onCancel)
                     .keyboardShortcut(.cancelAction)
                 Spacer()
-                Button("移到垃圾桶", action: onConfirm)
+                Button(L10n.text("trash.confirm"), action: onConfirm)
                     .keyboardShortcut(.defaultAction)
             }
             .textSelection(.disabled)

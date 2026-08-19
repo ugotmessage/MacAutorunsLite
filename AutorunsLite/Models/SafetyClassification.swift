@@ -8,11 +8,11 @@ enum SafetyClassification: String, Hashable, Sendable, CaseIterable {
     var displayName: String {
         switch self {
         case .safe:
-            return "可安全處理"
+            return L10n.text("safety.safe")
         case .reviewRequired:
-            return "需要人工確認"
+            return L10n.text("safety.review_required")
         case .protected:
-            return "已保護"
+            return L10n.text("safety.protected")
         }
     }
 }
@@ -80,5 +80,5 @@ struct SafeActionBatchResult: Identifiable, Hashable, Sendable {
     let items: [SafeActionItemResult]
     let snapshot: SafeActionSnapshot?
 
-    var title: String { "安全處理完成" }
+    var title: String { L10n.text("safe_action.result_title") }
 }

@@ -25,7 +25,7 @@ struct ServiceResearchView: View {
             Divider()
             webArea
             Divider()
-            Text("網路搜尋結果僅供參考。MacAutorunsLite 不會根據網頁內容自動停用、刪除或安全處理任何項目。")
+            Text(L10n.text("research.disclaimer"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .textSelection(.enabled)
@@ -40,7 +40,7 @@ struct ServiceResearchView: View {
     private var header: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("服務研究")
+                Text(L10n.text("research.window_title"))
                     .font(.title2.weight(.semibold))
                 Text(item.displayName)
                     .font(.headline)
@@ -56,10 +56,10 @@ struct ServiceResearchView: View {
             Button {
                 openCurrentInSystemBrowser()
             } label: {
-                Label("外部開啟", systemImage: "arrow.up.right.square")
+                Label(L10n.text("research.open_external"), systemImage: "arrow.up.right.square")
             }
             .textSelection(.disabled)
-            .help("在預設瀏覽器開啟目前頁面")
+            .help(L10n.text("research.open_in_browser_current"))
         }
         .padding(12)
     }
@@ -88,7 +88,7 @@ struct ServiceResearchView: View {
                 Image(systemName: "chevron.left")
             }
             .disabled(!browser.canGoBack)
-            .help("上一頁")
+            .help(L10n.text("research.back"))
 
             Button {
                 browser.goForward()
@@ -96,7 +96,7 @@ struct ServiceResearchView: View {
                 Image(systemName: "chevron.right")
             }
             .disabled(!browser.canGoForward)
-            .help("下一頁")
+            .help(L10n.text("research.forward"))
 
             Button {
                 browser.reload()
@@ -104,14 +104,14 @@ struct ServiceResearchView: View {
             } label: {
                 Image(systemName: "arrow.clockwise")
             }
-            .help("重新載入")
+            .help(L10n.text("research.reload"))
 
             Button {
                 openCurrentInSystemBrowser()
             } label: {
                 Image(systemName: "arrow.up.right.square")
             }
-            .help("在預設瀏覽器開啟")
+            .help(L10n.text("research.open_in_browser"))
 
             if browser.isLoading {
                 ProgressView()
@@ -126,11 +126,11 @@ struct ServiceResearchView: View {
 
     private var searchField: some View {
         VStack(alignment: .leading, spacing: 4) {
-            TextField("搜尋內容或 https 網址", text: $queryText)
+            TextField(L10n.text("research.search_field_prompt"), text: $queryText)
                 .textFieldStyle(.roundedBorder)
                 .onSubmit(submitSearchField)
             if !unknownVariables.isEmpty {
-                Text("未知變數：" + unknownVariables.joined(separator: "、"))
+                Text(L10n.text("research.unknown_variables", ["variables": unknownVariables.joined(separator: "、")]))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .textSelection(.enabled)
@@ -145,13 +145,13 @@ struct ServiceResearchView: View {
             EmbeddedWebView(controller: browser)
             if urlBuildFailed {
                 failureOverlay(
-                    title: "無法建立搜尋網址。",
+                    title: L10n.text("research.url_build_failed_title"),
                     retry: { apply(queryType: selectedQuery) }
                 )
             } else if browser.loadFailed {
                 failureOverlay(
-                    title: "無法載入搜尋結果",
-                    message: "請確認網路連線後重試。",
+                    title: L10n.text("research.load_failed_title"),
+                    message: L10n.text("research.load_failed_message"),
                     retry: { browser.reload() }
                 )
             }
@@ -167,8 +167,8 @@ struct ServiceResearchView: View {
                     .foregroundStyle(.secondary)
             }
             HStack {
-                Button("重新載入", action: retry)
-                Button("在預設瀏覽器開啟", action: openCurrentInSystemBrowser)
+                Button(L10n.text("research.reload"), action: retry)
+                Button(L10n.text("research.open_in_browser"), action: openCurrentInSystemBrowser)
             }
             .textSelection(.disabled)
         }

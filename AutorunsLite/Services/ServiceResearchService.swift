@@ -35,11 +35,11 @@ struct ServiceResearchService {
         case .overview:
             return settings.researchOverviewKeyword
         case .disableSafety:
-            return settings.researchDisableKeyword
+            return ResearchSearchDefaults.disableKeyword
         case .removalSafety:
-            return settings.researchRemoveKeyword
+            return ResearchSearchDefaults.removeKeyword
         case .community:
-            return settings.researchCommunityKeyword
+            return ResearchSearchDefaults.communityKeyword
         }
     }
 

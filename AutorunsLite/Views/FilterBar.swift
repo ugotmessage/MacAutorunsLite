@@ -19,6 +19,7 @@ struct FilterBar: View {
             .padding(.horizontal, 4)
             .padding(.vertical, 2)
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 

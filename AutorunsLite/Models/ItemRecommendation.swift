@@ -10,15 +10,15 @@ enum ItemRecommendation: String, Hashable, Sendable, CaseIterable {
     var displayName: String {
         switch self {
         case .keep:
-            return "建議保留"
+            return L10n.text("recommendation.keep")
         case .canDisable:
-            return "可考慮停用"
+            return L10n.text("recommendation.can_disable")
         case .safeAction:
-            return "可安全處理"
+            return L10n.text("recommendation.safe_action")
         case .reviewRequired:
-            return "建議檢查"
+            return L10n.text("recommendation.review_required")
         case .protected:
-            return "系統保護"
+            return L10n.text("recommendation.protected")
         }
     }
 

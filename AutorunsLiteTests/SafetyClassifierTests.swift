@@ -188,6 +188,20 @@ final class SafetyClassifierTests: XCTestCase {
         XCTAssertEqual(protected.loadStatus, .orphaned)
     }
 
+    func testModernSourcesAreNeverSafe() {
+        for type in [StartupItemType.loginItem, .backgroundTask, .smAppService] {
+            let item = makeItem(
+                label: "com.example.modern.\(type.rawValue)",
+                type: type,
+                status: .orphaned,
+                origin: .thirdParty,
+                executableExists: false,
+                createPlist: true
+            )
+            XCTAssertEqual(classifier.classify(item).classification, .reviewRequired, type.rawValue)
+        }
+    }
+
     private func makeItem(
         label: String,
         type: StartupItemType,

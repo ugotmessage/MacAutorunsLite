@@ -9,9 +9,9 @@ enum ResearchBrowserMode: String, CaseIterable, Identifiable, Sendable {
     var displayName: String {
         switch self {
         case .embedded:
-            return "內建瀏覽器"
+            return L10n.text("settings.browser_mode.embedded")
         case .system:
-            return "系統預設瀏覽器"
+            return L10n.text("settings.browser_mode.system")
         }
     }
 }
@@ -27,13 +27,13 @@ enum ServiceResearchQueryType: String, CaseIterable, Identifiable, Sendable {
     var displayName: String {
         switch self {
         case .overview:
-            return "這是什麼"
+            return L10n.text("research.query.overview")
         case .disableSafety:
-            return "能停用嗎"
+            return L10n.text("research.query.disable_safety")
         case .removalSafety:
-            return "能刪除嗎"
+            return L10n.text("research.query.removal_safety")
         case .community:
-            return "網友討論"
+            return L10n.text("research.query.community")
         }
     }
 }

@@ -9,6 +9,7 @@ struct StartupListView: View {
             FilterBar(selectedFilter: $viewModel.selectedFilter)
                 .padding(.horizontal, 12)
                 .padding(.top, 8)
+                .fixedSize(horizontal: false, vertical: true)
 
             List(selection: $viewModel.selectedItemID) {
                 ForEach(viewModel.visibleStatusGroups) { group in
@@ -27,7 +28,9 @@ struct StartupListView: View {
             }
             .listStyle(.inset)
             .id(viewModel.selectedFilter)
+            .frame(minHeight: 0, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     private func groupHeader(_ group: StatusGroup) -> some View {
@@ -44,7 +47,7 @@ struct StartupListView: View {
                 Image(systemName: status.systemImage)
                     .foregroundStyle(status.color)
                     .frame(width: 16)
-                Text("\(status.displayName) (\(group.items.count))")
+                Text(L10n.text("list.group_title", ["status": status.displayName, "count": "\(group.items.count)"]))
                     .font(.headline)
                     .foregroundStyle(.primary)
                 Spacer(minLength: 0)
@@ -54,58 +57,58 @@ struct StartupListView: View {
         }
         .buttonStyle(.plain)
         .textSelection(.disabled)
-        .accessibilityLabel("\(status.displayName)，\(group.items.count) 個項目")
+        .accessibilityLabel(L10n.text("list.group_accessibility", ["status": status.displayName, "count": "\(group.items.count)"]))
         .accessibilityAddTraits(.isHeader)
         .help(status.shortDescription)
     }
 
     @ViewBuilder
     private func itemContextMenu(_ item: StartupItem) -> some View {
-        Button("啟動") {
+        Button(L10n.text("common.start")) {
             Task { await viewModel.start(item) }
         }
         .disabled(!viewModel.canStart(item))
 
-        Button("停止") {
+        Button(L10n.text("common.stop")) {
             Task { await viewModel.stop(item) }
         }
         .disabled(!viewModel.canStop(item))
 
-        Button("啟用") {
+        Button(L10n.text("common.enable")) {
             Task { await viewModel.enable(item) }
         }
         .disabled(!viewModel.canEnable(item))
 
-        Button("停用") {
+        Button(L10n.text("common.disable")) {
             viewModel.requestDisable(item)
         }
         .disabled(!viewModel.canDisable(item))
 
         Divider()
 
-        Button("在 Finder 顯示") {
+        Button(L10n.text("detail.show_in_finder")) {
             viewModel.showInFinder(item)
         }
-        Button("開啟 plist") {
+        Button(L10n.text("detail.open_plist")) {
             viewModel.selectedItemID = item.id
             viewModel.showingPlistViewer = true
         }
 
         Divider()
 
-        Button("複製路徑") {
+        Button(L10n.text("list.copy_path")) {
             viewModel.copyPlistPath(item)
         }
-        Button("複製 Label") {
+        Button(L10n.text("list.copy_label")) {
             viewModel.copyLabel(item)
         }
-        Button("複製執行檔路徑") {
+        Button(L10n.text("list.copy_executable_path")) {
             viewModel.copyExecutablePath(item)
         }
 
         if viewModel.canMoveToTrash(item) {
             Divider()
-            Button("移到垃圾桶…") {
+            Button(L10n.text("list.move_to_trash")) {
                 viewModel.requestMoveToTrash(item)
             }
         }
@@ -147,12 +150,12 @@ struct StartupItemRow: View {
 
             TypeBadge(type: item.type)
 
-            Text(item.abbreviatedPlistPath)
+            Text(item.abbreviatedSourcePath)
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
                 .truncationMode(.middle)
-                .help(item.plistPath)
+                .help(item.resolvedSourcePath)
                 .textSelection(.enabled)
                 .frame(minWidth: 48, maxWidth: .infinity, alignment: .trailing)
         }
@@ -167,9 +170,9 @@ struct StartupItemRow: View {
         if let secondary = item.secondaryIdentifier {
             parts.insert(secondary, at: 1)
         }
-        parts.append(item.plistPath)
+        parts.append(item.resolvedSourcePath)
         if let notePreview {
-            parts.append("備註：\(notePreview)")
+            parts.append(L10n.text("list.note_prefix", ["note": notePreview]))
         }
         return parts.joined(separator: "，")
     }

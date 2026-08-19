@@ -3,7 +3,9 @@ import AppKit
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.regular)
         applyAppIcon()
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     private func applyAppIcon() {
@@ -28,17 +30,20 @@ struct AutorunsLiteApp: App {
                 .environmentObject(settings)
                 .environmentObject(researchSession)
                 .preferredColorScheme(settings.appearanceMode.preferredColorScheme)
+                .environment(\.locale, settings.resolvedLocale)
+                .frame(minWidth: 880, minHeight: 520)
         }
         .defaultSize(width: 1180, height: 740)
         .commands {
             CommandGroup(replacing: .newItem) {}
         }
 
-        Window("服務研究", id: "service-research") {
+        Window(L10n.text("research.window_title"), id: "service-research") {
             ServiceResearchRootView()
                 .environmentObject(settings)
                 .environmentObject(researchSession)
                 .preferredColorScheme(settings.appearanceMode.preferredColorScheme)
+                .environment(\.locale, settings.resolvedLocale)
         }
         .defaultSize(width: 1000, height: 700)
         .windowResizability(.contentMinSize)
@@ -46,7 +51,10 @@ struct AutorunsLiteApp: App {
         Settings {
             SettingsView()
                 .environmentObject(settings)
+                .environment(\.locale, settings.resolvedLocale)
         }
+        .defaultSize(width: 560, height: 520)
+        .windowResizability(.contentMinSize)
     }
 }
 
@@ -60,9 +68,9 @@ struct ServiceResearchRootView: View {
                     .id(item.id)
             } else {
                 ContentUnavailableView(
-                    "請選擇一個啟動項目",
+                    L10n.text("research.empty_title"),
                     systemImage: "magnifyingglass",
-                    description: Text("在主視窗選取項目後，點「查詢此服務」。")
+                    description: Text(L10n.text("research.empty_description"))
                 )
             }
         }

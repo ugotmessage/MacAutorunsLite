@@ -29,6 +29,10 @@
 		AA000000000000000000021B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011B /* AppSettings.swift */; };
 		AA000000000000000000021C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011C /* SettingsView.swift */; };
 		AA0000000000000000000211 /* ShellResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000111 /* ShellResult.swift */; };
+		AA000000000000000000023C /* SystemLoadDecision.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000013C /* SystemLoadDecision.swift */; };
+		AA000000000000000000023D /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000013D /* AppLanguage.swift */; };
+		AA000000000000000000023E /* AppLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000013E /* AppLocalization.swift */; };
+		AA000000000000000000023F /* ui-strings.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000013F /* ui-strings.json */; };
 		AA0000000000000000000212 /* LoadStatusResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000112 /* LoadStatusResolver.swift */; };
 		AA0000000000000000000213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000113 /* Assets.xcassets */; };
 		AA0000000000000000000215 /* PlistParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000115 /* PlistParserTests.swift */; };
@@ -58,6 +62,13 @@
 		AA0000000000000000000231 /* ServiceResearchQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000131 /* ServiceResearchQueryBuilderTests.swift */; };
 		AA0000000000000000000232 /* ItemNotesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000132 /* ItemNotesStore.swift */; };
 		AA0000000000000000000233 /* ItemNotesStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000133 /* ItemNotesStoreTests.swift */; };
+		AA0000000000000000000235 /* RelatedHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000135 /* RelatedHelper.swift */; };
+		AA0000000000000000000236 /* BTMDumpParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000136 /* BTMDumpParser.swift */; };
+		AA0000000000000000000237 /* LoginItemScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000137 /* LoginItemScanner.swift */; };
+		AA0000000000000000000238 /* AppBundleHelperScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000138 /* AppBundleHelperScanner.swift */; };
+		AA0000000000000000000239 /* StartupItemMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000139 /* StartupItemMerger.swift */; };
+		AA000000000000000000023A /* ModernStartupScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000013A /* ModernStartupScanner.swift */; };
+		AA000000000000000000023B /* ModernStartupSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000013B /* ModernStartupSourceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +107,10 @@
 		AA000000000000000000011C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AA000000000000000000011D /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000111 /* ShellResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellResult.swift; sourceTree = "<group>"; };
+		AA000000000000000000013C /* SystemLoadDecision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemLoadDecision.swift; sourceTree = "<group>"; };
+		AA000000000000000000013D /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		AA000000000000000000013E /* AppLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalization.swift; sourceTree = "<group>"; };
+		AA000000000000000000013F /* ui-strings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Localizations/ui-strings.json"; sourceTree = SOURCE_ROOT; };
 		AA0000000000000000000112 /* LoadStatusResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStatusResolver.swift; sourceTree = "<group>"; };
 		AA0000000000000000000113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA0000000000000000000114 /* AutorunsLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutorunsLite.entitlements; sourceTree = "<group>"; };
@@ -126,6 +141,13 @@
 		AA0000000000000000000132 /* ItemNotesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotesStore.swift; sourceTree = "<group>"; };
 		AA0000000000000000000133 /* ItemNotesStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotesStoreTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000134 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		AA0000000000000000000135 /* RelatedHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedHelper.swift; sourceTree = "<group>"; };
+		AA0000000000000000000136 /* BTMDumpParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTMDumpParser.swift; sourceTree = "<group>"; };
+		AA0000000000000000000137 /* LoginItemScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemScanner.swift; sourceTree = "<group>"; };
+		AA0000000000000000000138 /* AppBundleHelperScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBundleHelperScanner.swift; sourceTree = "<group>"; };
+		AA0000000000000000000139 /* StartupItemMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupItemMerger.swift; sourceTree = "<group>"; };
+		AA000000000000000000013A /* ModernStartupScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernStartupScanner.swift; sourceTree = "<group>"; };
+		AA000000000000000000013B /* ModernStartupSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernStartupSourceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +196,7 @@
 				AA0000000000000000000015 /* Views */,
 				AA0000000000000000000017 /* Utilities */,
 				AA0000000000000000000113 /* Assets.xcassets */,
+				AA000000000000000000013F /* ui-strings.json */,
 				AA0000000000000000000134 /* AppIcon.icns */,
 				AA0000000000000000000114 /* AutorunsLite.entitlements */,
 			);
@@ -185,9 +208,11 @@
 			children = (
 				AA0000000000000000000101 /* StartupItem.swift */,
 				AA0000000000000000000102 /* StartupItemType.swift */,
+				AA0000000000000000000135 /* RelatedHelper.swift */,
 				AA0000000000000000000103 /* LoadStatus.swift */,
 				AA0000000000000000000104 /* StartupFilter.swift */,
 				AA0000000000000000000105 /* ItemOrigin.swift */,
+				AA000000000000000000013D /* AppLanguage.swift */,
 				AA000000000000000000011A /* AppearanceMode.swift */,
 				AA000000000000000000011E /* SafetyClassification.swift */,
 				AA0000000000000000000125 /* ItemRecommendation.swift */,
@@ -211,6 +236,11 @@
 				AA000000000000000000012C /* ServiceResearchQueryBuilder.swift */,
 				AA000000000000000000012D /* ServiceResearchService.swift */,
 				AA0000000000000000000132 /* ItemNotesStore.swift */,
+				AA0000000000000000000136 /* BTMDumpParser.swift */,
+				AA0000000000000000000137 /* LoginItemScanner.swift */,
+				AA0000000000000000000138 /* AppBundleHelperScanner.swift */,
+				AA0000000000000000000139 /* StartupItemMerger.swift */,
+				AA000000000000000000013A /* ModernStartupScanner.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -249,6 +279,8 @@
 			isa = PBXGroup;
 			children = (
 				AA0000000000000000000111 /* ShellResult.swift */,
+				AA000000000000000000013E /* AppLocalization.swift */,
+				AA000000000000000000013C /* SystemLoadDecision.swift */,
 				AA0000000000000000000112 /* LoadStatusResolver.swift */,
 				AA000000000000000000011B /* AppSettings.swift */,
 			);
@@ -267,6 +299,7 @@
 				AA000000000000000000012A /* RecommendationResolverTests.swift */,
 				AA0000000000000000000131 /* ServiceResearchQueryBuilderTests.swift */,
 				AA0000000000000000000133 /* ItemNotesStoreTests.swift */,
+				AA000000000000000000013B /* ModernStartupSourceTests.swift */,
 			);
 			path = AutorunsLiteTests;
 			sourceTree = "<group>";
@@ -353,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA0000000000000000000213 /* Assets.xcassets in Resources */,
+				AA000000000000000000023F /* ui-strings.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,10 +439,13 @@
 				AA000000000000000000020F /* ErrorSheet.swift in Sources */,
 				AA0000000000000000000210 /* PlistViewerSheet.swift in Sources */,
 				AA0000000000000000000219 /* StatusBadge.swift in Sources */,
+				AA000000000000000000023D /* AppLanguage.swift in Sources */,
 				AA000000000000000000021A /* AppearanceMode.swift in Sources */,
 				AA000000000000000000021B /* AppSettings.swift in Sources */,
 				AA000000000000000000021C /* SettingsView.swift in Sources */,
 				AA0000000000000000000211 /* ShellResult.swift in Sources */,
+				AA000000000000000000023E /* AppLocalization.swift in Sources */,
+				AA000000000000000000023C /* SystemLoadDecision.swift in Sources */,
 				AA0000000000000000000212 /* LoadStatusResolver.swift in Sources */,
 				AA000000000000000000021E /* SafetyClassification.swift in Sources */,
 				AA000000000000000000021F /* SafetyClassifier.swift in Sources */,
@@ -428,6 +465,12 @@
 				AA000000000000000000022F /* EmbeddedWebView.swift in Sources */,
 				AA0000000000000000000230 /* ServiceResearchView.swift in Sources */,
 				AA0000000000000000000232 /* ItemNotesStore.swift in Sources */,
+				AA0000000000000000000235 /* RelatedHelper.swift in Sources */,
+				AA0000000000000000000236 /* BTMDumpParser.swift in Sources */,
+				AA0000000000000000000237 /* LoginItemScanner.swift in Sources */,
+				AA0000000000000000000238 /* AppBundleHelperScanner.swift in Sources */,
+				AA0000000000000000000239 /* StartupItemMerger.swift in Sources */,
+				AA000000000000000000023A /* ModernStartupScanner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +487,7 @@
 				AA000000000000000000022A /* RecommendationResolverTests.swift in Sources */,
 				AA0000000000000000000231 /* ServiceResearchQueryBuilderTests.swift in Sources */,
 				AA0000000000000000000233 /* ItemNotesStoreTests.swift in Sources */,
+				AA000000000000000000023B /* ModernStartupSourceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,7 +511,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = NO;
@@ -482,7 +526,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -501,7 +545,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -515,7 +559,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -643,10 +687,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLiteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -663,10 +707,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLiteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

@@ -4,44 +4,50 @@ struct StatusHelpSheet: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("啟動項目狀態說明")
+                Text(L10n.text("status_help.title"))
                     .font(.title2.weight(.semibold))
 
-                Text("Mac 的自動啟動由 launchd 管理。")
+                Text(L10n.text("status_help.intro"))
                     .foregroundStyle(.secondary)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("plist")
+                    Text(L10n.text("status_help.flow.plist"))
                     Image(systemName: "arrow.down")
                         .foregroundStyle(.secondary)
-                    Text("launchd 載入設定")
+                    Text(L10n.text("status_help.flow.load"))
                     Image(systemName: "arrow.down")
                         .foregroundStyle(.secondary)
-                    Text("等待啟動條件")
+                    Text(L10n.text("status_help.flow.wait"))
                     Image(systemName: "arrow.down")
                         .foregroundStyle(.secondary)
-                    Text("執行程式")
+                    Text(L10n.text("status_help.flow.run"))
                 }
                 .font(.callout)
 
                 Group {
-                    Text("已載入不代表程式一定正在執行。")
-                    Text("未載入也不代表此項目無用。")
-                    Text("MacAutorunsLite 會另外提供「處理建議」，協助你判斷是否需要停用或清理。")
+                    Text(L10n.text("status_help.note.loaded"))
+                    Text(L10n.text("status_help.note.unloaded"))
+                    Text(L10n.text("status_help.note.recommendation"))
                 }
                 .font(.callout)
 
                 Divider()
 
-                Text("什麼是 LaunchAgent？")
+                Text(L10n.text("status_help.what_is_launch_agent"))
                     .font(.headline)
-                Text("LaunchAgent 通常是在使用者登入後，由 launchd 管理的背景服務。它被載入後，不一定會立刻佔用 CPU 或記憶體。")
+                Text(L10n.text("status_help.what_is_launch_agent_body"))
                     .font(.callout)
                     .foregroundStyle(.secondary)
 
-                Text("什麼是 LaunchDaemon？")
+                Text(L10n.text("status_help.what_is_launch_daemon"))
                     .font(.headline)
-                Text("LaunchDaemon 是系統層級背景服務，通常不依賴某個使用者登入。")
+                Text(L10n.text("status_help.what_is_launch_daemon_body"))
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+
+                Text(L10n.text("status_help.modern_sources_title"))
+                    .font(.headline)
+                Text(L10n.text("status_help.modern_sources_body"))
                     .font(.callout)
                     .foregroundStyle(.secondary)
 

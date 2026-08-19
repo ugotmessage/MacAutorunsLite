@@ -129,6 +129,21 @@ final class RecommendationResolverTests: XCTestCase {
         XCTAssertFalse(TrashEligibility.canMoveToTrash(safe, recommendation: .keep))
     }
 
+    func testModernSourcesAreReviewRequiredAndNotTrashable() {
+        for type in [StartupItemType.loginItem, .backgroundTask, .smAppService] {
+            let item = makeItem(
+                label: "com.example.modern.\(type.rawValue)",
+                type: type,
+                status: .unknown,
+                origin: .thirdParty,
+                executableExists: true,
+                createPlist: false
+            )
+            XCTAssertEqual(resolver.resolve(item).recommendation, .reviewRequired)
+            XCTAssertFalse(TrashEligibility.canMoveToTrash(item, recommendation: .safeAction))
+        }
+    }
+
     private func makeItem(
         label: String,
         type: StartupItemType,

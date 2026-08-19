@@ -2,6 +2,14 @@ import SwiftUI
 
 @MainActor
 final class AppSettings: ObservableObject {
+    @AppStorage("appLanguage")
+    var appLanguageRawValue: String = AppLanguage.system.rawValue {
+        didSet {
+            AppLocalization.shared.setLanguage(appLanguage)
+            objectWillChange.send()
+        }
+    }
+
     @AppStorage("appearanceMode")
     var appearanceModeRawValue: String = AppearanceMode.system.rawValue {
         didSet { objectWillChange.send() }
@@ -22,19 +30,13 @@ final class AppSettings: ObservableObject {
         didSet { objectWillChange.send() }
     }
 
-    @AppStorage("researchDisableKeyword")
-    var researchDisableKeyword: String = ResearchSearchDefaults.disableKeyword {
-        didSet { objectWillChange.send() }
+    init() {
+        AppLocalization.shared.setLanguage(appLanguage)
     }
 
-    @AppStorage("researchRemoveKeyword")
-    var researchRemoveKeyword: String = ResearchSearchDefaults.removeKeyword {
-        didSet { objectWillChange.send() }
-    }
-
-    @AppStorage("researchCommunityKeyword")
-    var researchCommunityKeyword: String = ResearchSearchDefaults.communityKeyword {
-        didSet { objectWillChange.send() }
+    var appLanguage: AppLanguage {
+        get { AppLanguage(rawValue: appLanguageRawValue) ?? .system }
+        set { appLanguageRawValue = newValue.rawValue }
     }
 
     var appearanceMode: AppearanceMode {
@@ -54,6 +56,13 @@ final class AppSettings: ObservableObject {
         )
     }
 
+    var appLanguageBinding: Binding<AppLanguage> {
+        Binding(
+            get: { self.appLanguage },
+            set: { self.appLanguage = $0 }
+        )
+    }
+
     var researchBrowserModeBinding: Binding<ResearchBrowserMode> {
         Binding(
             get: { self.researchBrowserMode },
@@ -69,18 +78,6 @@ final class AppSettings: ObservableObject {
         Binding(get: { self.researchOverviewKeyword }, set: { self.researchOverviewKeyword = $0 })
     }
 
-    var researchDisableKeywordBinding: Binding<String> {
-        Binding(get: { self.researchDisableKeyword }, set: { self.researchDisableKeyword = $0 })
-    }
-
-    var researchRemoveKeywordBinding: Binding<String> {
-        Binding(get: { self.researchRemoveKeyword }, set: { self.researchRemoveKeyword = $0 })
-    }
-
-    var researchCommunityKeywordBinding: Binding<String> {
-        Binding(get: { self.researchCommunityKeyword }, set: { self.researchCommunityKeyword = $0 })
-    }
-
     var templateMissingLabelPlaceholder: Bool {
         !researchQueryTemplate.contains("{label}")
     }
@@ -89,16 +86,17 @@ final class AppSettings: ObservableObject {
         ServiceResearchQueryBuilder().build(
             label: ResearchSearchDefaults.previewLabel,
             typeKeyword: ResearchSearchDefaults.previewType,
-            keyword: researchRemoveKeyword,
+            keyword: researchOverviewKeyword,
             template: researchQueryTemplate
         ).query
+    }
+
+    var resolvedLocale: Locale {
+        AppLocalization.shared.locale(for: appLanguage)
     }
 
     func restoreResearchSearchDefaults() {
         researchQueryTemplate = ResearchSearchDefaults.template
         researchOverviewKeyword = ResearchSearchDefaults.overviewKeyword
-        researchDisableKeyword = ResearchSearchDefaults.disableKeyword
-        researchRemoveKeyword = ResearchSearchDefaults.removeKeyword
-        researchCommunityKeyword = ResearchSearchDefaults.communityKeyword
     }
 }

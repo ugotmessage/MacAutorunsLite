@@ -7,8 +7,26 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section("外觀") {
-                Picker("外觀模式", selection: settings.appearanceModeBinding) {
+            Section(L10n.text("settings.language_section")) {
+                Picker(L10n.text("settings.language_mode"), selection: settings.appLanguageBinding) {
+                    ForEach(AppLanguage.allCases) { language in
+                        Text(language.displayName)
+                            .tag(language)
+                    }
+                }
+                .pickerStyle(.radioGroup)
+                // `L10n` 來自 singleton，不一定會觸發 Picker 內建選項視圖重新計算。
+                // 強制重建可確保切換語言後選項文字也一起更新。
+                .id(settings.appLanguageRawValue)
+                .textSelection(.disabled)
+
+                Text(L10n.text("settings.language_mode_help"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Section(L10n.text("settings.appearance_section")) {
+                Picker(L10n.text("settings.appearance_mode"), selection: settings.appearanceModeBinding) {
                     ForEach(AppearanceMode.allCases) { mode in
                         Text(mode.displayName)
                             .tag(mode)
@@ -18,8 +36,8 @@ struct SettingsView: View {
                 .textSelection(.disabled)
             }
 
-            Section("服務研究") {
-                Picker("網頁開啟方式", selection: settings.researchBrowserModeBinding) {
+            Section(L10n.text("settings.research_section")) {
+                Picker(L10n.text("settings.browser_mode"), selection: settings.researchBrowserModeBinding) {
                     ForEach(ResearchBrowserMode.allCases) { mode in
                         Text(mode.displayName)
                             .tag(mode)
@@ -28,51 +46,36 @@ struct SettingsView: View {
                 .pickerStyle(.radioGroup)
                 .textSelection(.disabled)
 
-                Text("預設會用系統瀏覽器開啟搜尋結果。若改為內建瀏覽器，會在 MacAutorunsLite 視窗中顯示網頁。")
+                Text(L10n.text("settings.browser_mode_help"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
-            Section("搜尋設定") {
+            Section(L10n.text("settings.search_section")) {
                 editableField(
-                    title: "搜尋模板",
-                    prompt: "\"{label}\" {type} {keyword}",
+                    title: L10n.text("settings.search_template"),
+                    prompt: ResearchSearchDefaults.template,
                     text: settings.researchQueryTemplateBinding
                 )
-                Text("可用變數：{label} 服務 Label、{type} LaunchAgent / LaunchDaemon、{keyword} 目前研究關鍵字")
+                Text(L10n.text("settings.search_template_help"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 if settings.templateMissingLabelPlaceholder {
-                    Text("建議搜尋模板保留 {label}，否則可能無法準確找到對應服務。")
+                    Text(L10n.text("settings.search_template_missing_label"))
                         .font(.caption)
                         .foregroundStyle(.orange)
                 }
             }
 
-            Section("搜尋關鍵字") {
-                editableField(
-                    title: "這是什麼",
-                    prompt: "macOS",
+            Section {
+                keywordField(
+                    title: L10n.text("settings.keyword_overview"),
+                    prompt: ResearchSearchDefaults.overviewKeyword,
                     text: settings.researchOverviewKeywordBinding
-                )
-                editableField(
-                    title: "能停用嗎",
-                    prompt: "safe to disable",
-                    text: settings.researchDisableKeywordBinding
-                )
-                editableField(
-                    title: "能刪除嗎",
-                    prompt: "safe to remove",
-                    text: settings.researchRemoveKeywordBinding
-                )
-                editableField(
-                    title: "網友討論",
-                    prompt: "reddit",
-                    text: settings.researchCommunityKeywordBinding
                 )
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("搜尋預覽")
+                    Text(L10n.text("settings.search_preview"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     Text(settings.searchPreviewQuery)
@@ -88,28 +91,36 @@ struct SettingsView: View {
                         )
                 }
 
-                Button("恢復預設搜尋設定") {
+                Button(L10n.text("settings.restore_search_defaults")) {
                     confirmingReset = true
                 }
                 .textSelection(.disabled)
+            } header: {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(L10n.text("settings.keywords_section"))
+                    Text(L10n.text("settings.keywords_help"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
         .formStyle(.grouped)
         .textSelection(.enabled)
         .padding()
-        .frame(minWidth: 560, minHeight: 640, alignment: .topLeading)
+        .frame(minWidth: 520, minHeight: 360, alignment: .topLeading)
         .preferredColorScheme(settings.appearanceMode.preferredColorScheme)
         .confirmationDialog(
-            "恢復預設搜尋設定？",
+            L10n.text("settings.restore_confirm_title"),
             isPresented: $confirmingReset,
             titleVisibility: .visible
         ) {
-            Button("恢復預設值") {
+            Button(L10n.text("settings.restore_confirm_action")) {
                 settings.restoreResearchSearchDefaults()
             }
-            Button("取消", role: .cancel) {}
+            Button(L10n.text("common.cancel"), role: .cancel) {}
         } message: {
-            Text("這會將搜尋模板與研究關鍵字恢復為預設值。")
+            Text(L10n.text("settings.restore_confirm_message"))
         }
     }
 
@@ -117,7 +128,7 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.callout.weight(.semibold))
-            TextField(title, text: text, prompt: Text(prompt))
+            TextField("", text: text, prompt: Text(prompt))
                 .textFieldStyle(.plain)
                 .padding(8)
                 .background(Color(nsColor: .textBackgroundColor))
@@ -126,9 +137,21 @@ struct SettingsView: View {
                     RoundedRectangle(cornerRadius: 6, style: .continuous)
                         .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
                 )
+                .labelsHidden()
                 .accessibilityLabel(title)
         }
         .padding(.vertical, 2)
+    }
+
+    private func keywordField(title: String, prompt: String, text: Binding<String>) -> some View {
+        LabeledContent(title) {
+            TextField("", text: text, prompt: Text(prompt))
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 220)
+                .labelsHidden()
+                .accessibilityLabel(title)
+                .accessibilityHint(L10n.text("settings.keyword_accessibility_hint"))
+        }
     }
 }
 

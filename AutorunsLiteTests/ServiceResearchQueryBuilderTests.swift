@@ -136,11 +136,35 @@ final class ResearchSettingsTests: XCTestCase {
         XCTAssertEqual(settings.researchBrowserMode, .system)
         XCTAssertEqual(settings.researchQueryTemplate, "\"{label}\" {type} {keyword}")
         XCTAssertEqual(settings.researchOverviewKeyword, "macOS")
-        XCTAssertEqual(settings.researchDisableKeyword, "safe to disable")
-        XCTAssertEqual(settings.researchRemoveKeyword, "safe to remove")
-        XCTAssertEqual(settings.researchCommunityKeyword, "reddit")
         XCTAssertEqual(ResearchBrowserMode.embedded.displayName, "內建瀏覽器")
         XCTAssertEqual(ResearchBrowserMode.system.displayName, "系統預設瀏覽器")
+        XCTAssertEqual(
+            settings.searchPreviewQuery,
+            "\"com.example.service\" LaunchDaemon macOS"
+        )
+    }
+
+    func testOnlyOverviewKeywordIsCustomizable() {
+        let settings = AppSettings()
+        settings.researchOverviewKeyword = "這是什麼"
+        let research = ServiceResearchService()
+
+        XCTAssertEqual(
+            research.keyword(for: .overview, settings: settings),
+            "這是什麼"
+        )
+        XCTAssertEqual(
+            research.keyword(for: .disableSafety, settings: settings),
+            ResearchSearchDefaults.disableKeyword
+        )
+        XCTAssertEqual(
+            research.keyword(for: .removalSafety, settings: settings),
+            ResearchSearchDefaults.removeKeyword
+        )
+        XCTAssertEqual(
+            research.keyword(for: .community, settings: settings),
+            ResearchSearchDefaults.communityKeyword
+        )
     }
 
     func testPersistenceAcrossInstances() {
@@ -148,17 +172,11 @@ final class ResearchSettingsTests: XCTestCase {
         first.researchBrowserMode = .embedded
         first.researchQueryTemplate = "\"{label}\" macOS {type} {keyword}"
         first.researchOverviewKeyword = "這是什麼"
-        first.researchDisableKeyword = "可以停用嗎"
-        first.researchRemoveKeyword = "可以刪除嗎"
-        first.researchCommunityKeyword = "site:reddit.com"
 
         let restored = AppSettings()
         XCTAssertEqual(restored.researchBrowserMode, .embedded)
         XCTAssertEqual(restored.researchQueryTemplate, "\"{label}\" macOS {type} {keyword}")
         XCTAssertEqual(restored.researchOverviewKeyword, "這是什麼")
-        XCTAssertEqual(restored.researchDisableKeyword, "可以停用嗎")
-        XCTAssertEqual(restored.researchRemoveKeyword, "可以刪除嗎")
-        XCTAssertEqual(restored.researchCommunityKeyword, "site:reddit.com")
     }
 
     func testRestoreDefaultsDoesNotResetBrowserMode() {
@@ -166,17 +184,11 @@ final class ResearchSettingsTests: XCTestCase {
         settings.researchBrowserMode = .embedded
         settings.researchQueryTemplate = "broken"
         settings.researchOverviewKeyword = "x"
-        settings.researchDisableKeyword = "y"
-        settings.researchRemoveKeyword = "z"
-        settings.researchCommunityKeyword = "w"
 
         settings.restoreResearchSearchDefaults()
 
         XCTAssertEqual(settings.researchBrowserMode, .embedded)
         XCTAssertEqual(settings.researchQueryTemplate, ResearchSearchDefaults.template)
         XCTAssertEqual(settings.researchOverviewKeyword, "macOS")
-        XCTAssertEqual(settings.researchDisableKeyword, "safe to disable")
-        XCTAssertEqual(settings.researchRemoveKeyword, "safe to remove")
-        XCTAssertEqual(settings.researchCommunityKeyword, "reddit")
     }
 }

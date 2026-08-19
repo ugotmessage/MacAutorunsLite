@@ -23,6 +23,16 @@ struct LaunchctlResult: Sendable, Equatable {
             .filter { !$0.isEmpty }
         return parts.joined(separator: "\n")
     }
+
+    var permissionDenied: Bool {
+        let haystack = combinedOutput.lowercased()
+        return haystack.contains("permission")
+            || haystack.contains("not permitted")
+            || haystack.contains("not privileged")
+            || haystack.contains("input/output error")
+            || exitCode == 1 && haystack.contains("denied")
+            || exitCode == 5
+    }
 }
 
 typealias ShellResult = LaunchctlResult

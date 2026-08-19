@@ -67,6 +67,10 @@ final class StartupViewModel: ObservableObject {
     @Published var showingStatusHelp = false
     @Published var pendingTrashItem: StartupItem?
     @Published private(set) var notesByPath: [String: String] = [:]
+    @Published private(set) var modernSourceWarning: String?
+    @Published private(set) var includeSystemItems = false
+    @Published private(set) var systemLoadNotice: String?
+    @Published private(set) var isLoadingSystemStartupItems = false
 
     private let scanner: StartupScanner
     private let launchctl: LaunchctlService
@@ -108,6 +112,7 @@ final class StartupViewModel: ObservableObject {
     var disabledCount: Int { items.filter { $0.loadStatus == .disabled }.count }
     var orphanedCount: Int { items.filter(\.loadStatus.isOrphaned).count }
     var unloadedCount: Int { items.filter { $0.loadStatus == .unloaded }.count }
+    var modernSourceCount: Int { items.filter(\.type.isModernSource).count }
 
     var currentSafeActionDryRun: SafeActionDryRun {
         classifier.dryRun(items: items)
@@ -134,16 +139,16 @@ final class StartupViewModel: ObservableObject {
     }
 
     func lastScanDescription(at date: Date = Date()) -> String {
-        guard let lastScanDate else { return "尚未掃描" }
+        guard let lastScanDate else { return L10n.text("scan.never") }
         let elapsed = date.timeIntervalSince(lastScanDate)
         if elapsed < 45 {
-            return "剛剛"
+            return L10n.text("scan.just_now")
         }
         if elapsed < 3600 {
-            return "\(max(1, Int(elapsed / 60))) 分鐘前"
+            return L10n.text("scan.minutes_ago", ["minutes": "\(max(1, Int(elapsed / 60)))"])
         }
         let formatter = RelativeDateTimeFormatter()
-        formatter.locale = Locale(identifier: "zh_TW")
+        formatter.locale = AppLocalization.shared.currentLocale
         formatter.unitsStyle = .short
         return formatter.localizedString(for: lastScanDate, relativeTo: date)
     }
@@ -165,35 +170,108 @@ final class StartupViewModel: ObservableObject {
         }
     }
 
+    var loadingMessage: String {
+        if isLoadingSystemStartupItems {
+            return L10n.text("app.progress.loading_system_items")
+        }
+        return L10n.text("app.progress.scanning")
+    }
+
     func refresh() async {
         isLoading = true
+        defer { isLoading = false }
         errorMessage = nil
-        log("scan started")
-        let scanned = await scanner.scan()
-        items = scanned
+        log(includeSystemItems ? "scan started (user + system)" : "scan started (user)")
+        let scanned = await scanner.scanResult(includeSystemItems: includeSystemItems)
+        items = scanned.items
+        if includeSystemItems {
+            modernSourceWarning = scanned.modernSourceWarning
+        } else {
+            modernSourceWarning = nil
+            systemLoadNotice = nil
+        }
         lastScanDate = Date()
-        if let selectedItemID, !scanned.contains(where: { $0.id == selectedItemID }) {
+        if let selectedItemID, !scanned.items.contains(where: { $0.id == selectedItemID }) {
             self.selectedItemID = nil
         }
-        isLoading = false
-        log("found \(scanned.count) items")
+        log("found \(scanned.items.count) items")
+        if let warning = scanned.modernSourceWarning, includeSystemItems {
+            log(warning)
+        }
+    }
+
+    func loadSystemStartupItems() async {
+        guard !includeSystemItems else {
+            await refresh()
+            return
+        }
+
+        isLoading = true
+        isLoadingSystemStartupItems = true
+        defer {
+            isLoading = false
+            isLoadingSystemStartupItems = false
+        }
+
+        let previousSystemCount = items.filter(\.type.isSystemLaunchd).count
+        log("load system startup items requested")
+        let scanned = await scanner.scanResult(includeSystemItems: true)
+        let systemCount = scanned.items.filter(\.type.isSystemLaunchd).count
+
+        if SystemLoadDecision.shouldCommit(scanned: scanned, previousSystemCount: previousSystemCount) {
+            includeSystemItems = true
+            items = scanned.items
+            modernSourceWarning = scanned.modernSourceWarning
+            systemLoadNotice = nil
+            lastScanDate = Date()
+            if let selectedItemID, !scanned.items.contains(where: { $0.id == selectedItemID }) {
+                self.selectedItemID = nil
+            }
+            log("system startup items loaded (\(systemCount) system launchd items)")
+            if let warning = scanned.modernSourceWarning {
+                log(warning)
+            }
+            return
+        }
+
+        includeSystemItems = false
+        modernSourceWarning = nil
+        systemLoadNotice = L10n.text("detail.system_load_notice")
+        log("system startup items load cancelled or denied")
+
+        let userScan = await scanner.scanResult(includeSystemItems: false)
+        items = userScan.items
+        lastScanDate = Date()
+        if let selectedItemID, !userScan.items.contains(where: { $0.id == selectedItemID }) {
+            self.selectedItemID = nil
+        }
+        log("found \(userScan.items.count) items (user only)")
     }
 
     func start(_ item: StartupItem) async {
-        await runMutation(item: item, title: "無法啟動此項目。") { current in
-            await self.launchctl.bootstrap(domain: current.type.launchctlDomain, plistPath: current.plistPath)
+        await runMutation(item: item, title: L10n.text("error.cannot_start")) { current in
+            guard let domain = current.type.launchctlDomain else {
+                return LaunchctlResult(command: "", exitCode: -1, stdout: "", stderr: "Not a launchd item")
+            }
+            return await self.launchctl.bootstrap(domain: domain, plistPath: current.plistPath)
         }
     }
 
     func stop(_ item: StartupItem) async {
-        await runMutation(item: item, title: "無法停止此項目。") { current in
-            await self.launchctl.bootout(domain: current.type.launchctlDomain, plistPath: current.plistPath)
+        await runMutation(item: item, title: L10n.text("error.cannot_stop")) { current in
+            guard let domain = current.type.launchctlDomain else {
+                return LaunchctlResult(command: "", exitCode: -1, stdout: "", stderr: "Not a launchd item")
+            }
+            return await self.launchctl.bootout(domain: domain, plistPath: current.plistPath)
         }
     }
 
     func enable(_ item: StartupItem) async {
-        await runMutation(item: item, title: "無法啟用此項目。") { current in
-            await self.launchctl.enable(domain: current.type.launchctlDomain, label: current.label)
+        await runMutation(item: item, title: L10n.text("error.cannot_enable")) { current in
+            guard let domain = current.type.launchctlDomain else {
+                return LaunchctlResult(command: "", exitCode: -1, stdout: "", stderr: "Not a launchd item")
+            }
+            return await self.launchctl.enable(domain: domain, label: current.label)
         }
     }
 
@@ -212,8 +290,11 @@ final class StartupViewModel: ObservableObject {
     }
 
     func disable(_ item: StartupItem) async {
-        await runMutation(item: item, title: "無法停用此項目。") { current in
-            await self.launchctl.disable(domain: current.type.launchctlDomain, label: current.label)
+        await runMutation(item: item, title: L10n.text("error.cannot_disable")) { current in
+            guard let domain = current.type.launchctlDomain else {
+                return LaunchctlResult(command: "", exitCode: -1, stdout: "", stderr: "Not a launchd item")
+            }
+            return await self.launchctl.disable(domain: domain, label: current.label)
         }
     }
 
@@ -282,7 +363,7 @@ final class StartupViewModel: ObservableObject {
         pendingTrashItem = nil
         guard canMoveToTrash(item) else {
             operationFailure = OperationFailure(
-                title: "此項目不符合移到垃圾桶的條件。",
+                title: L10n.text("error.trash_not_eligible"),
                 command: "",
                 exitCode: -1,
                 stdout: "",
@@ -292,7 +373,7 @@ final class StartupViewModel: ObservableObject {
         }
         guard TrashEligibility.isAllowedUserLaunchAgentPlist(item) else {
             operationFailure = OperationFailure(
-                title: "只能將使用者 LaunchAgent 的 plist 移到垃圾桶。",
+                title: L10n.text("error.trash_user_agent_only"),
                 command: "",
                 exitCode: -1,
                 stdout: "",
@@ -305,14 +386,15 @@ final class StartupViewModel: ObservableObject {
         log("move to trash started \(item.label)")
 
         if item.launchdLoaded {
-            let bootout = await launchctl.bootout(domain: item.type.launchctlDomain, plistPath: item.plistPath)
+            let domain = item.type.launchctlDomain ?? "gui/\(getuid())"
+            let bootout = await launchctl.bootout(domain: domain, plistPath: item.plistPath)
             if !bootout.succeeded
                 && !bootout.combinedOutput.lowercased().contains("could not find service")
                 && !bootout.combinedOutput.lowercased().contains("not found")
             {
                 isPerformingSafeAction = false
                 operationFailure = OperationFailure(
-                    title: "無法停止此項目，因此沒有移到垃圾桶。",
+                    title: L10n.text("error.trash_stop_failed"),
                     command: bootout.command,
                     exitCode: bootout.exitCode,
                     stdout: bootout.stdout,
@@ -323,11 +405,11 @@ final class StartupViewModel: ObservableObject {
         }
 
         if !item.persistentlyDisabled {
-            let disable = await launchctl.disable(domain: item.type.launchctlDomain, label: item.label)
+            let disable = await launchctl.disable(domain: item.type.launchctlDomain ?? "gui/\(getuid())", label: item.label)
             if !disable.succeeded {
                 isPerformingSafeAction = false
                 operationFailure = OperationFailure(
-                    title: "無法停用此項目，因此沒有移到垃圾桶。",
+                    title: L10n.text("error.trash_disable_failed"),
                     command: disable.command,
                     exitCode: disable.exitCode,
                     stdout: disable.stdout,
@@ -343,7 +425,7 @@ final class StartupViewModel: ObservableObject {
         } catch {
             isPerformingSafeAction = false
             operationFailure = OperationFailure(
-                title: "無法將 plist 移到垃圾桶。",
+                title: L10n.text("error.trash_move_failed"),
                 command: "NSWorkspace.recycle",
                 exitCode: -1,
                 stdout: "",
@@ -360,9 +442,13 @@ final class StartupViewModel: ObservableObject {
         }
     }
 
+    func relatedItems(for item: StartupItem) -> [StartupItem] {
+        AppRelationMatcher.related(to: item, in: items)
+    }
+
     func showInFinder(_ item: StartupItem) {
         NSWorkspace.shared.activateFileViewerSelecting([
-            URL(fileURLWithPath: item.plistPath)
+            URL(fileURLWithPath: item.resolvedSourcePath)
         ])
     }
 
@@ -371,7 +457,7 @@ final class StartupViewModel: ObservableObject {
     }
 
     func copyPlistPath(_ item: StartupItem) {
-        copyToPasteboard(item.plistPath)
+        copyToPasteboard(item.resolvedSourcePath)
     }
 
     func copyExecutablePath(_ item: StartupItem) {
@@ -412,7 +498,7 @@ final class StartupViewModel: ObservableObject {
             } else {
                 log("unable to build search URL for \(result.query)")
                 operationFailure = OperationFailure(
-                    title: "無法建立搜尋網址。",
+                    title: L10n.text("error.cannot_build_search_url"),
                     command: result.query,
                     exitCode: -1,
                     stdout: "",
@@ -423,23 +509,26 @@ final class StartupViewModel: ObservableObject {
     }
 
     func canStart(_ item: StartupItem) -> Bool {
-        !item.isSystemProtected && !item.loadStatus.isOrphaned && item.loadStatus != .loaded
+        item.type.supportsLaunchctl
+            && !item.isSystemProtected
+            && !item.loadStatus.isOrphaned
+            && item.loadStatus != .loaded
     }
 
     func canStop(_ item: StartupItem) -> Bool {
-        !item.isSystemProtected && item.loadStatus == .loaded
+        item.type.supportsLaunchctl && !item.isSystemProtected && item.loadStatus == .loaded
     }
 
     func canEnable(_ item: StartupItem) -> Bool {
-        !item.isSystemProtected && item.loadStatus == .disabled
+        item.type.supportsLaunchctl && !item.isSystemProtected && item.loadStatus == .disabled
     }
 
     func canDisable(_ item: StartupItem) -> Bool {
-        !item.isSystemProtected && item.loadStatus != .disabled
+        item.type.supportsLaunchctl && !item.isSystemProtected && item.loadStatus != .disabled
     }
 
     func note(for item: StartupItem) -> String {
-        notesByPath[item.plistPath] ?? ""
+        notesByPath[item.id] ?? notesByPath[item.plistPath] ?? ""
     }
 
     func notePreview(for item: StartupItem) -> String? {
@@ -454,9 +543,15 @@ final class StartupViewModel: ObservableObject {
         var updated = notesByPath
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty {
-            updated.removeValue(forKey: item.plistPath)
+            updated.removeValue(forKey: item.id)
+            if !item.plistPath.isEmpty {
+                updated.removeValue(forKey: item.plistPath)
+            }
         } else {
-            updated[item.plistPath] = text
+            updated[item.id] = text
+            if !item.plistPath.isEmpty, item.plistPath != item.id {
+                updated.removeValue(forKey: item.plistPath)
+            }
         }
         notesByPath = updated
         notesStore.save(updated)
@@ -469,11 +564,21 @@ final class StartupViewModel: ObservableObject {
     ) async {
         if item.isSystemProtected {
             operationFailure = OperationFailure(
-                title: "系統項目預設不允許修改，以避免影響 macOS。",
+                title: L10n.text("error.protected_item"),
                 command: "",
                 exitCode: -1,
                 stdout: "",
                 stderr: "Protected system item: \(item.label)"
+            )
+            return
+        }
+        if !item.type.supportsLaunchctl {
+            operationFailure = OperationFailure(
+                title: L10n.text("error.manage_in_system_settings"),
+                command: "",
+                exitCode: -1,
+                stdout: "",
+                stderr: "Modern startup source: \(item.label)"
             )
             return
         }
@@ -494,7 +599,7 @@ final class StartupViewModel: ObservableObject {
         )
         if failure.permissionDenied {
             failure = OperationFailure(
-                title: "此項目需要系統管理員權限才能修改。",
+                title: L10n.text("error.needs_admin"),
                 command: result.command,
                 exitCode: result.exitCode,
                 stdout: result.stdout,
@@ -530,9 +635,12 @@ final class StartupViewModel: ObservableObject {
             item.label,
             item.executablePath ?? "",
             item.plistPath,
+            item.resolvedSourcePath,
             item.arguments.joined(separator: " "),
             item.displayName,
             item.appBundleIdentifier ?? "",
+            item.parentBundleIdentifier ?? "",
+            item.teamIdentifier ?? "",
             note(for: item)
         ].joined(separator: "\n")
         return haystack.localizedCaseInsensitiveContains(query)

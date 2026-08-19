@@ -7,32 +7,32 @@ struct SafeActionPreviewSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("安全處理建議")
+            Text(L10n.text("safe_action.preview_title"))
                 .font(.title2.weight(.semibold))
 
             HStack(spacing: 16) {
-                countChip("可安全處理", dryRun.safeCount, LoadStatus.orphaned.color)
-                countChip("需要人工確認", dryRun.reviewCount, .orange)
-                countChip("已保護", dryRun.protectedCount, .secondary)
+                countChip(L10n.text("filter.safe_action"), dryRun.safeCount, LoadStatus.orphaned.color)
+                countChip(L10n.text("safety.review_required"), dryRun.reviewCount, .orange)
+                countChip(L10n.text("safety.protected"), dryRun.protectedCount, .secondary)
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("將執行：")
+                Text(L10n.text("safe_action.will_do"))
                     .font(.headline)
-                labeled("停止殘留服務", systemImage: "checkmark")
-                labeled("停用自動載入", systemImage: "checkmark")
-                labeled("保留 plist", systemImage: "checkmark")
+                labeled(L10n.text("safe_action.will_stop_orphaned"), systemImage: "checkmark")
+                labeled(L10n.text("safe_action.will_disable_autoload"), systemImage: "checkmark")
+                labeled(L10n.text("safe_action.will_keep_plist"), systemImage: "checkmark")
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("不會：")
+                Text(L10n.text("safe_action.will_not"))
                     .font(.headline)
-                labeled("刪除任何檔案", systemImage: "xmark")
-                labeled("修改系統服務", systemImage: "xmark")
-                labeled("使用 sudo", systemImage: "xmark")
+                labeled(L10n.text("safe_action.will_not_delete_files"), systemImage: "xmark")
+                labeled(L10n.text("safe_action.will_not_modify_system"), systemImage: "xmark")
+                labeled(L10n.text("safe_action.will_not_use_sudo"), systemImage: "xmark")
             }
 
-            Text("即將處理的項目")
+            Text(L10n.text("safe_action.pending_items"))
                 .font(.headline)
 
             List(dryRun.safeItems) { item in
@@ -53,10 +53,10 @@ struct SafeActionPreviewSheet: View {
             .frame(minHeight: 160)
 
             HStack {
-                Button("取消", action: onCancel)
+                Button(L10n.text("common.cancel"), action: onCancel)
                     .keyboardShortcut(.cancelAction)
                 Spacer()
-                Button(dryRun.safeCount == 0 ? "沒有可處理項目" : "安全處理 \(dryRun.safeCount) 個項目") {
+                Button(dryRun.safeCount == 0 ? L10n.text("safe_action.confirm_none") : L10n.text("safe_action.confirm_count", ["count": "\(dryRun.safeCount)"])) {
                     onConfirm()
                 }
                 .keyboardShortcut(.defaultAction)

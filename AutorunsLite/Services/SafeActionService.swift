@@ -96,7 +96,7 @@ struct SafeActionService: Sendable {
         var details: [String] = []
 
         if item.launchdLoaded {
-            let bootout = await launchctl.bootout(domain: item.type.launchctlDomain, plistPath: item.plistPath)
+            let bootout = await launchctl.bootout(domain: item.type.launchctlDomain ?? "gui/\(getuid())", plistPath: item.plistPath)
             if bootout.succeeded || isAlreadyUnloaded(bootout) {
                 actions.append("bootout")
             } else {
@@ -113,9 +113,9 @@ struct SafeActionService: Sendable {
         }
 
         if item.persistentlyDisabled {
-            details.append("原本已停用，略過 disable")
+            details.append(L10n.text("safe_action.detail.already_disabled"))
         } else {
-            let disable = await launchctl.disable(domain: item.type.launchctlDomain, label: item.label)
+            let disable = await launchctl.disable(domain: item.type.launchctlDomain ?? "gui/\(getuid())", label: item.label)
             if disable.succeeded {
                 actions.append("disable")
             } else {
@@ -161,7 +161,7 @@ struct SafeActionService: Sendable {
 
     private func undo(entry: SafeActionSnapshotEntry) async -> SafeActionItemResult {
         let type = StartupItemType(rawValue: entry.type) ?? .userLaunchAgent
-        let domain = type.launchctlDomain
+        let domain = type.launchctlDomain ?? "gui/\(getuid())"
         var details: [String] = []
 
         if !entry.disabledBefore {
@@ -194,7 +194,7 @@ struct SafeActionService: Sendable {
             id: entry.plistPath,
             label: entry.label,
             outcome: .succeeded,
-            detail: details.isEmpty ? "已恢復原狀態" : details.joined(separator: "、")
+            detail: details.isEmpty ? L10n.text("safe_action.detail.restored") : details.joined(separator: "、")
         )
     }
 

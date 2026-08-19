@@ -12,20 +12,20 @@ struct ErrorSheet: View {
 
             GroupBox("launchctl") {
                 VStack(alignment: .leading, spacing: 8) {
-                    labeled("Command", failure.command)
-                    labeled("Exit code", "\(failure.exitCode)")
-                    labeled("stderr", failure.stderr.isEmpty ? "(empty)" : failure.stderr)
+                    labeled(L10n.text("error.command"), failure.command)
+                    labeled(L10n.text("error.exit_code"), "\(failure.exitCode)")
+                    labeled(L10n.text("error.stderr"), failure.stderr.isEmpty ? L10n.text("common.empty_technical") : failure.stderr)
                     if !failure.stdout.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        labeled("stdout", failure.stdout)
+                        labeled(L10n.text("error.stdout"), failure.stdout)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             HStack {
-                Button("複製錯誤", action: onCopy)
+                Button(L10n.text("error.copy"), action: onCopy)
                 Spacer()
-                Button("關閉") { dismiss() }
+                Button(L10n.text("common.close")) { dismiss() }
                     .keyboardShortcut(.defaultAction)
             }
             .textSelection(.disabled)

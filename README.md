@@ -2,13 +2,13 @@
 
 A lightweight native macOS startup manager with orphan detection and safe, reversible actions.
 
-Mac Autoruns Lite helps you inspect and manage `launchd` startup items without turning into a full system-cleaner suite. It focuses on LaunchAgents, LaunchDaemons, startup leftovers, and conservative actions that are easy to understand and reverse.
+Mac Autoruns Lite helps you inspect startup items without turning into a full system-cleaner suite. It covers traditional `launchd` plists and, in v0.2, modern macOS startup sources for display and research.
 
 > This project is not affiliated with Microsoft or Sysinternals Autoruns.
 
 ## Features
 
-- Inspect User LaunchAgents, System LaunchAgents, and LaunchDaemons
+- Inspect User LaunchAgents, System LaunchAgents, LaunchDaemons, Login Items, Background Tasks, and SMAppService entries
 - Detect orphaned startup entries whose executable no longer exists
 - View load state, recommendation, and startup metadata
 - Start / stop and enable / disable supported items
@@ -30,13 +30,24 @@ Mac Autoruns Lite helps you inspect and manage `launchd` startup items without t
 
 ## Scan scope
 
-The current scan covers only traditional launchd plist files:
+Supported **Startup Sources** in v0.2.0:
 
-- `~/Library/LaunchAgents`
-- `/Library/LaunchAgents`
-- `/Library/LaunchDaemons`
+- **User LaunchAgent** — `~/Library/LaunchAgents`
+- **System LaunchAgent** — `/Library/LaunchAgents`
+- **LaunchDaemon** — `/Library/LaunchDaemons`
+- **Login Item** — Open at Login (LSSharedFileList) and `App.app/Contents/Library/LoginItems`
+- **SMAppService** — in-bundle `Contents/Library/LaunchAgents` and `Contents/Library/LaunchDaemons`
+- **Background Task** — items from `sfltool dumpbtm` when readable without sudo
 
-A service that is loaded in launchd but has no matching plist in those directories may not appear. SMAppService, Login Items, Background Tasks, and XPC services are not scanned yet.
+XPC services (`Contents/XPCServices`) are **not** listed as a startup type. They appear as related helpers on the parent App.
+
+Traditional launchd items still support Start / Stop / Enable / Disable and conservative Safe Action. Modern sources in v0.2 are **display and research only**; manage them in **System Settings → General → Login Items & Extensions**. The app never uses `sudo`.
+
+Opening the app scans **user** sources only (`~/Library/LaunchAgents`, Login Items, and in-bundle helpers). System LaunchAgents, LaunchDaemons, and Background Task Management are loaded only after you click **載入系統啟動項目**; macOS may then ask for an administrator password. That choice is not remembered across launches.
+
+If Background Task Management cannot be read (dumpbtm often needs root, and the `.btm` database needs Full Disk Access), Login Items and in-bundle helpers still appear, with status shown as unknown.
+
+A launchd service that is loaded but has no matching plist in the traditional directories may still appear if Background Task Management lists it.
 
 ## Understanding startup states
 
@@ -51,7 +62,7 @@ Mac Autoruns Lite separates **runtime status** from **cleanup recommendations**.
 
 Mac Autoruns Lite is intentionally conservative.
 
-Automatic Safe Actions are limited to high-confidence cases such as orphaned third-party **User LaunchAgents** whose executable no longer exists. Apple/system items, LaunchDaemons, System LaunchAgents, unknown sources, KeepAlive jobs, and items that may still belong to installed apps are excluded from automatic handling and require manual review.
+Automatic Safe Actions are limited to high-confidence cases such as orphaned third-party **User LaunchAgents** whose executable no longer exists. Apple/system items, LaunchDaemons, System LaunchAgents, Login Items, Background Tasks, SMAppService entries, unknown sources, KeepAlive jobs, and items that may still belong to installed apps are excluded from automatic handling and require manual review.
 
 Safe Action does **not** delete plist files. It prefers reversible `launchctl` operations and stores a snapshot so the previous state can be restored where possible.
 
@@ -76,7 +87,7 @@ com.adobe.acc.installer.v2
 Mac Autoruns Lite can quickly search:
 
 ```text
-"com.adobe.acc.installer.v2" LaunchDaemon safe to remove
+"com.adobe.acc.installer.v2" LaunchDaemon macOS
 ```
 
 Search results are for reference only. They never change SafetyClassifier, recommendations, Safe Action, or Move to Trash.
@@ -143,7 +154,7 @@ xcodebuild \
 
 ## Current scope
 
-Mac Autoruns Lite currently focuses on `launchd` startup entries. macOS Login Items are intentionally left to System Settings rather than being modified through unsupported or fragile workarounds.
+v0.2.0 lists modern Login Items, Background Tasks, and SMAppService helpers for inspection and research. It does not enable, disable, or delete those items; use System Settings instead.
 
 The app also avoids automatic `sudo`, password storage, SIP modification, and automatic deletion of startup files.
 

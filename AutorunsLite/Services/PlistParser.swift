@@ -137,7 +137,7 @@ enum PlistParserError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidFormat:
-            return "plist 不是 dictionary 格式"
+            return L10n.text("error.plist_not_dictionary")
         }
     }
 }

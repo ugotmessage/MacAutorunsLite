@@ -19,62 +19,70 @@ struct StartupDetailView: View {
 
     private var summaryDashboard: some View {
         TimelineView(.periodic(from: .now, by: 30)) { context in
-            VStack(alignment: .leading, spacing: 20) {
-                Label("啟動項目摘要", systemImage: "list.bullet.rectangle")
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                Label(L10n.text("detail.summary_title"), systemImage: "list.bullet.rectangle")
                     .font(.title2.weight(.semibold))
                     .foregroundStyle(.primary)
 
                 groupedCard {
                     dashboardRow(
-                        title: "總計",
+                        title: L10n.text("detail.total"),
                         count: viewModel.totalCount,
                         systemImage: "square.stack.3d.up",
                         color: Color.primary,
                         filter: .all
                     )
                     dashboardRow(
-                        title: "已載入",
+                        title: L10n.text("status.loaded.name"),
                         count: viewModel.loadedCount,
                         systemImage: LoadStatus.loaded.systemImage,
                         color: LoadStatus.loaded.color,
                         filter: .loaded
                     )
                     dashboardRow(
-                        title: "未載入",
+                        title: L10n.text("detail.unloaded"),
                         count: viewModel.unloadedCount,
                         systemImage: LoadStatus.unloaded.systemImage,
                         color: LoadStatus.unloaded.color,
                         filter: nil
                     )
                     dashboardRow(
-                        title: "已停用",
+                        title: L10n.text("status.disabled.name"),
                         count: viewModel.disabledCount,
                         systemImage: LoadStatus.disabled.systemImage,
                         color: LoadStatus.disabled.color,
                         filter: .disabled
                     )
                     dashboardRow(
-                        title: "殘留",
+                        title: L10n.text("status.orphaned.name"),
                         count: viewModel.orphanedCount,
                         systemImage: LoadStatus.orphaned.systemImage,
                         color: LoadStatus.orphaned.color,
                         filter: .orphaned
                     )
+                    dashboardRow(
+                        title: L10n.text("detail.modern_sources"),
+                        count: viewModel.modernSourceCount,
+                        systemImage: "sparkles",
+                        color: Color.accentColor,
+                        filter: nil
+                    )
                 }
 
-                Text("處理建議")
+                Text(L10n.text("detail.recommendations"))
                     .font(.headline)
 
                 groupedCard {
                     dashboardRow(
-                        title: "可安全處理",
+                        title: L10n.text("filter.safe_action"),
                         count: viewModel.safeActionCount,
                         systemImage: ItemRecommendation.safeAction.systemImage,
                         color: ItemRecommendation.safeAction.color,
                         filter: .safeAction
                     )
                     dashboardRow(
-                        title: "建議檢查",
+                        title: L10n.text("filter.review_required"),
                         count: viewModel.reviewRequiredCount,
                         systemImage: ItemRecommendation.reviewRequired.systemImage,
                         color: ItemRecommendation.reviewRequired.color,
@@ -82,21 +90,58 @@ struct StartupDetailView: View {
                     )
                 }
 
-                Text("上次掃描：\(viewModel.lastScanDescription(at: context.date))")
+                Text(L10n.text("detail.last_scan", ["time": viewModel.lastScanDescription(at: context.date)]))
                     .font(.callout)
                     .foregroundStyle(.secondary)
+                if !viewModel.includeSystemItems {
+                    if let notice = viewModel.systemLoadNotice {
+                        Text(notice)
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Button {
+                        Task { await viewModel.loadSystemStartupItems() }
+                    } label: {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Label(L10n.text("detail.load_system_items"), systemImage: "externaldrive.badge.plus")
+                                .font(.headline)
+                                .foregroundStyle(.primary)
+                            Text(L10n.text("detail.load_system_items_help"))
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(Color(nsColor: .controlBackgroundColor))
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .textSelection(.disabled)
+                    .disabled(viewModel.isLoading || viewModel.isPerformingSafeAction)
+                } else if let warning = viewModel.modernSourceWarning {
+                    Text(warning)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
                 Button {
                     viewModel.presentSafeActionPreview()
                 } label: {
                     VStack(alignment: .leading, spacing: 4) {
-                        Label("安全處理", systemImage: "checkmark.shield")
+                        Label(L10n.text("app.toolbar.safe_action"), systemImage: "checkmark.shield")
                             .font(.headline)
                             .foregroundStyle(.primary)
                         Text(
                             viewModel.safeActionCount > 0
-                                ? "\(viewModel.safeActionCount) 個項目可安全處理"
-                                : "目前沒有可自動處理的低風險殘留項目"
+                                ? L10n.text("app.toolbar.safe_action_help_available", ["count": "\(viewModel.safeActionCount)"])
+                                : L10n.text("detail.safe_action_none")
                         )
                         .font(.callout)
                         .foregroundStyle(.secondary)
@@ -113,13 +158,13 @@ struct StartupDetailView: View {
                 .buttonStyle(.plain)
                 .textSelection(.disabled)
                 .disabled(viewModel.isLoading || viewModel.isPerformingSafeAction)
-
-                Spacer()
             }
             .padding(20)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
             .textSelection(.enabled)
+            }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Color(nsColor: .windowBackgroundColor))
     }
 
@@ -181,23 +226,32 @@ struct StartupDetailView: View {
                 Divider()
 
                 if item.isSystemProtected {
-                    Label("系統項目預設不允許修改，以避免影響 macOS。", systemImage: "lock.fill")
+                    Label(L10n.text("detail.system_protected_notice"), systemImage: "lock.fill")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
                 infoGrid(item)
+                ownershipSection(item)
+                relatedSection(item)
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Label("停止與停用的差異", systemImage: "info.circle")
-                        .font(.headline)
-                    Text("停止：僅停止目前執行中的服務，本次或下次可能再次啟動。")
+                if item.type.supportsLaunchctl {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Label(L10n.text("detail.stop_vs_disable_title"), systemImage: "info.circle")
+                            .font(.headline)
+                        Text(L10n.text("detail.stop_vs_disable_stop"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(L10n.text("detail.stop_vs_disable_disable"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } else {
+                    Text(L10n.text("recommendation.reason.modern_source"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Text("停用：阻止 launchd 自動載入此項目。原始 plist 不會被刪除。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
                 actionButtons(item)
@@ -239,7 +293,7 @@ struct StartupDetailView: View {
     private func statusSection(_ item: StartupItem) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("狀態")
+                Text(L10n.text("detail.status"))
                     .font(.headline)
                 Button {
                     viewModel.showingStatusHelp = true
@@ -248,12 +302,12 @@ struct StartupDetailView: View {
                 }
                 .buttonStyle(.plain)
                 .textSelection(.disabled)
-                .help("啟動項目狀態說明")
-                .accessibilityLabel("狀態說明")
+                .help(L10n.text("detail.status_help"))
+                .accessibilityLabel(L10n.text("detail.status_help_accessibility"))
             }
             StatusBadge(status: item.loadStatus)
 
-            Text("狀態說明")
+            Text(L10n.text("detail.status_explanation"))
                 .font(.subheadline.weight(.semibold))
             Text(item.loadStatus.detailedDescription)
                 .font(.callout)
@@ -265,13 +319,13 @@ struct StartupDetailView: View {
 
     private func recommendationSection(_ result: RecommendationResult, item: StartupItem) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("處理建議")
+            Text(L10n.text("detail.recommendations"))
                 .font(.headline)
             Label(result.recommendation.displayName, systemImage: result.recommendation.systemImage)
                 .foregroundStyle(result.recommendation.color)
                 .font(.body.weight(.semibold))
 
-            Text("原因")
+            Text(L10n.text("detail.reason"))
                 .font(.subheadline.weight(.semibold))
             Text(result.reason)
                 .font(.callout)
@@ -279,7 +333,7 @@ struct StartupDetailView: View {
                 .fixedSize(horizontal: false, vertical: true)
 
             if !result.evidence.isEmpty {
-                Text("判斷依據")
+                Text(L10n.text("detail.evidence"))
                     .font(.subheadline.weight(.semibold))
                     .padding(.top, 4)
                 ForEach(result.evidence, id: \.self) { evidence in
@@ -289,11 +343,11 @@ struct StartupDetailView: View {
                 }
             }
 
-            Button("查詢此服務") {
+            Button(L10n.text("detail.research_this_service")) {
                 startResearch()
             }
             .textSelection(.disabled)
-            .help("在網路上搜尋此服務的用途、停用建議與相關討論。")
+            .help(L10n.text("detail.research_this_service_help"))
 
             notesSection(item)
         }
@@ -302,10 +356,10 @@ struct StartupDetailView: View {
 
     private func notesSection(_ item: StartupItem) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("備註")
+            Text(L10n.text("detail.notes"))
                 .font(.subheadline.weight(.semibold))
                 .padding(.top, 8)
-            Text("查到這個服務的用途後，可以貼在這裡，下次打開仍會保留。")
+            Text(L10n.text("detail.notes_hint"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
             TextEditor(text: Binding(
@@ -322,78 +376,163 @@ struct StartupDetailView: View {
                     RoundedRectangle(cornerRadius: 6, style: .continuous)
                         .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
                 )
-                .accessibilityLabel("服務備註")
+                .accessibilityLabel(L10n.text("detail.notes_accessibility"))
         }
     }
 
     private func infoGrid(_ item: StartupItem) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            detailRow("類型", item.type.sourceDescription, systemImage: "square.stack")
-            detailRow("執行檔", item.executablePath ?? "（不存在）", systemImage: "terminal")
-            detailRow("plist", item.plistPath, systemImage: "doc")
-            detailRow("登入/載入時執行", item.runAtLoad ? "是" : "否", systemImage: "clock")
-            detailRow("持續執行", keepAliveDisplay(item.keepAliveDescription), systemImage: "arrow.triangle.2.circlepath")
-            detailRow("參數", item.arguments.isEmpty ? "（無）" : item.arguments.joined(separator: "\n"), systemImage: "list.bullet")
+            detailRow(L10n.text("detail.field.type"), item.type.sourceDescription, systemImage: "square.stack")
+            detailRow(L10n.text("detail.field.executable"), item.executablePath ?? L10n.text("common.missing"), systemImage: "terminal")
+            if !item.plistPath.isEmpty {
+                detailRow(L10n.text("detail.field.plist"), item.plistPath, systemImage: "doc")
+            } else {
+                detailRow(L10n.text("detail.path"), item.resolvedSourcePath, systemImage: "doc")
+            }
+            if item.type.supportsLaunchctl {
+                detailRow(L10n.text("detail.field.run_at_load"), item.runAtLoad ? L10n.text("common.yes") : L10n.text("common.no"), systemImage: "clock")
+                detailRow(L10n.text("detail.field.keep_alive"), keepAliveDisplay(item.keepAliveDescription), systemImage: "arrow.triangle.2.circlepath")
+                detailRow(L10n.text("detail.field.arguments"), item.arguments.isEmpty ? L10n.text("common.none") : item.arguments.joined(separator: "\n"), systemImage: "list.bullet")
+            }
             if let workingDirectory = item.workingDirectory {
-                detailRow("WorkingDirectory", workingDirectory, systemImage: "folder")
+                detailRow(L10n.text("detail.field.working_directory"), workingDirectory, systemImage: "folder")
             }
             if let appBundleIdentifier = item.appBundleIdentifier {
-                detailRow("Bundle ID", appBundleIdentifier, systemImage: "app.badge")
+                detailRow(L10n.text("detail.field.bundle_id"), appBundleIdentifier, systemImage: "app.badge")
+            }
+        }
+    }
+
+    private func ownershipSection(_ item: StartupItem) -> some View {
+        let hasOwnership = item.appBundlePath != nil
+            || item.parentDisplayName != nil
+            || item.teamIdentifier != nil
+            || !item.associatedBundleIDs.isEmpty
+        return Group {
+            if hasOwnership {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(L10n.text("detail.ownership"))
+                        .font(.headline)
+                    if let name = item.parentDisplayName ?? item.appDisplayName {
+                        detailRow(L10n.text("detail.field.name"), name, systemImage: "app")
+                    }
+                    if let parentID = item.parentBundleIdentifier {
+                        detailRow(L10n.text("detail.field.parent_bundle_id"), parentID, systemImage: "link")
+                    }
+                    if let appPath = item.appBundlePath {
+                        detailRow(L10n.text("detail.field.app_path"), appPath, systemImage: "folder")
+                    }
+                    if let team = item.teamIdentifier {
+                        detailRow(L10n.text("detail.field.team_id"), team, systemImage: "person.badge.key")
+                    }
+                    if let developer = item.developerName {
+                        detailRow(L10n.text("detail.field.developer"), developer, systemImage: "signature")
+                    }
+                    if !item.associatedBundleIDs.isEmpty {
+                        detailRow(
+                            L10n.text("detail.field.associated_bundle_ids"),
+                            item.associatedBundleIDs.joined(separator: "\n"),
+                            systemImage: "square.stack.3d.up"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private func relatedSection(_ item: StartupItem) -> some View {
+        let related = viewModel.relatedItems(for: item)
+        return Group {
+            if !related.isEmpty || !item.relatedHelpers.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(L10n.text("detail.related_items"))
+                        .font(.headline)
+                    ForEach(related) { other in
+                        Button {
+                            viewModel.selectedItemID = other.id
+                        } label: {
+                            Label("\(other.displayName)（\(other.type.displayName)）", systemImage: "arrow.right.circle")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .buttonStyle(.plain)
+                        .textSelection(.disabled)
+                    }
+                    ForEach(item.relatedHelpers) { helper in
+                        Label("\(helper.name) · \(helper.kindDisplayName)", systemImage: "puzzlepiece.extension")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                            .help(helper.path)
+                    }
+                }
             }
         }
     }
 
     private func actionButtons(_ item: StartupItem) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Button("停止") {
-                    Task { await viewModel.stop(item) }
-                }
-                .disabled(!viewModel.canStop(item))
+            if item.type.supportsLaunchctl {
+                HStack {
+                    Button(L10n.text("common.stop")) {
+                        Task { await viewModel.stop(item) }
+                    }
+                    .disabled(!viewModel.canStop(item))
 
-                Button("啟動") {
-                    Task { await viewModel.start(item) }
+                    Button(L10n.text("common.start")) {
+                        Task { await viewModel.start(item) }
+                    }
+                    .disabled(!viewModel.canStart(item))
                 }
-                .disabled(!viewModel.canStart(item))
-            }
 
-            HStack {
-                Button("停用") {
-                    viewModel.requestDisable(item)
-                }
-                .disabled(!viewModel.canDisable(item))
+                HStack {
+                    Button(L10n.text("common.disable")) {
+                        viewModel.requestDisable(item)
+                    }
+                    .disabled(!viewModel.canDisable(item))
 
-                Button("啟用") {
-                    Task { await viewModel.enable(item) }
+                    Button(L10n.text("common.enable")) {
+                        Task { await viewModel.enable(item) }
+                    }
+                    .disabled(!viewModel.canEnable(item))
                 }
-                .disabled(!viewModel.canEnable(item))
+            } else {
+                Button(L10n.text("detail.manage_in_system_settings")) {
+                    viewModel.openLoginItems()
+                }
             }
 
             Menu {
-                Button("複製 Label") {
+                Button(L10n.text("detail.copy_label")) {
                     viewModel.copyLabel(item)
                 }
-                Button("複製路徑") {
+                Button(L10n.text("detail.copy_path")) {
                     viewModel.copyPlistPath(item)
                 }
-                Button("在 Finder 顯示") {
+                Button(L10n.text("detail.show_in_finder")) {
                     viewModel.showInFinder(item)
                 }
-                Button("開啟 plist") {
-                    viewModel.showingPlistViewer = true
+                if !item.plistPath.isEmpty, FileManager.default.fileExists(atPath: item.plistPath) {
+                    Button(L10n.text("detail.open_plist")) {
+                        viewModel.showingPlistViewer = true
+                    }
                 }
-                Button("停用") {
-                    viewModel.requestDisable(item)
+                if item.type.supportsLaunchctl {
+                    Button(L10n.text("common.disable")) {
+                        viewModel.requestDisable(item)
+                    }
+                    .disabled(!viewModel.canDisable(item))
+                } else {
+                    Button(L10n.text("detail.manage_in_system_settings")) {
+                        viewModel.openLoginItems()
+                    }
                 }
-                .disabled(!viewModel.canDisable(item))
                 if viewModel.canMoveToTrash(item) {
                     Divider()
-                    Button("移到垃圾桶…") {
+                    Button(L10n.text("list.move_to_trash")) {
                         viewModel.requestMoveToTrash(item)
                     }
                 }
             } label: {
-                Text("更多…")
+                Text(L10n.text("common.more_ellipsis"))
             }
         }
         .buttonStyle(.bordered)
@@ -403,9 +542,9 @@ struct StartupDetailView: View {
     private func keepAliveDisplay(_ value: String?) -> String {
         switch value {
         case "Yes":
-            return "是"
+            return L10n.text("common.yes")
         case "No", nil:
-            return "否"
+            return L10n.text("common.no")
         case let value?:
             return value
         }
@@ -417,8 +556,8 @@ struct StartupDetailView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Text(value)
-                .font(title == "plist" ? .body.monospaced() : .body)
-                .foregroundStyle(title == "plist" ? .secondary : .primary)
+                .font(title == L10n.text("detail.field.plist") ? .body.monospaced() : .body)
+                .foregroundStyle(title == L10n.text("detail.field.plist") ? .secondary : .primary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

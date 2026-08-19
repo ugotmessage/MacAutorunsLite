@@ -1,0 +1,1712 @@
+{
+  "app.menu.appearance": {
+    "zh-Hant": "外觀",
+    "en": "Appearance",
+    "zh-Hans": "外观"
+  },
+  "app.menu.open_login_items": {
+    "zh-Hant": "開啟 macOS Login Items",
+    "en": "Open macOS Login Items",
+    "zh-Hans": "打开 macOS Login Items"
+  },
+  "app.menu.rescan": {
+    "zh-Hant": "重新掃描",
+    "en": "Rescan",
+    "zh-Hans": "重新扫描"
+  },
+  "app.menu.session_log": {
+    "zh-Hant": "工作階段紀錄",
+    "en": "Session Log",
+    "zh-Hans": "会话日志"
+  },
+  "app.menu.settings": {
+    "zh-Hant": "設定…",
+    "en": "Settings…",
+    "zh-Hans": "设置…"
+  },
+  "app.menu.undo_last_safe_action": {
+    "zh-Hant": "復原上次安全處理",
+    "en": "Undo Last Safe Action",
+    "zh-Hans": "撤销上次安全处理"
+  },
+  "app.progress.loading_system_items": {
+    "zh-Hant": "正在載入系統啟動項目…",
+    "en": "Loading system startup items…",
+    "zh-Hans": "正在载入系统启动项目…"
+  },
+  "app.progress.scanning": {
+    "zh-Hant": "正在掃描…",
+    "en": "Scanning…",
+    "zh-Hans": "正在扫描…"
+  },
+  "app.progress.working": {
+    "zh-Hant": "正在處理…",
+    "en": "Working…",
+    "zh-Hans": "正在处理…"
+  },
+  "app.search_prompt": {
+    "zh-Hant": "搜尋 Label、路徑、執行檔",
+    "en": "Search labels, paths, and executables",
+    "zh-Hans": "搜索 Label、路径、可执行文件"
+  },
+  "app.toolbar.load_system_items": {
+    "zh-Hant": "載入系統啟動項目",
+    "en": "Load System Startup Items",
+    "zh-Hans": "载入系统启动项目"
+  },
+  "app.toolbar.load_system_items_help": {
+    "zh-Hant": "開啟時只掃描使用者 LaunchAgent 與 Login Item。載入系統項目時，macOS 可能要求管理員密碼。",
+    "en": "On launch, only user LaunchAgents and Login Items are scanned. macOS may ask for an administrator password when loading system items.",
+    "zh-Hans": "开启时只扫描用户 LaunchAgent 与 Login Item。载入系统项目时，macOS 可能要求管理员密码。"
+  },
+  "app.toolbar.refresh": {
+    "zh-Hant": "重新整理",
+    "en": "Refresh",
+    "zh-Hans": "刷新"
+  },
+  "app.toolbar.safe_action": {
+    "zh-Hant": "安全處理",
+    "en": "Safe Action",
+    "zh-Hans": "安全处理"
+  },
+  "app.toolbar.safe_action_count": {
+    "zh-Hant": "安全處理 {count}",
+    "en": "Safe Action {count}",
+    "zh-Hans": "安全处理 {count}"
+  },
+  "app.toolbar.safe_action_help_available": {
+    "zh-Hant": "{count} 個項目可安全處理",
+    "en": "{count} items can be safely handled",
+    "zh-Hans": "{count} 个项目可安全处理"
+  },
+  "app.toolbar.safe_action_help_none": {
+    "zh-Hant": "沒有可自動處理的低風險殘留項目",
+    "en": "No low-risk orphaned items can be handled automatically",
+    "zh-Hans": "没有可自动处理的低风险残留项目"
+  },
+  "app.toolbar.system_items_loaded": {
+    "zh-Hant": "系統項目已載入",
+    "en": "System Items Loaded",
+    "zh-Hans": "系统项目已载入"
+  },
+  "app.window_title": {
+    "zh-Hant": "Autoruns Lite",
+    "en": "Autoruns Lite",
+    "zh-Hans": "Autoruns Lite"
+  },
+  "appearance.dark": {
+    "zh-Hant": "深色",
+    "en": "Dark",
+    "zh-Hans": "深色"
+  },
+  "appearance.light": {
+    "zh-Hant": "淺色",
+    "en": "Light",
+    "zh-Hans": "浅色"
+  },
+  "appearance.system": {
+    "zh-Hant": "跟隨系統",
+    "en": "Follow System",
+    "zh-Hans": "跟随系统"
+  },
+  "common.False": {
+    "zh-Hant": "否",
+    "en": "No",
+    "zh-Hans": "否"
+  },
+  "common.True": {
+    "zh-Hant": "是",
+    "en": "Yes",
+    "zh-Hans": "是"
+  },
+  "common.cancel": {
+    "zh-Hant": "取消",
+    "en": "Cancel",
+    "zh-Hans": "取消"
+  },
+  "common.close": {
+    "zh-Hant": "關閉",
+    "en": "Close",
+    "zh-Hans": "关闭"
+  },
+  "common.disable": {
+    "zh-Hant": "停用",
+    "en": "Disable",
+    "zh-Hans": "停用"
+  },
+  "common.done": {
+    "zh-Hant": "完成",
+    "en": "Done",
+    "zh-Hans": "完成"
+  },
+  "common.empty_technical": {
+    "zh-Hant": "(empty)",
+    "en": "(empty)",
+    "zh-Hans": "(empty)"
+  },
+  "common.enable": {
+    "zh-Hant": "啟用",
+    "en": "Enable",
+    "zh-Hans": "启用"
+  },
+  "common.missing": {
+    "zh-Hant": "（不存在）",
+    "en": "(Missing)",
+    "zh-Hans": "（不存在）"
+  },
+  "common.more": {
+    "zh-Hant": "更多",
+    "en": "More",
+    "zh-Hans": "更多"
+  },
+  "common.more_ellipsis": {
+    "zh-Hant": "更多…",
+    "en": "More…",
+    "zh-Hans": "更多…"
+  },
+  "common.none": {
+    "zh-Hant": "（無）",
+    "en": "(None)",
+    "zh-Hans": "（无）"
+  },
+  "common.start": {
+    "zh-Hant": "啟動",
+    "en": "Start",
+    "zh-Hans": "启动"
+  },
+  "common.stop": {
+    "zh-Hant": "停止",
+    "en": "Stop",
+    "zh-Hans": "停止"
+  },
+  "detail.copy_executable_path": {
+    "zh-Hant": "複製執行檔路徑",
+    "en": "Copy Executable Path",
+    "zh-Hans": "复制可执行文件路径"
+  },
+  "detail.copy_label": {
+    "zh-Hant": "複製 Label",
+    "en": "Copy Label",
+    "zh-Hans": "复制 Label"
+  },
+  "detail.copy_path": {
+    "zh-Hant": "複製路徑",
+    "en": "Copy Path",
+    "zh-Hans": "复制路径"
+  },
+  "detail.evidence": {
+    "zh-Hant": "判斷依據",
+    "en": "Evidence",
+    "zh-Hans": "判断依据"
+  },
+  "detail.field.app_path": {
+    "zh-Hant": "App 路徑",
+    "en": "App Path",
+    "zh-Hans": "App 路径"
+  },
+  "detail.field.arguments": {
+    "zh-Hant": "參數",
+    "en": "Arguments",
+    "zh-Hans": "参数"
+  },
+  "detail.field.associated_bundle_ids": {
+    "zh-Hant": "關聯 Bundle IDs",
+    "en": "Associated Bundle IDs",
+    "zh-Hans": "关联 Bundle IDs"
+  },
+  "detail.field.bundle_id": {
+    "zh-Hant": "Bundle ID",
+    "en": "Bundle ID",
+    "zh-Hans": "Bundle ID"
+  },
+  "detail.field.developer": {
+    "zh-Hant": "開發者",
+    "en": "Developer",
+    "zh-Hans": "开发者"
+  },
+  "detail.field.executable": {
+    "zh-Hant": "執行檔",
+    "en": "Executable",
+    "zh-Hans": "可执行文件"
+  },
+  "detail.field.keep_alive": {
+    "zh-Hant": "持續執行",
+    "en": "Keep running",
+    "zh-Hans": "持续执行"
+  },
+  "detail.field.name": {
+    "zh-Hant": "名稱",
+    "en": "Name",
+    "zh-Hans": "名称"
+  },
+  "detail.field.parent_bundle_id": {
+    "zh-Hant": "父 Bundle ID",
+    "en": "Parent Bundle ID",
+    "zh-Hans": "父 Bundle ID"
+  },
+  "detail.field.plist": {
+    "zh-Hant": "plist",
+    "en": "plist",
+    "zh-Hans": "plist"
+  },
+  "detail.field.run_at_load": {
+    "zh-Hant": "登入/載入時執行",
+    "en": "Run at login/load",
+    "zh-Hans": "登录/加载时执行"
+  },
+  "detail.field.team_id": {
+    "zh-Hant": "Team ID",
+    "en": "Team ID",
+    "zh-Hans": "Team ID"
+  },
+  "detail.field.type": {
+    "zh-Hant": "類型",
+    "en": "Type",
+    "zh-Hans": "类型"
+  },
+  "detail.field.working_directory": {
+    "zh-Hant": "WorkingDirectory",
+    "en": "WorkingDirectory",
+    "zh-Hans": "WorkingDirectory"
+  },
+  "detail.last_scan": {
+    "zh-Hant": "上次掃描：{time}",
+    "en": "Last scan: {time}",
+    "zh-Hans": "上次扫描：{time}"
+  },
+  "detail.load_system_items": {
+    "zh-Hant": "載入系統啟動項目",
+    "en": "Load System Startup Items",
+    "zh-Hans": "载入系统启动项目"
+  },
+  "detail.load_system_items_help": {
+    "zh-Hant": "開啟時只掃描使用者 LaunchAgent 與 Login Item。載入系統 LaunchAgent、LaunchDaemon 與 Background Task 時，macOS 可能要求管理員密碼。",
+    "en": "On launch, only user LaunchAgents and Login Items are scanned. macOS may ask for an administrator password when loading system LaunchAgents, LaunchDaemons, and Background Tasks.",
+    "zh-Hans": "开启时只扫描用户 LaunchAgent 与 Login Item。载入系统 LaunchAgent、LaunchDaemon 与 Background Task 时，macOS 可能要求管理员密码。"
+  },
+  "detail.manage_in_system_settings": {
+    "zh-Hant": "在系統設定中管理",
+    "en": "Manage in System Settings",
+    "zh-Hans": "在系统设置中管理"
+  },
+  "detail.modern_sources": {
+    "zh-Hant": "現代來源",
+    "en": "Modern Sources",
+    "zh-Hans": "现代来源"
+  },
+  "detail.move_to_trash": {
+    "zh-Hant": "移到垃圾桶…",
+    "en": "Move to Trash…",
+    "zh-Hans": "移到废纸篓…"
+  },
+  "detail.notes": {
+    "zh-Hant": "備註",
+    "en": "Notes",
+    "zh-Hans": "备注"
+  },
+  "detail.notes_accessibility": {
+    "zh-Hant": "服務備註",
+    "en": "Service Notes",
+    "zh-Hans": "服务备注"
+  },
+  "detail.notes_hint": {
+    "zh-Hant": "查到這個服務的用途後，可以貼在這裡，下次打開仍會保留。",
+    "en": "After you learn what this service does, you can paste the information here. It will still be available the next time you open the app.",
+    "zh-Hans": "查到这个服务的用途后，可以贴在这里，下次打开仍会保留。"
+  },
+  "detail.open_plist": {
+    "zh-Hant": "開啟 plist",
+    "en": "Open plist",
+    "zh-Hans": "打开 plist"
+  },
+  "detail.ownership": {
+    "zh-Hant": "所屬 App",
+    "en": "Owning App",
+    "zh-Hans": "所属 App"
+  },
+  "detail.path": {
+    "zh-Hant": "路徑",
+    "en": "Path",
+    "zh-Hans": "路径"
+  },
+  "detail.reason": {
+    "zh-Hant": "原因",
+    "en": "Reason",
+    "zh-Hans": "原因"
+  },
+  "detail.recommendations": {
+    "zh-Hant": "處理建議",
+    "en": "Recommendations",
+    "zh-Hans": "处理建议"
+  },
+  "detail.related_items": {
+    "zh-Hant": "同一個 App 的相關項目",
+    "en": "Related Items from the Same App",
+    "zh-Hans": "同一 App 的相关项目"
+  },
+  "detail.research_this_service": {
+    "zh-Hant": "查詢此服務",
+    "en": "Research This Service",
+    "zh-Hans": "查询此服务"
+  },
+  "detail.research_this_service_help": {
+    "zh-Hant": "在網路上搜尋此服務的用途、停用建議與相關討論。",
+    "en": "Search the web for this service's purpose, disable recommendations, and related discussions.",
+    "zh-Hans": "在网络上搜索此服务的用途、停用建议与相关讨论。"
+  },
+  "detail.safe_action_none": {
+    "zh-Hant": "目前沒有可自動處理的低風險殘留項目",
+    "en": "There are currently no low-risk orphaned items that can be handled automatically",
+    "zh-Hans": "当前没有可自动处理的低风险残留项目"
+  },
+  "detail.show_in_finder": {
+    "zh-Hant": "在 Finder 顯示",
+    "en": "Show in Finder",
+    "zh-Hans": "在 Finder 显示"
+  },
+  "detail.status": {
+    "zh-Hant": "狀態",
+    "en": "Status",
+    "zh-Hans": "状态"
+  },
+  "detail.status_explanation": {
+    "zh-Hant": "狀態說明",
+    "en": "Status Description",
+    "zh-Hans": "状态说明"
+  },
+  "detail.status_help": {
+    "zh-Hant": "啟動項目狀態說明",
+    "en": "Startup Item Status Help",
+    "zh-Hans": "启动项状态说明"
+  },
+  "detail.status_help_accessibility": {
+    "zh-Hant": "狀態說明",
+    "en": "Status Description",
+    "zh-Hans": "状态说明"
+  },
+  "detail.stop_vs_disable_disable": {
+    "zh-Hant": "停用：阻止 launchd 自動載入此項目。原始 plist 不會被刪除。",
+    "en": "Disable: Prevents launchd from automatically loading this item. The original plist is not deleted.",
+    "zh-Hans": "停用：阻止 launchd 自动加载此项目。原始 plist 不会被删除。"
+  },
+  "detail.stop_vs_disable_stop": {
+    "zh-Hant": "停止：僅停止目前執行中的服務，本次或下次可能再次啟動。",
+    "en": "Stop: Stops only the currently running service. It may start again later in this session or the next.",
+    "zh-Hans": "停止：僅停止当前执行中的服务，本次或下次可能再次启动。"
+  },
+  "detail.stop_vs_disable_title": {
+    "zh-Hant": "停止與停用的差異",
+    "en": "Difference Between Stop and Disable",
+    "zh-Hans": "停止与停用的差异"
+  },
+  "detail.summary_title": {
+    "zh-Hant": "啟動項目摘要",
+    "en": "Startup Items Summary",
+    "zh-Hans": "启动项摘要"
+  },
+  "detail.system_load_notice": {
+    "zh-Hant": "未能載入系統啟動項目。若 macOS 跳出管理員認證，請輸入密碼；若選擇取消，可稍後再試一次。",
+    "en": "Unable to load system startup items. If macOS prompts for administrator authentication, enter the password; if you cancel, you can try again later.",
+    "zh-Hans": "未能载入系统启动项目。若 macOS 跳出管理员认证，请输入密码；若选择取消，可稍后再试一次。"
+  },
+  "detail.system_protected_notice": {
+    "zh-Hant": "系統項目預設不允許修改，以避免影響 macOS。",
+    "en": "System items cannot be modified by default to avoid affecting macOS.",
+    "zh-Hans": "系统项目默认不允许修改，以避免影响 macOS。"
+  },
+  "detail.total": {
+    "zh-Hant": "總計",
+    "en": "Total",
+    "zh-Hans": "总计"
+  },
+  "detail.unloaded": {
+    "zh-Hant": "未載入",
+    "en": "Unloaded",
+    "zh-Hans": "未加载"
+  },
+  "disable_confirm.message": {
+    "zh-Hant": "這會阻止 launchd 自動啟動此項目。\n原始 plist 不會被刪除。\n",
+    "en": "This prevents launchd from automatically starting this item.\nThe original plist will not be deleted.\n",
+    "zh-Hans": "这会阻止 launchd 自动启动此项目。\n原始 plist 不会被删除。\n"
+  },
+  "disable_confirm.title_generic": {
+    "zh-Hant": "停用此項目？",
+    "en": "Disable this item?",
+    "zh-Hans": "停用此项目？"
+  },
+  "disable_confirm.title_with_label": {
+    "zh-Hant": "停用 {label}？",
+    "en": "Disable {label}?",
+    "zh-Hans": "停用 {label}？"
+  },
+  "error.cannot_build_search_url": {
+    "zh-Hant": "無法建立搜尋網址。",
+    "en": "Unable to build the search URL.",
+    "zh-Hans": "无法建立搜索网址。"
+  },
+  "error.cannot_disable": {
+    "zh-Hant": "無法停用此項目。",
+    "en": "Unable to disable this item.",
+    "zh-Hans": "无法停用此项目。"
+  },
+  "error.cannot_enable": {
+    "zh-Hant": "無法啟用此項目。",
+    "en": "Unable to enable this item.",
+    "zh-Hans": "无法启用此项目。"
+  },
+  "error.cannot_parse_plist": {
+    "zh-Hant": "無法解析 plist",
+    "en": "Unable to parse plist",
+    "zh-Hans": "无法解析 plist"
+  },
+  "error.cannot_read_plist": {
+    "zh-Hant": "無法讀取 plist：{error}",
+    "en": "Unable to read plist: {error}",
+    "zh-Hans": "无法读取 plist：{error}"
+  },
+  "error.cannot_start": {
+    "zh-Hant": "無法啟動此項目。",
+    "en": "Unable to start this item.",
+    "zh-Hans": "无法启动此项目。"
+  },
+  "error.cannot_stop": {
+    "zh-Hant": "無法停止此項目。",
+    "en": "Unable to stop this item.",
+    "zh-Hans": "无法停止此项目。"
+  },
+  "error.command": {
+    "zh-Hant": "Command",
+    "en": "Command",
+    "zh-Hans": "Command"
+  },
+  "error.copy": {
+    "zh-Hant": "複製錯誤",
+    "en": "Copy Error",
+    "zh-Hans": "复制错误"
+  },
+  "error.copy_block.command": {
+    "zh-Hant": "Command",
+    "en": "Command",
+    "zh-Hans": "Command"
+  },
+  "error.copy_block.exit_code": {
+    "zh-Hant": "Exit code",
+    "en": "Exit code",
+    "zh-Hans": "Exit code"
+  },
+  "error.copy_block.stderr": {
+    "zh-Hant": "stderr",
+    "en": "stderr",
+    "zh-Hans": "stderr"
+  },
+  "error.copy_block.stdout": {
+    "zh-Hant": "stdout",
+    "en": "stdout",
+    "zh-Hans": "stdout"
+  },
+  "error.exit_code": {
+    "zh-Hant": "Exit code",
+    "en": "Exit code",
+    "zh-Hans": "Exit code"
+  },
+  "error.manage_in_system_settings": {
+    "zh-Hant": "此項目請在系統設定中管理。",
+    "en": "Manage this item in System Settings.",
+    "zh-Hans": "此项目请在系统设置中管理。"
+  },
+  "error.needs_admin": {
+    "zh-Hant": "此項目需要系統管理員權限才能修改。",
+    "en": "Administrator privileges are required to modify this item.",
+    "zh-Hans": "此项目需要管理员权限才能修改。"
+  },
+  "error.plist_not_dictionary": {
+    "zh-Hant": "plist 不是 dictionary 格式",
+    "en": "plist is not in dictionary format",
+    "zh-Hans": "plist 不是 dictionary 格式"
+  },
+  "error.protected_item": {
+    "zh-Hant": "系統項目預設不允許修改，以避免影響 macOS。",
+    "en": "System items cannot be modified by default to avoid affecting macOS.",
+    "zh-Hans": "系统项目默认不允许修改，以避免影响 macOS。"
+  },
+  "error.stderr": {
+    "zh-Hant": "stderr",
+    "en": "stderr",
+    "zh-Hans": "stderr"
+  },
+  "error.stdout": {
+    "zh-Hant": "stdout",
+    "en": "stdout",
+    "zh-Hans": "stdout"
+  },
+  "error.trash_disable_failed": {
+    "zh-Hant": "無法停用此項目，因此沒有移到垃圾桶。",
+    "en": "Unable to disable this item, so it was not moved to Trash.",
+    "zh-Hans": "无法停用此项目，因此没有移到废纸篓。"
+  },
+  "error.trash_move_failed": {
+    "zh-Hant": "無法將 plist 移到垃圾桶。",
+    "en": "Unable to move the plist to Trash.",
+    "zh-Hans": "无法将 plist 移到废纸篓。"
+  },
+  "error.trash_not_eligible": {
+    "zh-Hant": "此項目不符合移到垃圾桶的條件。",
+    "en": "This item is not eligible to be moved to Trash.",
+    "zh-Hans": "此项目不符合移到废纸篓的条件。"
+  },
+  "error.trash_stop_failed": {
+    "zh-Hant": "無法停止此項目，因此沒有移到垃圾桶。",
+    "en": "Unable to stop this item, so it was not moved to Trash.",
+    "zh-Hans": "无法停止此项目，因此没有移到废纸篓。"
+  },
+  "error.trash_user_agent_only": {
+    "zh-Hant": "只能將使用者 LaunchAgent 的 plist 移到垃圾桶。",
+    "en": "Only a user LaunchAgent plist can be moved to Trash.",
+    "zh-Hans": "只能将用户 LaunchAgent 的 plist 移到废纸篓。"
+  },
+  "filter.all": {
+    "zh-Hant": "全部",
+    "en": "All",
+    "zh-Hans": "全部"
+  },
+  "filter.background_tasks": {
+    "zh-Hant": "Background Tasks",
+    "en": "Background Tasks",
+    "zh-Hans": "Background Tasks"
+  },
+  "filter.daemons": {
+    "zh-Hant": "Daemons",
+    "en": "Daemons",
+    "zh-Hans": "Daemons"
+  },
+  "filter.disabled": {
+    "zh-Hant": "已停用",
+    "en": "Disabled",
+    "zh-Hans": "已停用"
+  },
+  "filter.loaded": {
+    "zh-Hant": "已載入",
+    "en": "Loaded",
+    "zh-Hans": "已加载"
+  },
+  "filter.login_items": {
+    "zh-Hant": "Login Items",
+    "en": "Login Items",
+    "zh-Hans": "Login Items"
+  },
+  "filter.orphaned": {
+    "zh-Hant": "殘留",
+    "en": "Orphaned",
+    "zh-Hans": "残留"
+  },
+  "filter.review_required": {
+    "zh-Hant": "建議檢查",
+    "en": "Review Recommended",
+    "zh-Hans": "建议检查"
+  },
+  "filter.safe_action": {
+    "zh-Hant": "可安全處理",
+    "en": "Safe to Handle",
+    "zh-Hans": "可安全处理"
+  },
+  "filter.smappservice": {
+    "zh-Hant": "SMAppService",
+    "en": "SMAppService",
+    "zh-Hans": "SMAppService"
+  },
+  "filter.system_agents": {
+    "zh-Hant": "System Agents",
+    "en": "System Agents",
+    "zh-Hans": "System Agents"
+  },
+  "filter.user_agents": {
+    "zh-Hant": "User Agents",
+    "en": "User Agents",
+    "zh-Hans": "User Agents"
+  },
+  "list.group_accessibility": {
+    "zh-Hant": "{status}，{count} 個項目",
+    "en": "{status}, {count} items",
+    "zh-Hans": "{status}，{count} 个项目"
+  },
+  "list.group_title": {
+    "zh-Hant": "{status} ({count})",
+    "en": "{status} ({count})",
+    "zh-Hans": "{status} ({count})"
+  },
+  "list.note_prefix": {
+    "zh-Hant": "備註：{note}",
+    "en": "Note: {note}",
+    "zh-Hans": "备注：{note}"
+  },
+  "origin.apple_system": {
+    "zh-Hant": "Apple/System",
+    "en": "Apple/System",
+    "zh-Hans": "Apple/System"
+  },
+  "origin.third_party": {
+    "zh-Hant": "Third Party",
+    "en": "Third Party",
+    "zh-Hans": "Third Party"
+  },
+  "origin.unknown": {
+    "zh-Hant": "Unknown",
+    "en": "Unknown",
+    "zh-Hans": "Unknown"
+  },
+  "plist_viewer.read_failed": {
+    "zh-Hant": "無法讀取 plist：{message}",
+    "en": "Unable to read plist: {message}",
+    "zh-Hans": "无法读取 plist：{message}"
+  },
+  "plist_viewer.title": {
+    "zh-Hant": "plist",
+    "en": "plist",
+    "zh-Hans": "plist"
+  },
+  "recommendation.can_disable": {
+    "zh-Hant": "可考慮停用",
+    "en": "Consider Disabling",
+    "zh-Hans": "可考虑停用"
+  },
+  "recommendation.evidence.app_missing": {
+    "zh-Hant": "App 已不存在",
+    "en": "App is missing",
+    "zh-Hans": "App 已不存在"
+  },
+  "recommendation.evidence.app_still_installed": {
+    "zh-Hant": "App 仍安裝",
+    "en": "App still installed",
+    "zh-Hans": "App 仍安装"
+  },
+  "recommendation.evidence.apple_or_system_protected": {
+    "zh-Hant": "Apple 或系統保護項目",
+    "en": "Apple or system-protected item",
+    "zh-Hans": "Apple 或系统保护项目"
+  },
+  "recommendation.evidence.delete_not_required": {
+    "zh-Hant": "刪除不是必要動作",
+    "en": "Deletion is not required",
+    "zh-Hans": "删除不是必要动作"
+  },
+  "recommendation.evidence.do_not_auto_disable_or_delete": {
+    "zh-Hant": "不應自動停用或刪除",
+    "en": "Should not be automatically disabled or deleted",
+    "zh-Hans": "不应自动停用或删除"
+  },
+  "recommendation.evidence.executable_exists": {
+    "zh-Hant": "執行檔仍存在",
+    "en": "Executable still exists",
+    "zh-Hans": "可执行文件仍存在"
+  },
+  "recommendation.evidence.executable_missing": {
+    "zh-Hant": "執行檔已不存在",
+    "en": "Executable is missing",
+    "zh-Hans": "可执行文件已不存在"
+  },
+  "recommendation.evidence.keepalive": {
+    "zh-Hant": "KeepAlive",
+    "en": "KeepAlive",
+    "zh-Hans": "KeepAlive"
+  },
+  "recommendation.evidence.looks_like_updater_helper": {
+    "zh-Hant": "名稱類似 updater / helper",
+    "en": "Name resembles updater / helper",
+    "zh-Hans": "名称类似 updater / helper"
+  },
+  "recommendation.evidence.modern_source": {
+    "zh-Hant": "現代啟動來源",
+    "en": "Modern startup source",
+    "zh-Hans": "现代启动来源"
+  },
+  "recommendation.evidence.no_auto_delete": {
+    "zh-Hant": "不自動刪除",
+    "en": "Not automatically deleted",
+    "zh-Hans": "不自动删除"
+  },
+  "recommendation.evidence.no_auto_disable": {
+    "zh-Hant": "不自動停用",
+    "en": "Not automatically disabled",
+    "zh-Hans": "不自动停用"
+  },
+  "recommendation.evidence.not_apple_system": {
+    "zh-Hant": "非 Apple/System",
+    "en": "Not Apple/System",
+    "zh-Hans": "非 Apple/System"
+  },
+  "recommendation.evidence.not_keepalive": {
+    "zh-Hant": "非 KeepAlive",
+    "en": "Not KeepAlive",
+    "zh-Hans": "非 KeepAlive"
+  },
+  "recommendation.evidence.not_orphaned": {
+    "zh-Hant": "不是殘留項目",
+    "en": "Not an orphaned item",
+    "zh-Hans": "不是残留项目"
+  },
+  "recommendation.evidence.origin_unknown": {
+    "zh-Hant": "來源未知",
+    "en": "Source unknown",
+    "zh-Hans": "来源未知"
+  },
+  "recommendation.evidence.related_app_exists": {
+    "zh-Hant": "相關 App 仍存在",
+    "en": "Related app still exists",
+    "zh-Hans": "相关 App 仍存在"
+  },
+  "recommendation.evidence.status_disabled": {
+    "zh-Hant": "狀態為已停用",
+    "en": "Status is Disabled",
+    "zh-Hans": "状态为已停用"
+  },
+  "recommendation.evidence.status_error": {
+    "zh-Hant": "狀態為錯誤",
+    "en": "Status is Error",
+    "zh-Hans": "状态为错误"
+  },
+  "recommendation.evidence.status_orphaned": {
+    "zh-Hant": "狀態為殘留",
+    "en": "Status is Orphaned",
+    "zh-Hans": "状态为残留"
+  },
+  "recommendation.evidence.status_unknown": {
+    "zh-Hant": "狀態為未知",
+    "en": "Status is Unknown",
+    "zh-Hans": "状态为未知"
+  },
+  "recommendation.evidence.status_unloaded": {
+    "zh-Hant": "狀態為未載入",
+    "en": "Status is Unloaded",
+    "zh-Hans": "状态为未加载"
+  },
+  "recommendation.evidence.third_party_user_launch_agent": {
+    "zh-Hant": "第三方 User LaunchAgent",
+    "en": "Third-party User LaunchAgent",
+    "zh-Hans": "第三方 User LaunchAgent"
+  },
+  "recommendation.evidence.type_launch_daemon": {
+    "zh-Hant": "類型為 LaunchDaemon",
+    "en": "Type is LaunchDaemon",
+    "zh-Hans": "类型为 LaunchDaemon"
+  },
+  "recommendation.evidence.type_system_launch_agent": {
+    "zh-Hant": "類型為 System LaunchAgent",
+    "en": "Type is System LaunchAgent",
+    "zh-Hans": "类型为 System LaunchAgent"
+  },
+  "recommendation.evidence.unloaded_not_unused": {
+    "zh-Hant": "未載入不代表無用",
+    "en": "Unloaded does not mean unused",
+    "zh-Hans": "未加载不代表无用"
+  },
+  "recommendation.keep": {
+    "zh-Hant": "建議保留",
+    "en": "Keep Recommended",
+    "zh-Hans": "建议保留"
+  },
+  "recommendation.protected": {
+    "zh-Hant": "系統保護",
+    "en": "System Protected",
+    "zh-Hans": "系统保护"
+  },
+  "recommendation.reason.can_disable": {
+    "zh-Hant": "此項目仍屬於已安裝 App。若你不希望它自動啟動，可以選擇停用，但不建議直接刪除 plist。",
+    "en": "This item still belongs to an installed app. If you do not want it to start automatically, you may disable it, but deleting the plist directly is not recommended.",
+    "zh-Hans": "此项目仍属于已安装 App。若你不希望它自动启动，可以选择停用，但不建议直接删除 plist。"
+  },
+  "recommendation.reason.error": {
+    "zh-Hant": "此項目發生錯誤，不得自動處理。",
+    "en": "This item has an error and must not be handled automatically.",
+    "zh-Hans": "此项目发生错误，不得自动处理。"
+  },
+  "recommendation.reason.keep_default": {
+    "zh-Hant": "此項目屬於目前仍安裝的 App，建議保留。",
+    "en": "This item belongs to an app that is still installed, so keeping it is recommended.",
+    "zh-Hans": "此项目属于当前仍安装的 App，建议保留。"
+  },
+  "recommendation.reason.keep_disabled": {
+    "zh-Hant": "此項目目前已停用，相關 App 仍存在。如果這是你的預期設定，不需要其他處理。",
+    "en": "This item is currently disabled and the related app still exists. If this is your intended configuration, no further action is needed.",
+    "zh-Hans": "此项目当前已停用，相关 App 仍存在。如果这是你的预期设置，不需要其他处理。"
+  },
+  "recommendation.reason.keep_unloaded": {
+    "zh-Hant": "此項目目前未由 launchd 載入，但相關 App 與執行檔仍存在。未載入本身不是刪除理由。",
+    "en": "This item is not currently loaded by launchd, but the related app and executable still exist. Being unloaded is not, by itself, a reason to delete it.",
+    "zh-Hans": "此项目当前未由 launchd 加载，但相关 App 与可执行文件仍存在。未加载本身不是删除理由。"
+  },
+  "recommendation.reason.keepalive": {
+    "zh-Hant": "此項目啟用 KeepAlive，可能被設計成持續維持，因此改列入手動確認。",
+    "en": "This item uses KeepAlive and may be designed to stay active, so it is marked for manual review.",
+    "zh-Hans": "此项目启用 KeepAlive，可能被设计成持续维持，因此改列入手动确认。"
+  },
+  "recommendation.reason.launch_daemon": {
+    "zh-Hant": "LaunchDaemon 是系統層級背景服務，可能需要管理者權限，因此不自動處理。",
+    "en": "LaunchDaemon is a system-level background service and may require administrator privileges, so it is not handled automatically.",
+    "zh-Hans": "LaunchDaemon 是系统级别背景服务，可能需要管理员权限，因此不自动处理。"
+  },
+  "recommendation.reason.modern_source": {
+    "zh-Hant": "此項目屬於現代啟動來源（Login Item、Background Task 或 SMAppService）。第一版僅供顯示與研究，請在系統設定中管理。",
+    "en": "This item comes from a modern startup source (Login Item, Background Task, or SMAppService). The first version supports display and research only; manage it in System Settings.",
+    "zh-Hans": "此项目属于现代启动来源（Login Item、Background Task 或 SMAppService）。第一版僅供显示与研究，请在系统设置中管理。"
+  },
+  "recommendation.reason.origin_unknown": {
+    "zh-Hant": "來源無法完全判斷，因此不自動停用或刪除。",
+    "en": "The source cannot be determined with sufficient confidence, so the item will not be automatically disabled or deleted.",
+    "zh-Hans": "来源无法完全判断，因此不自动停用或删除。"
+  },
+  "recommendation.reason.orphaned_app_still_installed": {
+    "zh-Hant": "plist 指向的執行檔已不存在，但相關 App 仍安裝，可能只是路徑變更，因此不自動處理。",
+    "en": "The executable referenced by the plist is missing, but the related app is still installed. The path may simply have changed, so the item will not be handled automatically.",
+    "zh-Hans": "plist 指向的可执行文件已不存在，但相关 App 仍安装，可能只是路径变更，因此不自动处理。"
+  },
+  "recommendation.reason.protected": {
+    "zh-Hant": "此項目屬於 Apple 或 macOS 系統服務，MacAutorunsLite 不提供自動停用或刪除操作。",
+    "en": "This item belongs to Apple or macOS system services. MacAutorunsLite does not provide automatic disable or delete actions for it.",
+    "zh-Hans": "此项目属于 Apple 或 macOS 系统服务，MacAutorunsLite 不提供自动停用或删除操作。"
+  },
+  "recommendation.reason.safe_action": {
+    "zh-Hant": "此項目符合 MacAutorunsLite 的保守安全條件。可停止並停用自動載入，原始 plist 仍保留，並可透過 Snapshot 復原。",
+    "en": "This item meets MacAutorunsLite's conservative safety criteria. It can be stopped and automatic loading can be disabled while keeping the original plist, and it can be restored from a Snapshot.",
+    "zh-Hans": "此项目符合 MacAutorunsLite 的保守安全条件。可停止并停用自动加载，原始 plist 仍保留，并可透过 Snapshot 恢复。"
+  },
+  "recommendation.reason.system_launch_agent": {
+    "zh-Hant": "System LaunchAgent 不納入自動處理，建議先確認來源後再決定。",
+    "en": "System LaunchAgent is excluded from automatic handling. Confirm its source before deciding what to do.",
+    "zh-Hans": "System LaunchAgent 不纳入自动处理，建议先确认来源后再决定。"
+  },
+  "recommendation.reason.unknown": {
+    "zh-Hant": "目前資訊不足，無法安全判斷，必須列入人工確認。",
+    "en": "There is not enough information to make a safe determination. Manual review is required.",
+    "zh-Hans": "当前信息不足，无法安全判断，必须列入人工确认。"
+  },
+  "recommendation.reason.updater_helper": {
+    "zh-Hant": "此項目名稱包含 Updater 或 Helper，可能仍由已安裝 App 使用，因此不自動處理。",
+    "en": "This item's name contains Updater or Helper and may still be used by an installed app, so it will not be handled automatically.",
+    "zh-Hans": "此项目名称包含 Updater 或 Helper，可能仍由已安装 App 使用，因此不自动处理。"
+  },
+  "recommendation.review_required": {
+    "zh-Hant": "建議檢查",
+    "en": "Review Recommended",
+    "zh-Hans": "建议检查"
+  },
+  "recommendation.safe_action": {
+    "zh-Hant": "可安全處理",
+    "en": "Safe to Handle",
+    "zh-Hans": "可安全处理"
+  },
+  "research.back": {
+    "zh-Hant": "上一頁",
+    "en": "Back",
+    "zh-Hans": "上一页"
+  },
+  "research.default_keyword.community": {
+    "zh-Hant": "reddit",
+    "en": "reddit",
+    "zh-Hans": "reddit"
+  },
+  "research.default_keyword.disable": {
+    "zh-Hant": "safe to disable",
+    "en": "safe to disable",
+    "zh-Hans": "safe to disable"
+  },
+  "research.default_keyword.overview": {
+    "zh-Hant": "macOS",
+    "en": "macOS",
+    "zh-Hans": "macOS"
+  },
+  "research.default_keyword.remove": {
+    "zh-Hant": "safe to remove",
+    "en": "safe to remove",
+    "zh-Hans": "safe to remove"
+  },
+  "research.disclaimer": {
+    "zh-Hant": "網路搜尋結果僅供參考。MacAutorunsLite 不會根據網頁內容自動停用、刪除或安全處理任何項目。",
+    "en": "Web search results are for reference only. MacAutorunsLite will not automatically disable, delete, or safely handle any item based on webpage content.",
+    "zh-Hans": "网络搜索结果僅供参考。MacAutorunsLite 不会根据网页内容自动停用、删除或安全处理任何项目。"
+  },
+  "research.empty_description": {
+    "zh-Hant": "在主視窗選取項目後，點「查詢此服務」。",
+    "en": "Select an item in the main window, then click “Research This Service”.",
+    "zh-Hans": "在主窗口选取项目后，點「查询此服务」。"
+  },
+  "research.empty_title": {
+    "zh-Hant": "請選擇一個啟動項目",
+    "en": "Select a startup item",
+    "zh-Hans": "请选择一个启动项"
+  },
+  "research.forward": {
+    "zh-Hant": "下一頁",
+    "en": "Forward",
+    "zh-Hans": "下一页"
+  },
+  "research.load_failed_message": {
+    "zh-Hant": "請確認網路連線後重試。",
+    "en": "Check your internet connection and try again.",
+    "zh-Hans": "请确认网络连接后重试。"
+  },
+  "research.load_failed_title": {
+    "zh-Hant": "無法載入搜尋結果",
+    "en": "Unable to load search results",
+    "zh-Hans": "无法加载搜索结果"
+  },
+  "research.open_external": {
+    "zh-Hant": "外部開啟",
+    "en": "Open Externally",
+    "zh-Hans": "外部打开"
+  },
+  "research.open_in_browser": {
+    "zh-Hant": "在預設瀏覽器開啟",
+    "en": "Open in Default Browser",
+    "zh-Hans": "在默认浏览器打开"
+  },
+  "research.open_in_browser_current": {
+    "zh-Hant": "在預設瀏覽器開啟目前頁面",
+    "en": "Open Current Page in Default Browser",
+    "zh-Hans": "在默认浏览器打开当前页面"
+  },
+  "research.query.community": {
+    "zh-Hant": "網友討論",
+    "en": "Community Discussions",
+    "zh-Hans": "社区讨论"
+  },
+  "research.query.disable_safety": {
+    "zh-Hant": "能停用嗎",
+    "en": "Can it be disabled?",
+    "zh-Hans": "可以停用吗"
+  },
+  "research.query.overview": {
+    "zh-Hant": "這是什麼",
+    "en": "What is this?",
+    "zh-Hans": "这是什么"
+  },
+  "research.query.removal_safety": {
+    "zh-Hant": "能刪除嗎",
+    "en": "Can it be deleted?",
+    "zh-Hans": "可以删除吗"
+  },
+  "research.reload": {
+    "zh-Hant": "重新載入",
+    "en": "Reload",
+    "zh-Hans": "重新加载"
+  },
+  "research.search_field_prompt": {
+    "zh-Hant": "搜尋內容或 https 網址",
+    "en": "Search text or enter an https URL",
+    "zh-Hans": "搜索内容或 https 网址"
+  },
+  "research.unknown_variables": {
+    "zh-Hant": "未知變數：{variables}",
+    "en": "Unknown variables: {variables}",
+    "zh-Hans": "未知变量：{variables}"
+  },
+  "research.url_build_failed_title": {
+    "zh-Hant": "無法建立搜尋網址。",
+    "en": "Unable to build search URL.",
+    "zh-Hans": "无法建立搜索网址。"
+  },
+  "research.window_title": {
+    "zh-Hant": "服務研究",
+    "en": "Service Research",
+    "zh-Hans": "服务研究"
+  },
+  "safe_action.confirm_count": {
+    "zh-Hant": "安全處理 {count} 個項目",
+    "en": "Safely handle {count} items",
+    "zh-Hans": "安全处理 {count} 个项目"
+  },
+  "safe_action.confirm_none": {
+    "zh-Hant": "沒有可處理項目",
+    "en": "No items can be handled",
+    "zh-Hans": "没有可处理项目"
+  },
+  "safe_action.detail.already_disabled": {
+    "zh-Hant": "原本已停用，略過 disable",
+    "en": "Already disabled; skipped disable",
+    "zh-Hans": "原本已停用，跳过 disable"
+  },
+  "safe_action.detail.bootout": {
+    "zh-Hant": "bootout",
+    "en": "bootout",
+    "zh-Hans": "bootout"
+  },
+  "safe_action.detail.bootstrap": {
+    "zh-Hant": "bootstrap",
+    "en": "bootstrap",
+    "zh-Hans": "bootstrap"
+  },
+  "safe_action.detail.disable": {
+    "zh-Hant": "disable",
+    "en": "disable",
+    "zh-Hans": "disable"
+  },
+  "safe_action.detail.enable": {
+    "zh-Hant": "enable",
+    "en": "enable",
+    "zh-Hans": "enable"
+  },
+  "safe_action.detail.restored": {
+    "zh-Hant": "已恢復原狀態",
+    "en": "Original state restored",
+    "zh-Hans": "已恢恢复状态"
+  },
+  "safe_action.failed": {
+    "zh-Hant": "失敗",
+    "en": "Failed",
+    "zh-Hans": "失败"
+  },
+  "safe_action.hide_details": {
+    "zh-Hant": "隱藏詳細結果",
+    "en": "Hide Detailed Results",
+    "zh-Hans": "隐藏详细结果"
+  },
+  "safe_action.pending_items": {
+    "zh-Hant": "即將處理的項目",
+    "en": "Items to be handled",
+    "zh-Hans": "即将处理的项目"
+  },
+  "safe_action.preview_title": {
+    "zh-Hant": "安全處理建議",
+    "en": "Safe Action Recommendations",
+    "zh-Hans": "安全处理建议"
+  },
+  "safe_action.result_title": {
+    "zh-Hant": "安全處理完成",
+    "en": "Safe Action Complete",
+    "zh-Hans": "安全处理完成"
+  },
+  "safe_action.show_details": {
+    "zh-Hant": "查看詳細結果",
+    "en": "Show Detailed Results",
+    "zh-Hans": "查看详细结果"
+  },
+  "safe_action.skipped": {
+    "zh-Hant": "跳過",
+    "en": "Skipped",
+    "zh-Hans": "跳过"
+  },
+  "safe_action.succeeded": {
+    "zh-Hant": "成功",
+    "en": "Succeeded",
+    "zh-Hans": "成功"
+  },
+  "safe_action.undo": {
+    "zh-Hant": "復原",
+    "en": "Undo",
+    "zh-Hans": "恢复"
+  },
+  "safe_action.undo_title": {
+    "zh-Hant": "復原完成",
+    "en": "Undo Complete",
+    "zh-Hans": "恢复完成"
+  },
+  "safe_action.will_disable_autoload": {
+    "zh-Hant": "停用自動載入",
+    "en": "Disable automatic loading",
+    "zh-Hans": "停用自动加载"
+  },
+  "safe_action.will_do": {
+    "zh-Hant": "將執行：",
+    "en": "Will do:",
+    "zh-Hans": "将执行："
+  },
+  "safe_action.will_keep_plist": {
+    "zh-Hant": "保留 plist",
+    "en": "Keep plist",
+    "zh-Hans": "保留 plist"
+  },
+  "safe_action.will_not": {
+    "zh-Hant": "不會：",
+    "en": "Will not:",
+    "zh-Hans": "不会："
+  },
+  "safe_action.will_not_delete_files": {
+    "zh-Hant": "刪除任何檔案",
+    "en": "Delete any files",
+    "zh-Hans": "删除任何文件"
+  },
+  "safe_action.will_not_modify_system": {
+    "zh-Hant": "修改系統服務",
+    "en": "Modify system services",
+    "zh-Hans": "修改系统服务"
+  },
+  "safe_action.will_not_use_sudo": {
+    "zh-Hant": "使用 sudo",
+    "en": "Use sudo",
+    "zh-Hans": "使用 sudo"
+  },
+  "safe_action.will_stop_orphaned": {
+    "zh-Hant": "停止殘留服務",
+    "en": "Stop orphaned services",
+    "zh-Hans": "停止残留服务"
+  },
+  "safety.protected": {
+    "zh-Hant": "已保護",
+    "en": "Protected",
+    "zh-Hans": "已保护"
+  },
+  "safety.reason.app_still_installed": {
+    "zh-Hant": "App 仍安裝，改列入手動確認。",
+    "en": "The app is still installed, so the item is marked for manual review.",
+    "zh-Hans": "App 仍安装，改列入手动确认。"
+  },
+  "safety.reason.apple_label": {
+    "zh-Hant": "Apple 系統項目，禁止自動處理。",
+    "en": "Apple system item; automatic handling is prohibited.",
+    "zh-Hans": "Apple 系统项目，禁止自动处理。"
+  },
+  "safety.reason.apple_origin": {
+    "zh-Hant": "Apple/System 來源，禁止自動處理。",
+    "en": "Apple/System source; automatic handling is prohibited.",
+    "zh-Hans": "Apple/System 来源，禁止自动处理。"
+  },
+  "safety.reason.background_task": {
+    "zh-Hant": "Background Task 僅供顯示與研究，不自動停用或刪除。",
+    "en": "Background Task is for display and research only; it is not automatically disabled or deleted.",
+    "zh-Hans": "Background Task 僅供显示与研究，不自动停用或删除。"
+  },
+  "safety.reason.executable_exists": {
+    "zh-Hant": "執行檔仍存在，不自動處理。",
+    "en": "The executable still exists, so the item is not handled automatically.",
+    "zh-Hans": "可执行文件仍存在，不自动处理。"
+  },
+  "safety.reason.executable_still_exists_short": {
+    "zh-Hant": "執行檔仍存在。",
+    "en": "The executable still exists.",
+    "zh-Hans": "可执行文件仍存在。"
+  },
+  "safety.reason.keepalive": {
+    "zh-Hant": "KeepAlive 項目改列入手動確認。",
+    "en": "KeepAlive items are marked for manual review.",
+    "zh-Hans": "KeepAlive 项目改列入手动确认。"
+  },
+  "safety.reason.launch_daemon": {
+    "zh-Hant": "LaunchDaemon 可能需要管理者權限，改列入手動確認。",
+    "en": "LaunchDaemon may require administrator privileges and is therefore marked for manual review.",
+    "zh-Hans": "LaunchDaemon 可能需要管理员权限，改列入手动确认。"
+  },
+  "safety.reason.login_item": {
+    "zh-Hant": "Login Item 僅供顯示與研究，不自動停用或刪除。",
+    "en": "Login Item is for display and research only; it is not automatically disabled or deleted.",
+    "zh-Hans": "Login Item 僅供显示与研究，不自动停用或删除。"
+  },
+  "safety.reason.not_orphaned": {
+    "zh-Hant": "不是殘留項目，只提供建議、不自動執行。",
+    "en": "This is not an orphaned item; recommendations are shown, but no automatic action is taken.",
+    "zh-Hans": "不是残留项目，只提供建议、不自动执行。"
+  },
+  "safety.reason.only_orphaned": {
+    "zh-Hant": "僅處理殘留項目。",
+    "en": "Only orphaned items are handled.",
+    "zh-Hans": "僅处理残留项目。"
+  },
+  "safety.reason.only_third_party": {
+    "zh-Hant": "僅處理可判定的第三方項目。",
+    "en": "Only identifiable third-party items are handled.",
+    "zh-Hans": "僅处理可判定的第三方项目。"
+  },
+  "safety.reason.only_user_launch_agent": {
+    "zh-Hant": "僅優先處理 User LaunchAgent。",
+    "en": "Only User LaunchAgents are prioritized for handling.",
+    "zh-Hans": "僅优先处理 User LaunchAgent。"
+  },
+  "safety.reason.origin_unknown": {
+    "zh-Hant": "來源無法完全判斷，改列入手動確認。",
+    "en": "The source cannot be determined with sufficient confidence, so the item is marked for manual review.",
+    "zh-Hans": "来源无法完全判断，改列入手动确认。"
+  },
+  "safety.reason.plist_missing": {
+    "zh-Hant": "plist 已不存在，無法安全處理。",
+    "en": "The plist no longer exists and cannot be handled safely.",
+    "zh-Hans": "plist 已不存在，无法安全处理。"
+  },
+  "safety.reason.safe": {
+    "zh-Hant": "殘留的第三方 User LaunchAgent，執行檔已不存在，可停用並保留 plist。",
+    "en": "Orphaned third-party User LaunchAgent with a missing executable; it can be disabled while keeping the plist.",
+    "zh-Hans": "残留的第三方 User LaunchAgent，可执行文件已不存在，可停用并保留 plist。"
+  },
+  "safety.reason.sip_path": {
+    "zh-Hant": "位於系統保護路徑，禁止自動處理。",
+    "en": "Located in a system-protected path; automatic handling is prohibited.",
+    "zh-Hans": "位于系统保护路径，禁止自动处理。"
+  },
+  "safety.reason.smappservice": {
+    "zh-Hant": "SMAppService 項目由系統設定管理，不自動處理。",
+    "en": "SMAppService items are managed in System Settings and are not handled automatically.",
+    "zh-Hans": "SMAppService 项目由系统设置管理，不自动处理。"
+  },
+  "safety.reason.system_launch_agent": {
+    "zh-Hant": "System LaunchAgent 不納入自動處理。",
+    "en": "System LaunchAgent is excluded from automatic handling.",
+    "zh-Hans": "System LaunchAgent 不纳入自动处理。"
+  },
+  "safety.reason.system_protected": {
+    "zh-Hant": "受保護的系統項目，禁止自動處理。",
+    "en": "Protected system item; automatic handling is prohibited.",
+    "zh-Hans": "受保护的系统项目，禁止自动处理。"
+  },
+  "safety.reason.updater_helper": {
+    "zh-Hant": "名稱類似 updater / helper，改列入手動確認。",
+    "en": "Names resembling updater / helper are marked for manual review.",
+    "zh-Hans": "名称类似 updater / helper，改列入手动确认。"
+  },
+  "safety.review_required": {
+    "zh-Hant": "需要人工確認",
+    "en": "Manual Review Required",
+    "zh-Hans": "需要人工确认"
+  },
+  "safety.safe": {
+    "zh-Hant": "可安全處理",
+    "en": "Safe to Handle",
+    "zh-Hans": "可安全处理"
+  },
+  "scan.background_task_warning": {
+    "zh-Hant": "無法讀取 Background Task 資料庫。Login Item 與 in-bundle helper 仍會顯示，狀態請以系統設定為準。",
+    "en": "Unable to read the Background Task database. Login Items and in-bundle helpers will still be shown, but rely on System Settings for their status.",
+    "zh-Hans": "无法读取 Background Task 数据库。Login Item 与 in-bundle helper 仍会显示，状态请以系统设置为准。"
+  },
+  "scan.just_now": {
+    "zh-Hant": "剛剛",
+    "en": "Just now",
+    "zh-Hans": "刚刚"
+  },
+  "scan.minutes_ago": {
+    "zh-Hant": "{minutes} 分鐘前",
+    "en": "{minutes} minutes ago",
+    "zh-Hans": "{minutes} 分钟前"
+  },
+  "scan.never": {
+    "zh-Hant": "尚未掃描",
+    "en": "Not scanned yet",
+    "zh-Hans": "尚未扫描"
+  },
+  "session_log.empty": {
+    "zh-Hant": "尚無紀錄",
+    "en": "No records yet",
+    "zh-Hans": "尚无记录"
+  },
+  "session_log.title": {
+    "zh-Hant": "工作階段紀錄",
+    "en": "Session Log",
+    "zh-Hans": "会话日志"
+  },
+  "settings.appearance_mode": {
+    "zh-Hant": "外觀模式",
+    "en": "Appearance Mode",
+    "zh-Hans": "外观模式"
+  },
+  "settings.appearance_section": {
+    "zh-Hant": "外觀",
+    "en": "Appearance",
+    "zh-Hans": "外观"
+  },
+  "settings.browser_mode": {
+    "zh-Hant": "網頁開啟方式",
+    "en": "Open Web Pages With",
+    "zh-Hans": "网页打开方式"
+  },
+  "settings.browser_mode.embedded": {
+    "zh-Hant": "內建瀏覽器",
+    "en": "Built-in Browser",
+    "zh-Hans": "内建浏览器"
+  },
+  "settings.browser_mode.system": {
+    "zh-Hant": "系統預設瀏覽器",
+    "en": "System Default Browser",
+    "zh-Hans": "系统默认浏览器"
+  },
+  "settings.browser_mode_help": {
+    "zh-Hant": "預設會用系統瀏覽器開啟搜尋結果。若改為內建瀏覽器，會在 MacAutorunsLite 視窗中顯示網頁。",
+    "en": "Search results open in the system browser by default. If you switch to the built-in browser, pages will be displayed inside the MacAutorunsLite window.",
+    "zh-Hans": "默认会用系统浏览器打开搜索结果。若改为内建浏览器，会在 MacAutorunsLite 视窗中显示网页。"
+  },
+  "settings.keyword_accessibility_hint": {
+    "zh-Hant": "會帶入搜尋模板的 {keyword}",
+    "en": "Inserted into the search template as {keyword}",
+    "zh-Hans": "会带入搜索模板的 {keyword}"
+  },
+  "settings.keyword_overview": {
+    "zh-Hant": "查詢此服務",
+    "en": "Research This Service",
+    "zh-Hans": "查询此服务"
+  },
+  "settings.keywords_help": {
+    "zh-Hant": "點「查詢此服務」時，右側文字會帶入搜尋模板的 {keyword}。",
+    "en": "When you click “Research This Service”, the text on the right is inserted into the search template as {keyword}.",
+    "zh-Hans": "點「查询此服务」时，右側文字会带入搜索模板的 {keyword}。"
+  },
+  "settings.keywords_section": {
+    "zh-Hant": "搜尋關鍵字",
+    "en": "Search Keywords",
+    "zh-Hans": "搜索关键词"
+  },
+  "settings.language.en": {
+    "zh-Hant": "英文",
+    "en": "English",
+    "zh-Hans": "英文"
+  },
+  "settings.language.system": {
+    "zh-Hant": "跟隨系統",
+    "en": "Follow System",
+    "zh-Hans": "跟随系统"
+  },
+  "settings.language.zh_hans": {
+    "zh-Hant": "簡體中文",
+    "en": "Simplified Chinese",
+    "zh-Hans": "简体中文"
+  },
+  "settings.language.zh_hant": {
+    "zh-Hant": "繁體中文",
+    "en": "Traditional Chinese",
+    "zh-Hans": "繁体中文"
+  },
+  "settings.language_mode": {
+    "zh-Hant": "介面語言",
+    "en": "App Language",
+    "zh-Hans": "界面语言"
+  },
+  "settings.language_mode_help": {
+    "zh-Hant": "預設會跟隨 macOS 系統語言，也可手動切換為英文、繁體中文或簡體中文。",
+    "en": "By default the app follows the macOS system language, but you can manually switch to English, Traditional Chinese, or Simplified Chinese.",
+    "zh-Hans": "默认会跟随 macOS 系统语言，也可手动切换为英文、繁体中文或简体中文。"
+  },
+  "settings.language_section": {
+    "zh-Hant": "語言",
+    "en": "Language",
+    "zh-Hans": "语言"
+  },
+  "settings.research_section": {
+    "zh-Hant": "服務研究",
+    "en": "Service Research",
+    "zh-Hans": "服务研究"
+  },
+  "settings.restore_confirm_action": {
+    "zh-Hant": "恢復預設值",
+    "en": "Restore Defaults",
+    "zh-Hans": "恢复默认值"
+  },
+  "settings.restore_confirm_message": {
+    "zh-Hant": "這會將搜尋模板與研究關鍵字恢復為預設值。",
+    "en": "This will restore the search template and research keywords to their default values.",
+    "zh-Hans": "这会将搜索模板与研究关键词恢复为默认值。"
+  },
+  "settings.restore_confirm_title": {
+    "zh-Hant": "恢復預設搜尋設定？",
+    "en": "Restore Default Search Settings?",
+    "zh-Hans": "恢复默认搜索设置？"
+  },
+  "settings.restore_search_defaults": {
+    "zh-Hant": "恢復預設搜尋設定",
+    "en": "Restore Default Search Settings",
+    "zh-Hans": "恢复默认搜索设置"
+  },
+  "settings.search_preview": {
+    "zh-Hant": "搜尋預覽",
+    "en": "Search Preview",
+    "zh-Hans": "搜索预览"
+  },
+  "settings.search_section": {
+    "zh-Hant": "搜尋設定",
+    "en": "Search Settings",
+    "zh-Hans": "搜索设置"
+  },
+  "settings.search_template": {
+    "zh-Hant": "搜尋模板",
+    "en": "Search Template",
+    "zh-Hans": "搜索模板"
+  },
+  "settings.search_template_help": {
+    "zh-Hant": "可用變數：{label} 服務 Label、{type} LaunchAgent / LaunchDaemon、{keyword} 目前研究關鍵字",
+    "en": "Available variables: {label} service Label, {type} LaunchAgent / LaunchDaemon, {keyword} current research keyword",
+    "zh-Hans": "可用变量：{label} 服务 Label、{type} LaunchAgent / LaunchDaemon、{keyword} 当前研究关键词"
+  },
+  "settings.search_template_missing_label": {
+    "zh-Hant": "建議搜尋模板保留 {label}，否則可能無法準確找到對應服務。",
+    "en": "Keeping {label} in the search template is recommended; otherwise the corresponding service may not be found accurately.",
+    "zh-Hans": "建议搜索模板保留 {label}，否則可能无法准确找到对应服务。"
+  },
+  "status.disabled.detailed": {
+    "zh-Hant": "此啟動項目目前被 launchd 標記為 Disabled。\n\n即使 plist 仍然存在，launchd 通常不會正常自動載入它，直到重新執行啟用。\n\n「已停用」與「未載入」不同：未載入表示目前沒有載入，但未必禁止未來載入；已停用表示 launchd 已明確標記為禁止自動載入。\n",
+    "en": "This startup item is currently marked Disabled by launchd.\n\nEven if the plist still exists, launchd will generally not load it automatically until it is enabled again.\n\n“Disabled” is different from “Unloaded”: Unloaded means it is not currently loaded but may still be loaded in the future; Disabled means launchd has explicitly marked it to prevent automatic loading.\n",
+    "zh-Hans": "此启动项当前被 launchd 标记为 Disabled。\n\n即使 plist 仍然存在，launchd 通常不会正常自动加载它，直到重新执行启用。\n\n「已停用」与「未加载」不同：未加载表示当前没有加载，但未必禁止未来加载；已停用表示 launchd 已明确标记为禁止自动加载。\n"
+  },
+  "status.disabled.name": {
+    "zh-Hant": "已停用",
+    "en": "Disabled",
+    "zh-Hans": "已停用"
+  },
+  "status.disabled.short": {
+    "zh-Hant": "launchd 已明確標記此項目為停用。",
+    "en": "launchd has explicitly marked this item as disabled.",
+    "zh-Hans": "launchd 已明确标记此项目为停用。"
+  },
+  "status.error.accessibility": {
+    "zh-Hant": "錯誤：{message}",
+    "en": "Error: {message}",
+    "zh-Hans": "错误：{message}"
+  },
+  "status.error.detailed": {
+    "zh-Hant": "此項目在讀取 plist 或查詢 launchctl 時發生錯誤。可能原因包括 plist 格式錯誤、權限不足、launchctl 查詢失敗，或檔案目前無法存取。\n\n錯誤項目不得加入自動安全處理。\n",
+    "en": "An error occurred while reading this item's plist or querying launchctl. Possible causes include an invalid plist format, insufficient permissions, a launchctl query failure, or the file currently being inaccessible.\n\nItems with errors must not be included in automatic Safe Action processing.\n",
+    "zh-Hans": "此项目在读取 plist 或查询 launchctl 时发生错误。可能原因包括 plist 格式错误、权限不足、launchctl 查询失败，或文件当前无法访问。\n\n错误项目不得加入自动安全处理。\n"
+  },
+  "status.error.name": {
+    "zh-Hant": "錯誤",
+    "en": "Error",
+    "zh-Hans": "错误"
+  },
+  "status.error.short": {
+    "zh-Hant": "無法正常解析或查詢此項目。",
+    "en": "This item could not be parsed or queried normally.",
+    "zh-Hans": "无法正常解析或查询此项目。"
+  },
+  "status.loaded.detailed": {
+    "zh-Hant": "此啟動項目目前已註冊在 launchd 中。\n\n「已載入」不代表它的程式現在一定正在執行。launchd 可能正在等待 RunAtLoad、KeepAlive、Timer、Socket 或其他觸發條件後才啟動對應程式。\n",
+    "en": "This startup item is currently registered with launchd.\n\n“Loaded” does not mean its program is necessarily running right now. launchd may be waiting for RunAtLoad, KeepAlive, Timer, Socket, or another trigger condition before starting the corresponding program.\n",
+    "zh-Hans": "此启动项当前已注册在 launchd 中。\n\n「已加载」不代表它的程序现在一定正在执行。launchd 可能正在等待 RunAtLoad、KeepAlive、Timer、Socket 或其他触发条件后才启动对应程序。\n"
+  },
+  "status.loaded.name": {
+    "zh-Hant": "已載入",
+    "en": "Loaded",
+    "zh-Hans": "已加载"
+  },
+  "status.loaded.short": {
+    "zh-Hant": "此項目目前已由 launchd 載入，但不代表程式一定正在執行。",
+    "en": "This item is currently loaded by launchd, but that does not necessarily mean the program is running.",
+    "zh-Hans": "此项目当前已由 launchd 加载，但不代表程序一定正在执行。"
+  },
+  "status.orphaned.detailed": {
+    "zh-Hant": "MacAutorunsLite 找到此啟動項目的 plist，但 plist 指向的 executable 已不存在。\n\n常見原因包括 App 已被移除、更新後路徑改變，或舊版 Helper 沒有正確清除。這通常值得檢查，但不代表一定可以直接刪除。\n",
+    "en": "MacAutorunsLite found this startup item's plist, but the executable referenced by the plist no longer exists.\n\nCommon causes include the app being removed, its path changing after an update, or an old Helper not being cleaned up correctly. This is usually worth reviewing, but it does not necessarily mean the item can be deleted immediately.\n",
+    "zh-Hans": "MacAutorunsLite 找到此启动项的 plist，但 plist 指向的 executable 已不存在。\n\n常见原因包括 App 已被移除、更新后路径改变，或旧版 Helper 没有正确清除。这通常值得检查，但不代表一定可以直接删除。\n"
+  },
+  "status.orphaned.explanation_launchd": {
+    "zh-Hant": "此啟動項目的 plist 仍存在，但執行檔已不存在，可能是已移除 App 的殘留項目。",
+    "en": "This startup item's plist still exists, but its executable is missing. It may be a leftover from a removed app.",
+    "zh-Hans": "此启动项的 plist 仍存在，但可执行文件已不存在，可能是已移除 App 的残留项目。"
+  },
+  "status.orphaned.explanation_modern": {
+    "zh-Hant": "此啟動項目指向的 App 或執行檔已不存在，可能是已移除 App 的殘留項目。",
+    "en": "The app or executable referenced by this startup item is missing. It may be a leftover from a removed app.",
+    "zh-Hans": "此启动项指向的 App 或可执行文件已不存在，可能是已移除 App 的残留项目。"
+  },
+  "status.orphaned.name": {
+    "zh-Hant": "殘留",
+    "en": "Orphaned",
+    "zh-Hans": "残留"
+  },
+  "status.orphaned.short": {
+    "zh-Hant": "plist 仍存在，但指定執行檔已不存在。",
+    "en": "The plist still exists, but the specified executable is missing.",
+    "zh-Hans": "plist 仍存在，但指定可执行文件已不存在。"
+  },
+  "status.unknown.detailed": {
+    "zh-Hant": "MacAutorunsLite 目前無法確認此啟動項目的實際狀態。\n\n未知狀態不應自動停用、自動刪除，或標記成殘留，必須列入人工確認。\n",
+    "en": "MacAutorunsLite cannot currently confirm the actual state of this startup item.\n\nItems with an unknown state should not be automatically disabled, automatically deleted, or marked as orphaned. They must be reviewed manually.\n",
+    "zh-Hans": "MacAutorunsLite 当前无法确认此启动项的实际状态。\n\n未知状态不应自动停用、自动删除，或标记成残留，必须列入人工确认。\n"
+  },
+  "status.unknown.name": {
+    "zh-Hant": "未知",
+    "en": "Unknown",
+    "zh-Hans": "未知"
+  },
+  "status.unknown.short": {
+    "zh-Hant": "目前資訊不足，無法安全判斷。",
+    "en": "There is not enough information to make a safe determination.",
+    "zh-Hans": "当前信息不足，无法安全判断。"
+  },
+  "status.unloaded.detailed": {
+    "zh-Hant": "此項目的 plist 設定檔仍存在，但目前沒有註冊在對應的 launchd domain 中。\n\n這不一定代表異常，也不代表此項目可以刪除。可能原因包括 App 尚未啟動、只在需要時載入、使用者曾停止該服務，或該服務原本就不需要持續載入。\n\n未載入不代表無用，也不代表可以安全刪除。\n",
+    "en": "This item's plist configuration file still exists, but it is not currently registered in the corresponding launchd domain.\n\nThis is not necessarily abnormal, and it does not mean the item can be deleted. Possible reasons include the app not having been launched yet, the service loading only when needed, the user having stopped the service, or the service not needing to remain loaded.\n\nUnloaded does not mean unused, nor does it mean the item can be safely deleted.\n",
+    "zh-Hans": "此项目的 plist 配置文件仍存在，但当前没有注册在对应的 launchd domain 中。\n\n这不一定代表异常，也不代表此项目可以删除。可能原因包括 App 尚未启动、只在需要时加载、用户曾停止该服务，或该服务原本就不需要持续加载。\n\n未加载不代表无用，也不代表可以安全删除。\n"
+  },
+  "status.unloaded.name": {
+    "zh-Hant": "未載入",
+    "en": "Unloaded",
+    "zh-Hans": "未加载"
+  },
+  "status.unloaded.short": {
+    "zh-Hant": "plist 存在，但目前沒有載入到 launchd；這不一定是異常。",
+    "en": "The plist exists but is not currently loaded into launchd; this is not necessarily abnormal.",
+    "zh-Hans": "plist 存在，但当前没有加载到 launchd；这不一定是异常。"
+  },
+  "status_help.flow.load": {
+    "zh-Hant": "launchd 載入設定",
+    "en": "launchd loads configuration",
+    "zh-Hans": "launchd 加载设置"
+  },
+  "status_help.flow.plist": {
+    "zh-Hant": "plist",
+    "en": "plist",
+    "zh-Hans": "plist"
+  },
+  "status_help.flow.run": {
+    "zh-Hant": "執行程式",
+    "en": "Run program",
+    "zh-Hans": "执行程序"
+  },
+  "status_help.flow.wait": {
+    "zh-Hant": "等待啟動條件",
+    "en": "Wait for launch condition",
+    "zh-Hans": "等待启动条件"
+  },
+  "status_help.intro": {
+    "zh-Hant": "Mac 的自動啟動由 launchd 管理。",
+    "en": "Mac startup is managed by launchd.",
+    "zh-Hans": "Mac 的自动启动由 launchd 管理。"
+  },
+  "status_help.modern_sources_body": {
+    "zh-Hant": "這三種是 macOS 13 之後的現代啟動來源。Login Item 會在登入時開啟 App；Background Task 與 SMAppService 由系統設定的「登入項目與延伸功能」管理。它們的「已載入」不代表 launchd 已載入 plist。v0.2 只提供顯示與研究，請在系統設定中啟用或停用。",
+    "en": "These three are modern startup sources introduced in macOS 13 and later. Login Items open apps at login, while Background Tasks and SMAppService entries are managed in System Settings under Login Items & Extensions. Their “Loaded” state does not mean launchd has loaded a plist. In v0.2, they are shown for display and research only; enable or disable them in System Settings.",
+    "zh-Hans": "这三种是 macOS 13 之后的现代启动来源。Login Item 会在登录时开启 App；Background Task 与 SMAppService 由系统设置的「登录项目与扩展功能」管理。它们的「已加载」不代表 launchd 已加载 plist。v0.2 只提供显示与研究，请在系统设置中启用或停用。"
+  },
+  "status_help.modern_sources_title": {
+    "zh-Hant": "Login Item、Background Task、SMAppService",
+    "en": "Login Item, Background Task, SMAppService",
+    "zh-Hans": "Login Item、Background Task、SMAppService"
+  },
+  "status_help.note.loaded": {
+    "zh-Hant": "已載入不代表程式一定正在執行。",
+    "en": "Loaded does not mean the program is necessarily running.",
+    "zh-Hans": "已加载不代表程序一定正在执行。"
+  },
+  "status_help.note.recommendation": {
+    "zh-Hant": "MacAutorunsLite 會另外提供「處理建議」，協助你判斷是否需要停用或清理。",
+    "en": "MacAutorunsLite also provides “Recommendations” to help you decide whether an item should be disabled or cleaned up.",
+    "zh-Hans": "MacAutorunsLite 会另外提供「处理建议」，协助你判断是否需要停用或清理。"
+  },
+  "status_help.note.unloaded": {
+    "zh-Hant": "未載入也不代表此項目無用。",
+    "en": "Unloaded does not mean the item is unused.",
+    "zh-Hans": "未加载也不代表此项目无用。"
+  },
+  "status_help.title": {
+    "zh-Hant": "啟動項目狀態說明",
+    "en": "Startup Item Status Help",
+    "zh-Hans": "启动项状态说明"
+  },
+  "status_help.what_is_launch_agent": {
+    "zh-Hant": "什麼是 LaunchAgent？",
+    "en": "What is a LaunchAgent?",
+    "zh-Hans": "什么是 LaunchAgent？"
+  },
+  "status_help.what_is_launch_agent_body": {
+    "zh-Hant": "LaunchAgent 通常是在使用者登入後，由 launchd 管理的背景服務。它被載入後，不一定會立刻佔用 CPU 或記憶體。",
+    "en": "A LaunchAgent is usually a background service managed by launchd after a user logs in. Being loaded does not necessarily mean it immediately uses CPU or memory.",
+    "zh-Hans": "LaunchAgent 通常是在用户登录后，由 launchd 管理的背景服务。它被加载后，不一定会立刻占用 CPU 或内存。"
+  },
+  "status_help.what_is_launch_daemon": {
+    "zh-Hant": "什麼是 LaunchDaemon？",
+    "en": "What is a LaunchDaemon?",
+    "zh-Hans": "什么是 LaunchDaemon？"
+  },
+  "status_help.what_is_launch_daemon_body": {
+    "zh-Hant": "LaunchDaemon 是系統層級背景服務，通常不依賴某個使用者登入。",
+    "en": "A LaunchDaemon is a system-level background service and usually does not depend on a particular user being logged in.",
+    "zh-Hans": "LaunchDaemon 是系统级别背景服务，通常不依赖某个用户登录。"
+  },
+  "trash.confirm": {
+    "zh-Hant": "移到垃圾桶",
+    "en": "Move to Trash",
+    "zh-Hans": "移到废纸篓"
+  },
+  "trash.intro": {
+    "zh-Hant": "此項目的執行檔已不存在，MacAutorunsLite 判定它可能是舊 App 的殘留啟動設定。",
+    "en": "This item's executable is missing. MacAutorunsLite has determined that it may be leftover startup configuration from an old app.",
+    "zh-Hans": "此项目的可执行文件已不存在，MacAutorunsLite 判定它可能是旧 App 的残留启动设置。"
+  },
+  "trash.reversible_note": {
+    "zh-Hant": "此操作可從 macOS 垃圾桶手動復原。",
+    "en": "This action can be manually restored from the macOS Trash.",
+    "zh-Hans": "此操作可从 macOS 废纸篓手动恢复。"
+  },
+  "trash.title": {
+    "zh-Hant": "將啟動設定移到垃圾桶？",
+    "en": "Move startup configuration to Trash?",
+    "zh-Hans": "将启动设置移到废纸篓？"
+  },
+  "trash.will_disable_launchd": {
+    "zh-Hant": "停用 launchd 項目",
+    "en": "Disable launchd item",
+    "zh-Hans": "停用 launchd 项目"
+  },
+  "trash.will_move_plist": {
+    "zh-Hant": "將 plist 移到垃圾桶",
+    "en": "Move plist to Trash",
+    "zh-Hans": "将 plist 移到废纸篓"
+  },
+  "trash.will_not_delete_other_files": {
+    "zh-Hant": "刪除其他 App 檔案",
+    "en": "Delete other app files",
+    "zh-Hans": "删除其他 App 文件"
+  },
+  "trash.will_not_modify_apple": {
+    "zh-Hant": "修改 Apple 系統服務",
+    "en": "Modify Apple system services",
+    "zh-Hans": "修改 Apple 系统服务"
+  },
+  "trash.will_stop_if_loaded": {
+    "zh-Hant": "若仍載入則先停止",
+    "en": "Stop first if still loaded",
+    "zh-Hans": "若仍加载則先停止"
+  },
+  "type.background_task": {
+    "zh-Hant": "Background Task",
+    "en": "Background Task",
+    "zh-Hans": "Background Task"
+  },
+  "type.daemon": {
+    "zh-Hant": "Daemon",
+    "en": "Daemon",
+    "zh-Hans": "Daemon"
+  },
+  "type.login_item": {
+    "zh-Hant": "Login Item",
+    "en": "Login Item",
+    "zh-Hans": "Login Item"
+  },
+  "type.smappservice": {
+    "zh-Hant": "SMAppService",
+    "en": "SMAppService",
+    "zh-Hans": "SMAppService"
+  },
+  "type.source_background_task": {
+    "zh-Hant": "Background Task",
+    "en": "Background Task",
+    "zh-Hans": "Background Task"
+  },
+  "type.source_launch_daemon": {
+    "zh-Hant": "LaunchDaemon",
+    "en": "LaunchDaemon",
+    "zh-Hans": "LaunchDaemon"
+  },
+  "type.source_login_item": {
+    "zh-Hant": "Login Item",
+    "en": "Login Item",
+    "zh-Hans": "Login Item"
+  },
+  "type.source_smappservice": {
+    "zh-Hant": "SMAppService",
+    "en": "SMAppService",
+    "zh-Hans": "SMAppService"
+  },
+  "type.source_system_launch_agent": {
+    "zh-Hant": "System LaunchAgent",
+    "en": "System LaunchAgent",
+    "zh-Hans": "System LaunchAgent"
+  },
+  "type.source_user_launch_agent": {
+    "zh-Hant": "User LaunchAgent",
+    "en": "User LaunchAgent",
+    "zh-Hans": "User LaunchAgent"
+  },
+  "type.system_agent": {
+    "zh-Hant": "System Agent",
+    "en": "System Agent",
+    "zh-Hans": "System Agent"
+  },
+  "type.user_agent": {
+    "zh-Hant": "User Agent",
+    "en": "User Agent",
+    "zh-Hans": "User Agent"
+  }
+}

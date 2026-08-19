@@ -9,13 +9,13 @@ struct SafeActionResultSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(isUndo ? "復原完成" : result.title)
+            Text(isUndo ? L10n.text("safe_action.undo_title") : result.title)
                 .font(.title2.weight(.semibold))
 
             HStack(spacing: 16) {
-                summary("成功", result.succeeded, .green)
-                summary("失敗", result.failed, .red)
-                summary("跳過", result.skipped, .secondary)
+                summary(L10n.text("safe_action.succeeded"), result.succeeded, .green)
+                summary(L10n.text("safe_action.failed"), result.failed, .red)
+                summary(L10n.text("safe_action.skipped"), result.skipped, .secondary)
             }
 
             if showingDetails {
@@ -39,14 +39,14 @@ struct SafeActionResultSheet: View {
             }
 
             HStack {
-                Button("完成", action: onDone)
+                Button(L10n.text("common.done"), action: onDone)
                     .keyboardShortcut(.defaultAction)
                 Spacer()
-                Button(showingDetails ? "隱藏詳細結果" : "查看詳細結果") {
+                Button(showingDetails ? L10n.text("safe_action.hide_details") : L10n.text("safe_action.show_details")) {
                     showingDetails.toggle()
                 }
                 if !isUndo, result.snapshot != nil {
-                    Button("復原", action: onUndo)
+                    Button(L10n.text("safe_action.undo"), action: onUndo)
                 }
             }
             .textSelection(.disabled)

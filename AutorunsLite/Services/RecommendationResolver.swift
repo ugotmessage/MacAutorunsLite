@@ -14,14 +14,18 @@ struct RecommendationResolver: Sendable {
         case .safe:
             return RecommendationResult(
                 recommendation: .safeAction,
-                reason: "此項目符合 MacAutorunsLite 的保守安全條件。可停止並停用自動載入，原始 plist 仍保留，並可透過 Snapshot 復原。",
+                reason: L10n.text("recommendation.reason.safe_action"),
                 evidence: safeActionEvidence(item)
             )
         case .protected:
             return RecommendationResult(
                 recommendation: .protected,
-                reason: "此項目屬於 Apple 或 macOS 系統服務，MacAutorunsLite 不提供自動停用或刪除操作。",
-                evidence: ["Apple 或系統保護項目", "不自動停用", "不自動刪除"]
+                reason: L10n.text("recommendation.reason.protected"),
+                evidence: [
+                    L10n.text("recommendation.evidence.apple_or_system_protected"),
+                    L10n.text("recommendation.evidence.no_auto_disable"),
+                    L10n.text("recommendation.evidence.no_auto_delete")
+                ]
             )
         case .reviewRequired:
             return refineReview(item, safetyReason: safety.reason)
@@ -32,57 +36,75 @@ struct RecommendationResolver: Sendable {
         if isErrorStatus(item.loadStatus) {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "此項目發生錯誤，不得自動處理。",
-                evidence: ["狀態為錯誤", safetyReason]
+                reason: L10n.text("recommendation.reason.error"),
+                evidence: [L10n.text("recommendation.evidence.status_error"), safetyReason]
             )
         }
         if item.loadStatus == .unknown {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "目前資訊不足，無法安全判斷，必須列入人工確認。",
-                evidence: ["狀態為未知", "不應自動停用或刪除"]
+                reason: L10n.text("recommendation.reason.unknown"),
+                evidence: [
+                    L10n.text("recommendation.evidence.status_unknown"),
+                    L10n.text("recommendation.evidence.do_not_auto_disable_or_delete")
+                ]
             )
         }
         if looksLikeUpdaterOrHelper(item) {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "此項目名稱包含 Updater 或 Helper，可能仍由已安裝 App 使用，因此不自動處理。",
-                evidence: ["名稱類似 updater / helper", safetyReason]
+                reason: L10n.text("recommendation.reason.updater_helper"),
+                evidence: [L10n.text("recommendation.evidence.looks_like_updater_helper"), safetyReason]
             )
         }
         if hasKeepAlive(item) {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "此項目啟用 KeepAlive，可能被設計成持續維持，因此改列入手動確認。",
-                evidence: ["KeepAlive", safetyReason]
+                reason: L10n.text("recommendation.reason.keepalive"),
+                evidence: [L10n.text("recommendation.evidence.keepalive"), safetyReason]
+            )
+        }
+        if item.type.isModernSource {
+            return RecommendationResult(
+                recommendation: .reviewRequired,
+                reason: L10n.text("recommendation.reason.modern_source"),
+                evidence: [
+                    L10n.text("recommendation.evidence.modern_source"),
+                    L10n.text("recommendation.evidence.no_auto_disable"),
+                    L10n.text("recommendation.evidence.no_auto_delete"),
+                    safetyReason
+                ]
             )
         }
         if item.type == .launchDaemon {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "LaunchDaemon 是系統層級背景服務，可能需要管理者權限，因此不自動處理。",
-                evidence: ["類型為 LaunchDaemon", safetyReason]
+                reason: L10n.text("recommendation.reason.launch_daemon"),
+                evidence: [L10n.text("recommendation.evidence.type_launch_daemon"), safetyReason]
             )
         }
         if item.type == .systemLaunchAgent {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "System LaunchAgent 不納入自動處理，建議先確認來源後再決定。",
-                evidence: ["類型為 System LaunchAgent", safetyReason]
+                reason: L10n.text("recommendation.reason.system_launch_agent"),
+                evidence: [L10n.text("recommendation.evidence.type_system_launch_agent"), safetyReason]
             )
         }
         if item.origin == .unknown {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "來源無法完全判斷，因此不自動停用或刪除。",
-                evidence: ["來源未知", safetyReason]
+                reason: L10n.text("recommendation.reason.origin_unknown"),
+                evidence: [L10n.text("recommendation.evidence.origin_unknown"), safetyReason]
             )
         }
         if item.loadStatus.isOrphaned, appStillInstalled(item) {
             return RecommendationResult(
                 recommendation: .reviewRequired,
-                reason: "plist 指向的執行檔已不存在，但相關 App 仍安裝，可能只是路徑變更，因此不自動處理。",
-                evidence: ["狀態為殘留", "App 仍安裝"]
+                reason: L10n.text("recommendation.reason.orphaned_app_still_installed"),
+                evidence: [
+                    L10n.text("recommendation.evidence.status_orphaned"),
+                    L10n.text("recommendation.evidence.app_still_installed")
+                ]
             )
         }
         if isHealthyInstalledItem(item) {
@@ -91,8 +113,13 @@ struct RecommendationResolver: Sendable {
         if canConsiderDisable(item) {
             return RecommendationResult(
                 recommendation: .canDisable,
-                reason: "此項目仍屬於已安裝 App。若你不希望它自動啟動，可以選擇停用，但不建議直接刪除 plist。",
-                evidence: ["第三方 User LaunchAgent", "執行檔仍存在", "App 仍安裝", "刪除不是必要動作"]
+                reason: L10n.text("recommendation.reason.can_disable"),
+                evidence: [
+                    L10n.text("recommendation.evidence.third_party_user_launch_agent"),
+                    L10n.text("recommendation.evidence.executable_exists"),
+                    L10n.text("recommendation.evidence.app_still_installed"),
+                    L10n.text("recommendation.evidence.delete_not_required")
+                ]
             )
         }
 
@@ -108,20 +135,33 @@ struct RecommendationResolver: Sendable {
         case .unloaded:
             return RecommendationResult(
                 recommendation: .keep,
-                reason: "此項目目前未由 launchd 載入，但相關 App 與執行檔仍存在。未載入本身不是刪除理由。",
-                evidence: ["狀態為未載入", "執行檔仍存在", "相關 App 仍存在", "未載入不代表無用"]
+                reason: L10n.text("recommendation.reason.keep_unloaded"),
+                evidence: [
+                    L10n.text("recommendation.evidence.status_unloaded"),
+                    L10n.text("recommendation.evidence.executable_exists"),
+                    L10n.text("recommendation.evidence.related_app_exists"),
+                    L10n.text("recommendation.evidence.unloaded_not_unused")
+                ]
             )
         case .disabled:
             return RecommendationResult(
                 recommendation: .keep,
-                reason: "此項目目前已停用，相關 App 仍存在。如果這是你的預期設定，不需要其他處理。",
-                evidence: ["狀態為已停用", "執行檔仍存在", "相關 App 仍存在"]
+                reason: L10n.text("recommendation.reason.keep_disabled"),
+                evidence: [
+                    L10n.text("recommendation.evidence.status_disabled"),
+                    L10n.text("recommendation.evidence.executable_exists"),
+                    L10n.text("recommendation.evidence.related_app_exists")
+                ]
             )
         default:
             return RecommendationResult(
                 recommendation: .keep,
-                reason: "此項目屬於目前仍安裝的 App，建議保留。",
-                evidence: ["執行檔仍存在", "相關 App 仍存在", "不是殘留項目"]
+                reason: L10n.text("recommendation.reason.keep_default"),
+                evidence: [
+                    L10n.text("recommendation.evidence.executable_exists"),
+                    L10n.text("recommendation.evidence.related_app_exists"),
+                    L10n.text("recommendation.evidence.not_orphaned")
+                ]
             )
         }
     }
@@ -179,13 +219,13 @@ struct RecommendationResolver: Sendable {
 
     private func safeActionEvidence(_ item: StartupItem) -> [String] {
         var evidence = [
-            "第三方 User LaunchAgent",
-            "執行檔已不存在",
-            "非 Apple/System",
-            "非 KeepAlive"
+            L10n.text("recommendation.evidence.third_party_user_launch_agent"),
+            L10n.text("recommendation.evidence.executable_missing"),
+            L10n.text("recommendation.evidence.not_apple_system"),
+            L10n.text("recommendation.evidence.not_keepalive")
         ]
         if !appStillInstalled(item) {
-            evidence.insert("App 已不存在", at: 2)
+            evidence.insert(L10n.text("recommendation.evidence.app_missing"), at: 2)
         }
         return evidence
     }

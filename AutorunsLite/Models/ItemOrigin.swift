@@ -8,11 +8,11 @@ enum ItemOrigin: String, Hashable, Sendable {
     var displayName: String {
         switch self {
         case .appleSystem:
-            return "Apple/System"
+            return L10n.text("origin.apple_system")
         case .thirdParty:
-            return "Third Party"
+            return L10n.text("origin.third_party")
         case .unknown:
-            return "Unknown"
+            return L10n.text("origin.unknown")
         }
     }
 

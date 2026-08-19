@@ -10,11 +10,11 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .system:
-            return "跟隨系統"
+            return L10n.text("appearance.system")
         case .light:
-            return "淺色"
+            return L10n.text("appearance.light")
         case .dark:
-            return "深色"
+            return L10n.text("appearance.dark")
         }
     }
 
