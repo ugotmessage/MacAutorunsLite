@@ -4,9 +4,7 @@ enum LoadStatusResolver: Sendable {
     static func resolve(
         executableExists: Bool,
         isDisabled: Bool,
-        printSucceeded: Bool,
-        printOutput: String,
-        exitCode: Int32
+        runtimeState: ServicePrintState
     ) -> LoadStatus {
         if !executableExists {
             return .orphaned
@@ -14,18 +12,32 @@ enum LoadStatusResolver: Sendable {
         if isDisabled {
             return .disabled
         }
-        if printSucceeded {
+        switch runtimeState {
+        case .loaded:
             return .loaded
-        }
-
-        let output = printOutput.lowercased()
-        if output.contains("could not find service") || output.contains("could not find domain") {
+        case .notFound:
             return .unloaded
+        case .error(let message):
+            return .error(message)
         }
-        if exitCode != 0 {
-            let message = printOutput.trimmingCharacters(in: .whitespacesAndNewlines)
-            return .error(message.isEmpty ? "launchctl print failed (\(exitCode))" : message)
-        }
-        return .unknown
+    }
+
+    static func resolve(
+        executableExists: Bool,
+        isDisabled: Bool,
+        printSucceeded: Bool,
+        printOutput: String,
+        exitCode: Int32
+    ) -> LoadStatus {
+        let result = LaunchctlResult(
+            exitCode: printSucceeded ? 0 : exitCode,
+            stdout: printOutput,
+            stderr: ""
+        )
+        return resolve(
+            executableExists: executableExists,
+            isDisabled: isDisabled,
+            runtimeState: LaunchctlService.interpretPrintResult(result)
+        )
     }
 }

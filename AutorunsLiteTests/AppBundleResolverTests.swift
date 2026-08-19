@@ -79,4 +79,25 @@ final class LaunchctlServiceTests: XCTestCase {
         XCTAssertFalse(labels.contains("com.example.enabled"))
         XCTAssertFalse(labels.contains("com.example.false"))
     }
+
+    func testInterpretPrintResultDistinguishesMissingAndError() {
+        let loaded = LaunchctlService.interpretPrintResult(
+            LaunchctlResult(exitCode: 0, stdout: "state = running", stderr: "")
+        )
+        XCTAssertEqual(loaded, .loaded)
+
+        let missing = LaunchctlService.interpretPrintResult(
+            LaunchctlResult(exitCode: 113, stdout: "", stderr: "Could not find service \"com.example\" in domain")
+        )
+        XCTAssertEqual(missing, .notFound)
+
+        let denied = LaunchctlService.interpretPrintResult(
+            LaunchctlResult(exitCode: 1, stdout: "", stderr: "Permission denied")
+        )
+        if case .error(let message) = denied {
+            XCTAssertTrue(message.lowercased().contains("permission"))
+        } else {
+            XCTFail("expected error, got \(denied)")
+        }
+    }
 }

@@ -64,18 +64,29 @@ final class StartupViewModel: ObservableObject {
     @Published var showingSafeActionResult = false
     @Published var lastSafeActionWasUndo = false
     @Published var isPerformingSafeAction = false
+    @Published var showingStatusHelp = false
+    @Published var pendingTrashItem: StartupItem?
+    @Published private(set) var notesByPath: [String: String] = [:]
 
     private let scanner: StartupScanner
     private let launchctl: LaunchctlService
     private let classifier = SafetyClassifier()
+    private let recommendationResolver = RecommendationResolver()
     private let safeActionService = SafeActionService()
+    private let trashService: TrashService
+    private let notesStore: ItemNotesStore
 
     init(
         scanner: StartupScanner = StartupScanner(),
-        launchctl: LaunchctlService = LaunchctlService()
+        launchctl: LaunchctlService = LaunchctlService(),
+        trashService: TrashService = WorkspaceTrashService(),
+        notesStore: ItemNotesStore = ItemNotesStore()
     ) {
         self.scanner = scanner
         self.launchctl = launchctl
+        self.trashService = trashService
+        self.notesStore = notesStore
+        self.notesByPath = notesStore.load()
     }
 
     var selectedItem: StartupItem? {
@@ -104,6 +115,18 @@ final class StartupViewModel: ObservableObject {
 
     var safeActionCount: Int {
         currentSafeActionDryRun.safeCount
+    }
+
+    var reviewRequiredCount: Int {
+        items.filter { recommendation(for: $0).recommendation == .reviewRequired }.count
+    }
+
+    func recommendation(for item: StartupItem) -> RecommendationResult {
+        recommendationResolver.resolve(item)
+    }
+
+    func canMoveToTrash(_ item: StartupItem) -> Bool {
+        TrashEligibility.canMoveToTrash(item, recommendation: recommendation(for: item).recommendation)
     }
 
     var canUndoSafeAction: Bool {
@@ -245,6 +268,98 @@ final class StartupViewModel: ObservableObject {
         showingSafeActionResult = false
     }
 
+    func requestMoveToTrash(_ item: StartupItem) {
+        guard canMoveToTrash(item) else { return }
+        pendingTrashItem = item
+    }
+
+    func cancelMoveToTrash() {
+        pendingTrashItem = nil
+    }
+
+    func confirmMoveToTrash() async {
+        guard let item = pendingTrashItem else { return }
+        pendingTrashItem = nil
+        guard canMoveToTrash(item) else {
+            operationFailure = OperationFailure(
+                title: "此項目不符合移到垃圾桶的條件。",
+                command: "",
+                exitCode: -1,
+                stdout: "",
+                stderr: item.label
+            )
+            return
+        }
+        guard TrashEligibility.isAllowedUserLaunchAgentPlist(item) else {
+            operationFailure = OperationFailure(
+                title: "只能將使用者 LaunchAgent 的 plist 移到垃圾桶。",
+                command: "",
+                exitCode: -1,
+                stdout: "",
+                stderr: item.plistPath
+            )
+            return
+        }
+
+        isPerformingSafeAction = true
+        log("move to trash started \(item.label)")
+
+        if item.launchdLoaded {
+            let bootout = await launchctl.bootout(domain: item.type.launchctlDomain, plistPath: item.plistPath)
+            if !bootout.succeeded
+                && !bootout.combinedOutput.lowercased().contains("could not find service")
+                && !bootout.combinedOutput.lowercased().contains("not found")
+            {
+                isPerformingSafeAction = false
+                operationFailure = OperationFailure(
+                    title: "無法停止此項目，因此沒有移到垃圾桶。",
+                    command: bootout.command,
+                    exitCode: bootout.exitCode,
+                    stdout: bootout.stdout,
+                    stderr: bootout.stderr
+                )
+                return
+            }
+        }
+
+        if !item.persistentlyDisabled {
+            let disable = await launchctl.disable(domain: item.type.launchctlDomain, label: item.label)
+            if !disable.succeeded {
+                isPerformingSafeAction = false
+                operationFailure = OperationFailure(
+                    title: "無法停用此項目，因此沒有移到垃圾桶。",
+                    command: disable.command,
+                    exitCode: disable.exitCode,
+                    stdout: disable.stdout,
+                    stderr: disable.stderr
+                )
+                return
+            }
+        }
+
+        do {
+            try await trashService.trash(url: URL(fileURLWithPath: item.plistPath))
+            log("moved to trash \(item.label)")
+        } catch {
+            isPerformingSafeAction = false
+            operationFailure = OperationFailure(
+                title: "無法將 plist 移到垃圾桶。",
+                command: "NSWorkspace.recycle",
+                exitCode: -1,
+                stdout: "",
+                stderr: error.localizedDescription
+            )
+            await refreshTarget(item)
+            return
+        }
+
+        isPerformingSafeAction = false
+        await refresh()
+        if selectedItemID == item.id {
+            selectedItemID = nil
+        }
+    }
+
     func showInFinder(_ item: StartupItem) {
         NSWorkspace.shared.activateFileViewerSelecting([
             URL(fileURLWithPath: item.plistPath)
@@ -278,6 +393,35 @@ final class StartupViewModel: ObservableObject {
         }
     }
 
+    func openServiceResearch(
+        for item: StartupItem,
+        settings: AppSettings,
+        session: ServiceResearchSession,
+        openEmbedded: () -> Void
+    ) {
+        session.item = item
+        session.initialQueryType = .overview
+        let research = ServiceResearchService()
+        let result = research.query(item: item, type: .overview, settings: settings)
+        switch settings.researchBrowserMode {
+        case .embedded:
+            openEmbedded()
+        case .system:
+            if let url = research.searchURL(for: result.query) {
+                NSWorkspace.shared.open(url)
+            } else {
+                log("unable to build search URL for \(result.query)")
+                operationFailure = OperationFailure(
+                    title: "無法建立搜尋網址。",
+                    command: result.query,
+                    exitCode: -1,
+                    stdout: "",
+                    stderr: "Search URL builder returned nil"
+                )
+            }
+        }
+    }
+
     func canStart(_ item: StartupItem) -> Bool {
         !item.isSystemProtected && !item.loadStatus.isOrphaned && item.loadStatus != .loaded
     }
@@ -292,6 +436,30 @@ final class StartupViewModel: ObservableObject {
 
     func canDisable(_ item: StartupItem) -> Bool {
         !item.isSystemProtected && item.loadStatus != .disabled
+    }
+
+    func note(for item: StartupItem) -> String {
+        notesByPath[item.plistPath] ?? ""
+    }
+
+    func notePreview(for item: StartupItem) -> String? {
+        let trimmed = note(for: item)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: "\n", with: " ")
+        guard !trimmed.isEmpty else { return nil }
+        return trimmed
+    }
+
+    func setNote(_ text: String, for item: StartupItem) {
+        var updated = notesByPath
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            updated.removeValue(forKey: item.plistPath)
+        } else {
+            updated[item.plistPath] = text
+        }
+        notesByPath = updated
+        notesStore.save(updated)
     }
 
     private func runMutation(
@@ -364,7 +532,8 @@ final class StartupViewModel: ObservableObject {
             item.plistPath,
             item.arguments.joined(separator: " "),
             item.displayName,
-            item.appBundleIdentifier ?? ""
+            item.appBundleIdentifier ?? "",
+            note(for: item)
         ].joined(separator: "\n")
         return haystack.localizedCaseInsensitiveContains(query)
     }

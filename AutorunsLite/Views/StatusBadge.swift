@@ -10,7 +10,9 @@ struct StatusBadge: View {
             Text(status.displayName)
         }
         .foregroundStyle(status.color)
+        .help(status.shortDescription)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(status.accessibilityLabel)
+        .textSelection(.disabled)
     }
 }

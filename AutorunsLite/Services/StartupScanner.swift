@@ -5,7 +5,16 @@ struct ScanDirectory: Sendable {
     let type: StartupItemType
 }
 
+private struct DiscoveredLaunchItem: Sendable {
+    let plistURL: URL
+    let type: StartupItemType
+    let parsed: ParsedLaunchPlist?
+    let parseErrorDescription: String?
+}
+
 final class StartupScanner: Sendable {
+    private static let printConcurrency = 8
+
     private let launchctl: LaunchctlService
     private let parser: PlistParser
     private let bundleResolver: AppBundleResolver
@@ -26,72 +35,67 @@ final class StartupScanner: Sendable {
 
         async let guiDisabledResult = launchctl.printDisabled(domain: guiDomain)
         async let systemDisabledResult = launchctl.printDisabled(domain: "system")
-        async let guiPrintResult = launchctl.printDomain(guiDomain)
-        async let systemPrintResult = launchctl.printDomain("system")
 
-        let (guiDisabled, systemDisabled, guiPrint, systemPrint) = await (
-            guiDisabledResult,
-            systemDisabledResult,
-            guiPrintResult,
-            systemPrintResult
-        )
+        let discovered = discoverItems()
 
+        let (guiDisabled, systemDisabled) = await (guiDisabledResult, systemDisabledResult)
         let disabledGUI = launchctl.parseDisabledLabels(from: guiDisabled.stdout)
         let disabledSystem = launchctl.parseDisabledLabels(from: systemDisabled.stdout)
-        let loadedGUI = launchctl.parseLoadedLabels(from: guiPrint.stdout)
-        let loadedSystem = launchctl.parseLoadedLabels(from: systemPrint.stdout)
 
-        let discovered = Self.scanDirectories().flatMap { plistFiles(in: $0) }
+        var items: [StartupItem] = []
+        items.reserveCapacity(discovered.count)
 
-        let items = discovered.compactMap { entry in
-            makeItem(
-                plistURL: entry.url,
-                type: entry.type,
-                disabledGUI: disabledGUI,
-                disabledSystem: disabledSystem,
-                loadedGUI: loadedGUI,
-                loadedSystem: loadedSystem
-            )
+        for batch in discovered.chunked(into: Self.printConcurrency) {
+            let batchItems = await withTaskGroup(of: StartupItem.self, returning: [StartupItem].self) { group in
+                for item in batch {
+                    group.addTask {
+                        await self.makeItem(
+                            discovered: item,
+                            disabledGUI: disabledGUI,
+                            disabledSystem: disabledSystem
+                        )
+                    }
+                }
+
+                var collected: [StartupItem] = []
+                collected.reserveCapacity(batch.count)
+                for await item in group {
+                    collected.append(item)
+                }
+                return collected
+            }
+            items.append(contentsOf: batchItems)
         }
 
         return items.sortedForDisplay()
     }
 
     func refreshItem(_ item: StartupItem) async -> StartupItem? {
+        let plistURL = URL(fileURLWithPath: item.plistPath)
+        guard FileManager.default.fileExists(atPath: plistURL.path) else {
+            return nil
+        }
+
         let uid = getuid()
         let guiDomain = "gui/\(uid)"
-        let domain = item.type.launchctlDomain
 
         async let guiDisabledResult = launchctl.printDisabled(domain: guiDomain)
         async let systemDisabledResult = launchctl.printDisabled(domain: "system")
-        async let printResult = launchctl.printService(domain: domain, label: item.label)
-        let (guiDisabled, systemDisabled, printed) = await (
-            guiDisabledResult,
-            systemDisabledResult,
-            printResult
-        )
+        let (guiDisabled, systemDisabled) = await (guiDisabledResult, systemDisabledResult)
 
-        var loadedGUI = Set<String>()
-        var loadedSystem = Set<String>()
-        if printed.succeeded {
-            if item.type == .launchDaemon {
-                loadedSystem.insert(item.label)
-            } else {
-                loadedGUI.insert(item.label)
-            }
-        }
-
-        return makeItem(
-            plistURL: URL(fileURLWithPath: item.plistPath),
-            type: item.type,
+        let discovered = discoverItem(plistURL: URL(fileURLWithPath: item.plistPath), type: item.type)
+        return await makeItem(
+            discovered: discovered,
             disabledGUI: launchctl.parseDisabledLabels(from: guiDisabled.stdout),
-            disabledSystem: launchctl.parseDisabledLabels(from: systemDisabled.stdout),
-            loadedGUI: loadedGUI,
-            loadedSystem: loadedSystem
+            disabledSystem: launchctl.parseDisabledLabels(from: systemDisabled.stdout)
         )
     }
 
     static func scanDirectories() -> [ScanDirectory] {
+        // Scan scope is traditional launchd plists only:
+        // ~/Library/LaunchAgents, /Library/LaunchAgents, /Library/LaunchDaemons.
+        // SMAppService / Login Items / Background Tasks are not scanned, so a loaded
+        // launchd service without a matching plist here may not appear.
         let home = FileManager.default.homeDirectoryForCurrentUser
         return [
             ScanDirectory(
@@ -109,6 +113,33 @@ final class StartupScanner: Sendable {
         ]
     }
 
+    private func discoverItems() -> [DiscoveredLaunchItem] {
+        Self.scanDirectories().flatMap { directory in
+            plistFiles(in: directory).map { entry in
+                discoverItem(plistURL: entry.url, type: entry.type)
+            }
+        }
+    }
+
+    private func discoverItem(plistURL: URL, type: StartupItemType) -> DiscoveredLaunchItem {
+        do {
+            let parsed = try parser.parse(url: plistURL)
+            return DiscoveredLaunchItem(
+                plistURL: plistURL,
+                type: type,
+                parsed: parsed,
+                parseErrorDescription: nil
+            )
+        } catch {
+            return DiscoveredLaunchItem(
+                plistURL: plistURL,
+                type: type,
+                parsed: nil,
+                parseErrorDescription: error.localizedDescription
+            )
+        }
+    }
+
     private func plistFiles(in directory: ScanDirectory) -> [(url: URL, type: StartupItemType)] {
         guard let contents = try? FileManager.default.contentsOfDirectory(
             at: directory.url,
@@ -124,29 +155,23 @@ final class StartupScanner: Sendable {
     }
 
     private func makeItem(
-        plistURL: URL,
-        type: StartupItemType,
+        discovered: DiscoveredLaunchItem,
         disabledGUI: Set<String>,
-        disabledSystem: Set<String>,
-        loadedGUI: Set<String>,
-        loadedSystem: Set<String>
-    ) -> StartupItem? {
-        let plistPath = plistURL.path
-        let parsed: ParsedLaunchPlist
-        do {
-            parsed = try parser.parse(url: plistURL)
-        } catch {
+        disabledSystem: Set<String>
+    ) async -> StartupItem {
+        let plistPath = discovered.plistURL.path
+        guard let parsed = discovered.parsed else {
             return StartupItem(
                 id: plistPath,
-                label: plistURL.deletingPathExtension().lastPathComponent,
+                label: discovered.plistURL.deletingPathExtension().lastPathComponent,
                 plistPath: plistPath,
                 executablePath: nil,
                 arguments: [],
-                type: type,
+                type: discovered.type,
                 runAtLoad: false,
                 keepAliveDescription: nil,
                 executableExists: false,
-                loadStatus: .error(error.localizedDescription),
+                loadStatus: .error(discovered.parseErrorDescription ?? "無法解析 plist"),
                 workingDirectory: nil,
                 environmentVariables: [:],
                 standardOutPath: nil,
@@ -169,16 +194,21 @@ final class StartupScanner: Sendable {
             plistPath: plistPath,
             executablePath: executablePath
         )
-
-        let disabledSet = type == .launchDaemon ? disabledSystem : disabledGUI
-        let loadedSet = type == .launchDaemon ? loadedSystem : loadedGUI
-        let isLoaded = loadedSet.contains(parsed.label)
+        let disabledSet = discovered.type == .launchDaemon ? disabledSystem : disabledGUI
+        let isDisabled = disabledSet.contains(parsed.label)
+        let runtime = await runtimeState(label: parsed.label, type: discovered.type)
         let loadStatus = LoadStatusResolver.resolve(
             executableExists: executableExists,
-            isDisabled: disabledSet.contains(parsed.label),
-            printSucceeded: isLoaded,
-            printOutput: isLoaded ? "" : "Could not find service \"\(parsed.label)\" in domain",
-            exitCode: isLoaded ? 0 : 113
+            isDisabled: isDisabled,
+            runtimeState: runtime
+        )
+        let isLoaded = (runtime == .loaded)
+
+        logScan(
+            label: parsed.label,
+            domain: discovered.type.launchctlDomain,
+            runtime: runtime,
+            status: loadStatus
         )
 
         return StartupItem(
@@ -187,7 +217,7 @@ final class StartupScanner: Sendable {
             plistPath: plistPath,
             executablePath: executablePath,
             arguments: parsed.arguments,
-            type: type,
+            type: discovered.type,
             runAtLoad: parsed.runAtLoad,
             keepAliveDescription: parsed.keepAliveDescription,
             executableExists: executableExists,
@@ -202,11 +232,18 @@ final class StartupScanner: Sendable {
             appBundlePath: bundle.bundlePath,
             origin: origin,
             launchdLoaded: isLoaded,
-            persistentlyDisabled: disabledSet.contains(parsed.label)
+            persistentlyDisabled: isDisabled
         )
     }
 
+    private func runtimeState(label: String, type: StartupItemType) async -> ServicePrintState {
+        await launchctl.serviceState(domain: type.launchctlDomain, label: label)
+    }
+
     private func executableExistsOnDisk(_ path: String?) -> Bool {
+        // TODO:
+        // Improve ownership/orphan detection for wrapper executables such as
+        // /usr/bin/open, /bin/sh, /usr/bin/env.
         guard let path, !path.isEmpty else {
             return false
         }
@@ -216,5 +253,33 @@ final class StartupScanner: Sendable {
     private func emptyToNil(_ value: String?) -> String? {
         guard let value, !value.isEmpty else { return nil }
         return value
+    }
+
+    private func logScan(
+        label: String,
+        domain: String,
+        runtime: ServicePrintState,
+        status: LoadStatus
+    ) {
+        #if DEBUG
+        switch runtime {
+        case .loaded:
+            print("[Scan]\n\(label)\ndomain = \(domain)\nexitCode = 0\nstatus = loaded")
+        case .notFound:
+            print("[Scan]\n\(label)\ndomain = \(domain)\nexitCode = 113\nstatus = unloaded")
+        case .error(let message):
+            print("[Scan]\n\(label)\ndomain = \(domain)\nstatus = error\nstderr = \(message)")
+        }
+        _ = status
+        #endif
+    }
+}
+
+private extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        guard size > 0, !isEmpty else { return isEmpty ? [] : [self] }
+        return stride(from: 0, to: count, by: size).map { start in
+            Array(self[start..<Swift.min(start + size, count)])
+        }
     }
 }

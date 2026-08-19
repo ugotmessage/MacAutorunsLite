@@ -8,8 +8,14 @@ enum StartupFilter: String, CaseIterable, Identifiable, Hashable, Sendable {
     case loaded
     case disabled
     case orphaned
+    case safeAction
+    case reviewRequired
 
     var id: String { rawValue }
+
+    static var toolbarFilters: [StartupFilter] {
+        [.all, .userLaunchAgents, .systemLaunchAgents, .launchDaemons, .loaded, .disabled, .orphaned]
+    }
 
     var title: String {
         switch self {
@@ -27,6 +33,10 @@ enum StartupFilter: String, CaseIterable, Identifiable, Hashable, Sendable {
             return "已停用"
         case .orphaned:
             return "殘留"
+        case .safeAction:
+            return "可安全處理"
+        case .reviewRequired:
+            return "建議檢查"
         }
     }
 
@@ -46,6 +56,10 @@ enum StartupFilter: String, CaseIterable, Identifiable, Hashable, Sendable {
             return item.loadStatus == .disabled
         case .orphaned:
             return item.loadStatus.isOrphaned
+        case .safeAction:
+            return RecommendationResolver().resolve(item).recommendation == .safeAction
+        case .reviewRequired:
+            return RecommendationResolver().resolve(item).recommendation == .reviewRequired
         }
     }
 }

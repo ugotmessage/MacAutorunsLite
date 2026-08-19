@@ -62,9 +62,11 @@ struct SafeActionPreviewSheet: View {
                 .keyboardShortcut(.defaultAction)
                 .disabled(dryRun.safeCount == 0)
             }
+            .textSelection(.disabled)
         }
         .padding(20)
         .frame(minWidth: 560, minHeight: 520)
+        .textSelection(.enabled)
     }
 
     private func countChip(_ title: String, _ count: Int, _ color: Color) -> some View {

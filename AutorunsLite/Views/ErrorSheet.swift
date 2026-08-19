@@ -28,9 +28,11 @@ struct ErrorSheet: View {
                 Button("關閉") { dismiss() }
                     .keyboardShortcut(.defaultAction)
             }
+            .textSelection(.disabled)
         }
         .padding(20)
         .frame(minWidth: 520, minHeight: 280)
+        .textSelection(.enabled)
     }
 
     private func labeled(_ title: String, _ value: String) -> some View {
@@ -40,7 +42,6 @@ struct ErrorSheet: View {
                 .foregroundStyle(.secondary)
             Text(value)
                 .font(.system(.body, design: .monospaced))
-                .textSelection(.enabled)
         }
     }
 }

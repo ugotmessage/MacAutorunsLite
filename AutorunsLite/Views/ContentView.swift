@@ -3,6 +3,7 @@ import AppKit
 
 struct ContentView: View {
     @EnvironmentObject private var settings: AppSettings
+    @Environment(\.openSettings) private var openSettings
     @StateObject private var viewModel = StartupViewModel()
 
     var body: some View {
@@ -121,6 +122,18 @@ struct ContentView: View {
                 )
             }
         }
+        .sheet(isPresented: $viewModel.showingStatusHelp) {
+            StatusHelpSheet()
+        }
+        .sheet(item: $viewModel.pendingTrashItem) { item in
+            MoveToTrashSheet(
+                item: item,
+                onCancel: viewModel.cancelMoveToTrash,
+                onConfirm: {
+                    Task { await viewModel.confirmMoveToTrash() }
+                }
+            )
+        }
         .confirmationDialog(
             disableTitle,
             isPresented: Binding(
@@ -140,12 +153,15 @@ struct ContentView: View {
         }
         .overlay {
             if viewModel.isPerformingSafeAction {
-                ProgressView("正在安全處理…")
+                ProgressView("正在處理…")
                     .padding(16)
                     .background(Color(nsColor: .controlBackgroundColor))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
-            } else if viewModel.isLoading && viewModel.items.isEmpty {
-                ProgressView("正在掃描啟動項目…")
+            } else if viewModel.isLoading {
+                ProgressView("正在掃描…")
+                    .padding(16)
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
     }
@@ -158,11 +174,16 @@ struct ContentView: View {
     }
 
     private func openAppSettings() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 80_000_000)
+            NSApp.activate(ignoringOtherApps: true)
+            openSettings()
+        }
     }
 }
 
 #Preview {
     ContentView()
         .environmentObject(AppSettings())
+        .environmentObject(ServiceResearchSession())
 }

@@ -1,6 +1,12 @@
 import Foundation
 import Darwin
 
+enum ServicePrintState: Equatable, Sendable {
+    case loaded
+    case notFound
+    case error(String)
+}
+
 final class LaunchctlService: Sendable {
     func run(_ arguments: [String]) async -> LaunchctlResult {
         await Task.detached(priority: .userInitiated) {
@@ -10,6 +16,27 @@ final class LaunchctlService: Sendable {
 
     func printService(domain: String, label: String) async -> LaunchctlResult {
         await run(["print", "\(domain)/\(label)"])
+    }
+
+    func serviceState(domain: String, label: String) async -> ServicePrintState {
+        Self.interpretPrintResult(await printService(domain: domain, label: label))
+    }
+
+    static func interpretPrintResult(_ result: LaunchctlResult) -> ServicePrintState {
+        if result.succeeded {
+            return .loaded
+        }
+
+        let output = result.combinedOutput.lowercased()
+        if output.contains("could not find service")
+            || output.contains("service cannot be found")
+            || output.contains("could not find domain")
+        {
+            return .notFound
+        }
+
+        let message = result.combinedOutput.trimmingCharacters(in: .whitespacesAndNewlines)
+        return .error(message.isEmpty ? "launchctl print failed (\(result.exitCode))" : message)
     }
 
     func printDomain(_ domain: String) async -> LaunchctlResult {
@@ -65,6 +92,7 @@ final class LaunchctlService: Sendable {
         return disabled
     }
 
+    @available(*, deprecated, message: "Do not use for loaded-state detection. Query launchctl print domain/label instead.")
     func parseLoadedLabels(from stdout: String) -> Set<String> {
         guard let servicesStart = stdout.range(of: "services = {") else {
             return []

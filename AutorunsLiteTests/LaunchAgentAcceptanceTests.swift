@@ -2,26 +2,27 @@ import XCTest
 @testable import AutorunsLite
 
 final class LaunchAgentAcceptanceTests: XCTestCase {
-    private let label = "com.autorunslite.test"
     private let launchctl = LaunchctlService()
-    private var plistURL: URL {
+    private let loadedLabel = "com.macautorunslite.loadedtest"
+    private let unloadedLabel = "com.macautorunslite.unloadedtest"
+    private let orphanLabel = "com.macautorunslite.orphantest"
+    private let disabledLabel = "com.macautorunslite.disabledtest"
+
+    private var agentsDirectory: URL {
         FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/LaunchAgents/\(label).plist")
+            .appendingPathComponent("Library/LaunchAgents")
     }
 
     override func tearDown() async throws {
-        _ = await launchctl.bootout(domain: "gui/\(getuid())", plistPath: plistURL.path)
-        try? FileManager.default.removeItem(at: plistURL)
+        await cleanup(label: loadedLabel)
+        await cleanup(label: unloadedLabel)
+        await cleanup(label: orphanLabel)
+        await cleanup(label: disabledLabel)
         try await super.tearDown()
     }
 
-    func testUserLaunchAgentBootstrapPrintAndBootout() async throws {
-        try FileManager.default.createDirectory(
-            at: plistURL.deletingLastPathComponent(),
-            withIntermediateDirectories: true
-        )
-        try plistXML.write(to: plistURL, atomically: true, encoding: .utf8)
-
+    func testLoadedUserLaunchAgent() async throws {
+        let plistURL = try writePlist(label: loadedLabel, program: "/bin/sh", extra: sleepArguments)
         let domain = "gui/\(getuid())"
         let bootstrap = await launchctl.bootstrap(domain: domain, plistPath: plistURL.path)
         XCTAssertTrue(
@@ -29,32 +30,68 @@ final class LaunchAgentAcceptanceTests: XCTestCase {
             "bootstrap failed: \(bootstrap.combinedOutput)"
         )
 
-        let printed = await launchctl.printService(domain: domain, label: label)
-        XCTAssertTrue(printed.succeeded, "print failed: \(printed.combinedOutput)")
+        let items = await StartupScanner().scan()
+        let found = items.first { $0.label == loadedLabel }
+        XCTAssertNotNil(found)
+        XCTAssertEqual(found?.loadStatus, .loaded)
+        XCTAssertEqual(found?.loadStatus.displayName, "已載入")
+        XCTAssertTrue(found?.launchdLoaded ?? false)
+    }
 
-        let scanner = StartupScanner()
-        let items = await scanner.scan()
-        let found = items.first { $0.label == label }
-        XCTAssertNotNil(found, "scanner did not find \(label)")
-        XCTAssertEqual(found?.type, .userLaunchAgent)
-        XCTAssertEqual(found?.executablePath, "/bin/sh")
-        XCTAssertTrue(found?.executableExists ?? false)
+    func testUnloadedUserLaunchAgentIsNotOrphaned() async throws {
+        try writePlist(label: unloadedLabel, program: "/bin/sh", extra: sleepArguments)
+        let items = await StartupScanner().scan()
+        let found = items.first { $0.label == unloadedLabel }
+        XCTAssertNotNil(found)
+        XCTAssertEqual(found?.loadStatus, .unloaded)
         XCTAssertNotEqual(found?.loadStatus, .orphaned)
-
-        let bootout = await launchctl.bootout(domain: domain, plistPath: plistURL.path)
-        XCTAssertTrue(bootout.succeeded, "bootout failed: \(bootout.combinedOutput)")
-
-        let after = await launchctl.printService(domain: domain, label: label)
-        XCTAssertFalse(after.succeeded)
-        XCTAssertTrue(after.combinedOutput.lowercased().contains("could not find service"))
+        XCTAssertTrue(found?.executableExists ?? false)
+        XCTAssertFalse(found?.launchdLoaded ?? true)
     }
 
     func testOrphanedPlistIsDetected() async throws {
-        let orphanLabel = "com.autorunslite.orphan"
-        let orphanURL = FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/LaunchAgents/\(orphanLabel).plist")
-        defer { try? FileManager.default.removeItem(at: orphanURL) }
+        try writePlist(label: orphanLabel, program: "/tmp/macautorunslite-does-not-exist")
+        let items = await StartupScanner().scan()
+        let found = items.first { $0.label == orphanLabel }
+        XCTAssertNotNil(found)
+        XCTAssertEqual(found?.loadStatus, .orphaned)
+        XCTAssertEqual(found?.loadStatus.displayName, "殘留")
+        XCTAssertFalse(found?.executableExists ?? true)
+    }
 
+    func testDisabledUserLaunchAgent() async throws {
+        try writePlist(label: disabledLabel, program: "/bin/sh", extra: sleepArguments)
+        let domain = "gui/\(getuid())"
+        let disable = await launchctl.disable(domain: domain, label: disabledLabel)
+        XCTAssertTrue(disable.succeeded, "disable failed: \(disable.combinedOutput)")
+
+        let items = await StartupScanner().scan()
+        let found = items.first { $0.label == disabledLabel }
+        XCTAssertNotNil(found)
+        XCTAssertEqual(found?.loadStatus, .disabled)
+        XCTAssertTrue(found?.persistentlyDisabled ?? false)
+    }
+
+    func testEmptyLoadedParserDoesNotAffectScan() async throws {
+        XCTAssertTrue(LaunchctlService().parseLoadedLabels(from: "").isEmpty)
+        try await testLoadedUserLaunchAgent()
+    }
+
+    private var sleepArguments: String {
+        """
+            <key>ProgramArguments</key>
+            <array>
+                <string>/bin/sh</string>
+                <string>-c</string>
+                <string>sleep 3600</string>
+            </array>
+        """
+    }
+
+    @discardableResult
+    private func writePlist(label: String, program: String, extra: String = "") throws -> URL {
+        try FileManager.default.createDirectory(at: agentsDirectory, withIntermediateDirectories: true)
+        let url = agentsDirectory.appendingPathComponent("\(label).plist")
         let xml = """
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
@@ -62,44 +99,24 @@ final class LaunchAgentAcceptanceTests: XCTestCase {
         <plist version="1.0">
         <dict>
             <key>Label</key>
-            <string>\(orphanLabel)</string>
+            <string>\(label)</string>
             <key>Program</key>
-            <string>/tmp/nonexistent123</string>
+            <string>\(program)</string>
+            \(extra)
             <key>RunAtLoad</key>
             <false/>
         </dict>
         </plist>
         """
-        try xml.write(to: orphanURL, atomically: true, encoding: .utf8)
-
-        let items = await StartupScanner().scan()
-        let found = items.first { $0.label == orphanLabel }
-        XCTAssertNotNil(found)
-        XCTAssertEqual(found?.loadStatus, .orphaned)
-        XCTAssertEqual(found?.loadStatus.displayName, "殘留")
-        XCTAssertEqual(found?.loadStatus.systemImage, "exclamationmark.triangle.fill")
-        XCTAssertFalse(found?.executableExists ?? true)
+        try xml.write(to: url, atomically: true, encoding: .utf8)
+        return url
     }
 
-    private var plistXML: String {
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-            <key>Label</key>
-            <string>\(label)</string>
-            <key>ProgramArguments</key>
-            <array>
-                <string>/bin/sh</string>
-                <string>-c</string>
-                <string>sleep 3600</string>
-            </array>
-            <key>RunAtLoad</key>
-            <true/>
-        </dict>
-        </plist>
-        """
+    private func cleanup(label: String) async {
+        let plistURL = agentsDirectory.appendingPathComponent("\(label).plist")
+        let domain = "gui/\(getuid())"
+        _ = await launchctl.bootout(domain: domain, plistPath: plistURL.path)
+        _ = await launchctl.enable(domain: domain, label: label)
+        try? FileManager.default.removeItem(at: plistURL)
     }
 }

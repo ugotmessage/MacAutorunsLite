@@ -35,4 +35,13 @@ enum StartupItemType: String, Hashable, CaseIterable, Sendable {
             return "system"
         }
     }
+
+    var researchTypeKeyword: String {
+        switch self {
+        case .userLaunchAgent, .systemLaunchAgent:
+            return "LaunchAgent"
+        case .launchDaemon:
+            return "LaunchDaemon"
+        }
+    }
 }

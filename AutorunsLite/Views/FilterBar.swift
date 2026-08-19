@@ -7,7 +7,7 @@ struct FilterBar: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ForEach(StartupFilter.allCases) { filter in
+                ForEach(StartupFilter.toolbarFilters) { filter in
                     FilterChip(
                         title: filter.title,
                         isSelected: selectedFilter == filter
@@ -42,5 +42,6 @@ private struct FilterChip: View {
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)
+        .textSelection(.disabled)
     }
 }

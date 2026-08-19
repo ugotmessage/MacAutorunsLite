@@ -10,18 +10,42 @@ Mac Autoruns Lite helps you inspect and manage `launchd` startup items without t
 
 - Inspect User LaunchAgents, System LaunchAgents, and LaunchDaemons
 - Detect orphaned startup entries whose executable no longer exists
-- View load state and startup metadata
+- View load state, recommendation, and startup metadata
 - Start / stop and enable / disable supported items
 - Conservative **Safe Action** classification
 - Preview changes before applying them
 - Snapshot-based rollback for Safe Action operations
+- Advanced Move to Trash for leftover User LaunchAgents
+- Built-in Service Research browser
 - Search and filter startup items
+- Configurable search keywords and query templates
+- Optional embedded research browser; system browser is the default
+- Local per-item research notes
 - View plist details and reveal files in Finder
 - System / Light / Dark appearance modes
 - Native Swift + SwiftUI macOS app
 - No Electron
 - No telemetry
 - No background daemon
+
+## Scan scope
+
+The current scan covers only traditional launchd plist files:
+
+- `~/Library/LaunchAgents`
+- `/Library/LaunchAgents`
+- `/Library/LaunchDaemons`
+
+A service that is loaded in launchd but has no matching plist in those directories may not appear. SMAppService, Login Items, Background Tasks, and XPC services are not scanned yet.
+
+## Understanding startup states
+
+Mac Autoruns Lite separates **runtime status** from **cleanup recommendations**.
+
+- **Loaded** means launchd has loaded the job. It does **not** necessarily mean the process is running right now. launchd may be waiting for RunAtLoad, KeepAlive, a timer, or a socket.
+- **Unloaded** means the plist exists but the job is not currently registered in the domain. That is **not** the same as unused, and it is **not** a reason to delete the item.
+- **Disabled** means launchd has marked the job so it will not autoload until it is enabled again.
+- **Orphaned** means the plist still exists but the executable it points to is missing. That is worth reviewing; it is still not always safe to delete.
 
 ## Safety model
 
@@ -30,6 +54,34 @@ Mac Autoruns Lite is intentionally conservative.
 Automatic Safe Actions are limited to high-confidence cases such as orphaned third-party **User LaunchAgents** whose executable no longer exists. Apple/system items, LaunchDaemons, System LaunchAgents, unknown sources, KeepAlive jobs, and items that may still belong to installed apps are excluded from automatic handling and require manual review.
 
 Safe Action does **not** delete plist files. It prefers reversible `launchctl` operations and stores a snapshot so the previous state can be restored where possible.
+
+Moving a plist to Trash is a separate advanced action, limited to `~/Library/LaunchAgents`.
+
+## Privacy
+
+Core startup inspection and management is local.
+
+Network access only occurs when the user explicitly uses Service Research.
+
+Service Research is opt-in. Mac Autoruns Lite does not automatically upload startup-item information. When the user explicitly starts Service Research, the selected service label and search keywords are sent to the configured search engine.
+
+## Service Research
+
+For a selected service such as:
+
+```text
+com.adobe.acc.installer.v2
+```
+
+Mac Autoruns Lite can quickly search:
+
+```text
+"com.adobe.acc.installer.v2" LaunchDaemon safe to remove
+```
+
+Search results are for reference only. They never change SafetyClassifier, recommendations, Safe Action, or Move to Trash.
+
+Research notes are stored locally on this Mac and are not uploaded.
 
 ## Why App Sandbox is disabled
 

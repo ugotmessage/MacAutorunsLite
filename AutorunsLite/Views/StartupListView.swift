@@ -15,7 +15,7 @@ struct StartupListView: View {
                     Section {
                         if viewModel.isGroupExpanded(group.kind) {
                             ForEach(group.items) { item in
-                                StartupItemRow(item: item)
+                                StartupItemRow(item: item, notePreview: viewModel.notePreview(for: item))
                                     .tag(item.id)
                                     .contextMenu { itemContextMenu(item) }
                             }
@@ -53,8 +53,10 @@ struct StartupListView: View {
             .padding(.vertical, 4)
         }
         .buttonStyle(.plain)
+        .textSelection(.disabled)
         .accessibilityLabel("\(status.displayName)，\(group.items.count) 個項目")
         .accessibilityAddTraits(.isHeader)
+        .help(status.shortDescription)
     }
 
     @ViewBuilder
@@ -100,18 +102,26 @@ struct StartupListView: View {
         Button("複製執行檔路徑") {
             viewModel.copyExecutablePath(item)
         }
+
+        if viewModel.canMoveToTrash(item) {
+            Divider()
+            Button("移到垃圾桶…") {
+                viewModel.requestMoveToTrash(item)
+            }
+        }
     }
 }
 
 struct StartupItemRow: View {
     let item: StartupItem
+    var notePreview: String? = nil
 
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
             Image(systemName: item.loadStatus.systemImage)
                 .foregroundStyle(item.loadStatus.color)
                 .frame(width: 16, height: 16)
-                .help(item.statusExplanation ?? item.loadStatus.displayName)
+                .help(item.loadStatus.shortDescription)
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
@@ -125,8 +135,15 @@ struct StartupItemRow: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
+                if let notePreview {
+                    Label(notePreview, systemImage: "note.text")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
             }
             .frame(minWidth: 80, maxWidth: 280, alignment: .leading)
+            .textSelection(.enabled)
 
             TypeBadge(type: item.type)
 
@@ -136,6 +153,7 @@ struct StartupItemRow: View {
                 .lineLimit(1)
                 .truncationMode(.middle)
                 .help(item.plistPath)
+                .textSelection(.enabled)
                 .frame(minWidth: 48, maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.vertical, 4)
@@ -150,6 +168,9 @@ struct StartupItemRow: View {
             parts.insert(secondary, at: 1)
         }
         parts.append(item.plistPath)
+        if let notePreview {
+            parts.append("備註：\(notePreview)")
+        }
         return parts.joined(separator: "，")
     }
 }
@@ -166,6 +187,7 @@ struct TypeBadge: View {
             .background(.quaternary)
             .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
             .fixedSize()
+            .textSelection(.disabled)
             .help(type.sourceDescription)
     }
 }

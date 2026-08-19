@@ -14,11 +14,11 @@ struct PlistViewerSheet: View {
                     Text(plistPath)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                        .textSelection(.enabled)
                 }
                 Spacer()
                 Button("關閉") { dismiss() }
                     .keyboardShortcut(.cancelAction)
+                    .textSelection(.disabled)
             }
 
             ScrollView {
@@ -33,6 +33,7 @@ struct PlistViewerSheet: View {
         }
         .padding(16)
         .frame(minWidth: 640, minHeight: 480)
+        .textSelection(.enabled)
     }
 
     private var contents: String {
@@ -67,6 +68,7 @@ struct SessionLogSheet: View {
                     .font(.headline)
                 Spacer()
                 Button("關閉") { dismiss() }
+                    .textSelection(.disabled)
             }
 
             ScrollView {
@@ -74,7 +76,6 @@ struct SessionLogSheet: View {
                     ForEach(entries) { entry in
                         Text("\(formatter.string(from: entry.date)) \(entry.message)")
                             .font(.system(.body, design: .monospaced))
-                            .textSelection(.enabled)
                     }
                     if entries.isEmpty {
                         Text("尚無紀錄")
@@ -86,5 +87,6 @@ struct SessionLogSheet: View {
         }
         .padding(16)
         .frame(minWidth: 560, minHeight: 360)
+        .textSelection(.enabled)
     }
 }

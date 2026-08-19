@@ -116,6 +116,28 @@ final class LoadStatusResolverTests: XCTestCase {
         XCTAssertEqual(StartupFilter.loaded.title, "已載入")
         XCTAssertEqual(StartupFilter.disabled.title, "已停用")
         XCTAssertEqual(StartupFilter.orphaned.title, "殘留")
+        XCTAssertTrue(LoadStatus.loaded.shortDescription.contains("launchd"))
+        XCTAssertTrue(LoadStatus.unloaded.shortDescription.contains("不一定是異常"))
+        XCTAssertTrue(LoadStatus.loaded.detailedDescription.contains("不代表"))
+        XCTAssertTrue(LoadStatus.unloaded.detailedDescription.contains("不代表可以安全刪除"))
+    }
+
+    func testRuntimeStateNotFoundIsUnloaded() {
+        let status = LoadStatusResolver.resolve(
+            executableExists: true,
+            isDisabled: false,
+            runtimeState: .notFound
+        )
+        XCTAssertEqual(status, .unloaded)
+    }
+
+    func testRuntimeStateErrorIsError() {
+        let status = LoadStatusResolver.resolve(
+            executableExists: true,
+            isDisabled: false,
+            runtimeState: .error("Permission denied")
+        )
+        XCTAssertEqual(status, .error("Permission denied"))
     }
 
     func testAppleLabelIsProtected() {

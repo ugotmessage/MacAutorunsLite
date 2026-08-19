@@ -31,7 +31,6 @@ struct SafeActionResultSheet: View {
                             Text(item.detail)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
-                                .textSelection(.enabled)
                         }
                     }
                     .padding(.vertical, 2)
@@ -50,9 +49,11 @@ struct SafeActionResultSheet: View {
                     Button("復原", action: onUndo)
                 }
             }
+            .textSelection(.disabled)
         }
         .padding(20)
         .frame(minWidth: 520, minHeight: showingDetails ? 480 : 240)
+        .textSelection(.enabled)
     }
 
     private func summary(_ title: String, _ count: Int, _ color: Color) -> some View {
