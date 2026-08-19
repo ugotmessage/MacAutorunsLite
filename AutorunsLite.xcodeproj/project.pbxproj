@@ -1,0 +1,622 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA0000000000000000000200 /* AutorunsLiteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000100 /* AutorunsLiteApp.swift */; };
+		AA0000000000000000000201 /* StartupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000101 /* StartupItem.swift */; };
+		AA0000000000000000000202 /* StartupItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000102 /* StartupItemType.swift */; };
+		AA0000000000000000000203 /* LoadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000103 /* LoadStatus.swift */; };
+		AA0000000000000000000204 /* StartupFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000104 /* StartupFilter.swift */; };
+		AA0000000000000000000205 /* ItemOrigin.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000105 /* ItemOrigin.swift */; };
+		AA0000000000000000000206 /* StartupScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000106 /* StartupScanner.swift */; };
+		AA0000000000000000000207 /* LaunchctlService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000107 /* LaunchctlService.swift */; };
+		AA0000000000000000000208 /* PlistParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000108 /* PlistParser.swift */; };
+		AA0000000000000000000209 /* AppBundleResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000109 /* AppBundleResolver.swift */; };
+		AA000000000000000000020A /* StartupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000010A /* StartupViewModel.swift */; };
+		AA000000000000000000020B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000010B /* ContentView.swift */; };
+		AA000000000000000000020C /* StartupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000010C /* StartupListView.swift */; };
+		AA000000000000000000020D /* StartupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000010D /* StartupDetailView.swift */; };
+		AA000000000000000000020E /* FilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000010E /* FilterBar.swift */; };
+		AA000000000000000000020F /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000010F /* ErrorSheet.swift */; };
+		AA0000000000000000000210 /* PlistViewerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000110 /* PlistViewerSheet.swift */; };
+		AA0000000000000000000219 /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000119 /* StatusBadge.swift */; };
+		AA000000000000000000021A /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011A /* AppearanceMode.swift */; };
+		AA000000000000000000021B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011B /* AppSettings.swift */; };
+		AA000000000000000000021C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011C /* SettingsView.swift */; };
+		AA0000000000000000000211 /* ShellResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000111 /* ShellResult.swift */; };
+		AA0000000000000000000212 /* LoadStatusResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000112 /* LoadStatusResolver.swift */; };
+		AA0000000000000000000213 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000113 /* Assets.xcassets */; };
+		AA0000000000000000000215 /* PlistParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000115 /* PlistParserTests.swift */; };
+		AA0000000000000000000216 /* LoadStatusResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000116 /* LoadStatusResolverTests.swift */; };
+		AA0000000000000000000217 /* AppBundleResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000117 /* AppBundleResolverTests.swift */; };
+		AA0000000000000000000218 /* LaunchAgentAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000118 /* LaunchAgentAcceptanceTests.swift */; };
+		AA000000000000000000021D /* AppearanceModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011D /* AppearanceModeTests.swift */; };
+		AA000000000000000000021E /* SafetyClassification.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011E /* SafetyClassification.swift */; };
+		AA000000000000000000021F /* SafetyClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000011F /* SafetyClassifier.swift */; };
+		AA0000000000000000000220 /* SafeActionSnapshotStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000120 /* SafeActionSnapshotStore.swift */; };
+		AA0000000000000000000221 /* SafeActionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000121 /* SafeActionService.swift */; };
+		AA0000000000000000000222 /* SafeActionPreviewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000122 /* SafeActionPreviewSheet.swift */; };
+		AA0000000000000000000223 /* SafeActionResultSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000123 /* SafeActionResultSheet.swift */; };
+		AA0000000000000000000224 /* SafetyClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000124 /* SafetyClassifierTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA0000000000000000000040 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA0000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000003;
+			remoteInfo = AutorunsLite;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AA0000000000000000000007 /* AutorunsLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutorunsLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000000008 /* AutorunsLiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutorunsLiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000000100 /* AutorunsLiteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutorunsLiteApp.swift; sourceTree = "<group>"; };
+		AA0000000000000000000101 /* StartupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupItem.swift; sourceTree = "<group>"; };
+		AA0000000000000000000102 /* StartupItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupItemType.swift; sourceTree = "<group>"; };
+		AA0000000000000000000103 /* LoadStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStatus.swift; sourceTree = "<group>"; };
+		AA0000000000000000000104 /* StartupFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupFilter.swift; sourceTree = "<group>"; };
+		AA0000000000000000000105 /* ItemOrigin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOrigin.swift; sourceTree = "<group>"; };
+		AA0000000000000000000106 /* StartupScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupScanner.swift; sourceTree = "<group>"; };
+		AA0000000000000000000107 /* LaunchctlService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchctlService.swift; sourceTree = "<group>"; };
+		AA0000000000000000000108 /* PlistParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistParser.swift; sourceTree = "<group>"; };
+		AA0000000000000000000109 /* AppBundleResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBundleResolver.swift; sourceTree = "<group>"; };
+		AA000000000000000000010A /* StartupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewModel.swift; sourceTree = "<group>"; };
+		AA000000000000000000010B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AA000000000000000000010C /* StartupListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupListView.swift; sourceTree = "<group>"; };
+		AA000000000000000000010D /* StartupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupDetailView.swift; sourceTree = "<group>"; };
+		AA000000000000000000010E /* FilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBar.swift; sourceTree = "<group>"; };
+		AA000000000000000000010F /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
+		AA0000000000000000000110 /* PlistViewerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistViewerSheet.swift; sourceTree = "<group>"; };
+		AA0000000000000000000119 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
+		AA000000000000000000011A /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
+		AA000000000000000000011B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		AA000000000000000000011C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AA000000000000000000011D /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000111 /* ShellResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellResult.swift; sourceTree = "<group>"; };
+		AA0000000000000000000112 /* LoadStatusResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStatusResolver.swift; sourceTree = "<group>"; };
+		AA0000000000000000000113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA0000000000000000000114 /* AutorunsLite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutorunsLite.entitlements; sourceTree = "<group>"; };
+		AA0000000000000000000115 /* PlistParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistParserTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000116 /* LoadStatusResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStatusResolverTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000117 /* AppBundleResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBundleResolverTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000118 /* LaunchAgentAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentAcceptanceTests.swift; sourceTree = "<group>"; };
+		AA000000000000000000011E /* SafetyClassification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyClassification.swift; sourceTree = "<group>"; };
+		AA000000000000000000011F /* SafetyClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyClassifier.swift; sourceTree = "<group>"; };
+		AA0000000000000000000120 /* SafeActionSnapshotStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeActionSnapshotStore.swift; sourceTree = "<group>"; };
+		AA0000000000000000000121 /* SafeActionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeActionService.swift; sourceTree = "<group>"; };
+		AA0000000000000000000122 /* SafeActionPreviewSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeActionPreviewSheet.swift; sourceTree = "<group>"; };
+		AA0000000000000000000123 /* SafeActionResultSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeActionResultSheet.swift; sourceTree = "<group>"; };
+		AA0000000000000000000124 /* SafetyClassifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyClassifierTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA000000000000000000000B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000000000000000000000D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA0000000000000000000010 = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000012 /* AutorunsLite */,
+				AA0000000000000000000018 /* AutorunsLiteTests */,
+				AA0000000000000000000011 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000011 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000007 /* AutorunsLite.app */,
+				AA0000000000000000000008 /* AutorunsLiteTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000012 /* AutorunsLite */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000100 /* AutorunsLiteApp.swift */,
+				AA0000000000000000000013 /* Models */,
+				AA0000000000000000000014 /* Services */,
+				AA0000000000000000000016 /* ViewModels */,
+				AA0000000000000000000015 /* Views */,
+				AA0000000000000000000017 /* Utilities */,
+				AA0000000000000000000113 /* Assets.xcassets */,
+				AA0000000000000000000114 /* AutorunsLite.entitlements */,
+			);
+			path = AutorunsLite;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000013 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000101 /* StartupItem.swift */,
+				AA0000000000000000000102 /* StartupItemType.swift */,
+				AA0000000000000000000103 /* LoadStatus.swift */,
+				AA0000000000000000000104 /* StartupFilter.swift */,
+				AA0000000000000000000105 /* ItemOrigin.swift */,
+				AA000000000000000000011A /* AppearanceMode.swift */,
+				AA000000000000000000011E /* SafetyClassification.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000014 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000106 /* StartupScanner.swift */,
+				AA0000000000000000000107 /* LaunchctlService.swift */,
+				AA0000000000000000000108 /* PlistParser.swift */,
+				AA0000000000000000000109 /* AppBundleResolver.swift */,
+				AA000000000000000000011F /* SafetyClassifier.swift */,
+				AA0000000000000000000120 /* SafeActionSnapshotStore.swift */,
+				AA0000000000000000000121 /* SafeActionService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000015 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA000000000000000000010B /* ContentView.swift */,
+				AA000000000000000000010C /* StartupListView.swift */,
+				AA000000000000000000010D /* StartupDetailView.swift */,
+				AA000000000000000000010E /* FilterBar.swift */,
+				AA000000000000000000010F /* ErrorSheet.swift */,
+				AA0000000000000000000110 /* PlistViewerSheet.swift */,
+				AA0000000000000000000119 /* StatusBadge.swift */,
+				AA000000000000000000011C /* SettingsView.swift */,
+				AA0000000000000000000122 /* SafeActionPreviewSheet.swift */,
+				AA0000000000000000000123 /* SafeActionResultSheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000016 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AA000000000000000000010A /* StartupViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000017 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000111 /* ShellResult.swift */,
+				AA0000000000000000000112 /* LoadStatusResolver.swift */,
+				AA000000000000000000011B /* AppSettings.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000018 /* AutorunsLiteTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000115 /* PlistParserTests.swift */,
+				AA0000000000000000000116 /* LoadStatusResolverTests.swift */,
+				AA0000000000000000000117 /* AppBundleResolverTests.swift */,
+				AA0000000000000000000118 /* LaunchAgentAcceptanceTests.swift */,
+				AA000000000000000000011D /* AppearanceModeTests.swift */,
+				AA0000000000000000000124 /* SafetyClassifierTests.swift */,
+			);
+			path = AutorunsLiteTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA0000000000000000000003 /* AutorunsLite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000004 /* Build configuration list for PBXNativeTarget "AutorunsLite" */;
+			buildPhases = (
+				AA0000000000000000000009 /* Sources */,
+				AA000000000000000000000B /* Frameworks */,
+				AA000000000000000000000A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutorunsLite;
+			productName = AutorunsLite;
+			productReference = AA0000000000000000000007 /* AutorunsLite.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA0000000000000000000005 /* AutorunsLiteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000006 /* Build configuration list for PBXNativeTarget "AutorunsLiteTests" */;
+			buildPhases = (
+				AA000000000000000000000C /* Sources */,
+				AA000000000000000000000D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA0000000000000000000041 /* PBXTargetDependency */,
+			);
+			name = AutorunsLiteTests;
+			productName = AutorunsLiteTests;
+			productReference = AA0000000000000000000008 /* AutorunsLiteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA0000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					AA0000000000000000000003 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					AA0000000000000000000005 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = AA0000000000000000000003;
+					};
+				};
+			};
+			buildConfigurationList = AA0000000000000000000002 /* Build configuration list for PBXProject "AutorunsLite" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA0000000000000000000010;
+			productRefGroup = AA0000000000000000000011 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA0000000000000000000003 /* AutorunsLite */,
+				AA0000000000000000000005 /* AutorunsLiteTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA000000000000000000000A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000213 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA0000000000000000000009 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000200 /* AutorunsLiteApp.swift in Sources */,
+				AA0000000000000000000201 /* StartupItem.swift in Sources */,
+				AA0000000000000000000202 /* StartupItemType.swift in Sources */,
+				AA0000000000000000000203 /* LoadStatus.swift in Sources */,
+				AA0000000000000000000204 /* StartupFilter.swift in Sources */,
+				AA0000000000000000000205 /* ItemOrigin.swift in Sources */,
+				AA0000000000000000000206 /* StartupScanner.swift in Sources */,
+				AA0000000000000000000207 /* LaunchctlService.swift in Sources */,
+				AA0000000000000000000208 /* PlistParser.swift in Sources */,
+				AA0000000000000000000209 /* AppBundleResolver.swift in Sources */,
+				AA000000000000000000020A /* StartupViewModel.swift in Sources */,
+				AA000000000000000000020B /* ContentView.swift in Sources */,
+				AA000000000000000000020C /* StartupListView.swift in Sources */,
+				AA000000000000000000020D /* StartupDetailView.swift in Sources */,
+				AA000000000000000000020E /* FilterBar.swift in Sources */,
+				AA000000000000000000020F /* ErrorSheet.swift in Sources */,
+				AA0000000000000000000210 /* PlistViewerSheet.swift in Sources */,
+				AA0000000000000000000219 /* StatusBadge.swift in Sources */,
+				AA000000000000000000021A /* AppearanceMode.swift in Sources */,
+				AA000000000000000000021B /* AppSettings.swift in Sources */,
+				AA000000000000000000021C /* SettingsView.swift in Sources */,
+				AA0000000000000000000211 /* ShellResult.swift in Sources */,
+				AA0000000000000000000212 /* LoadStatusResolver.swift in Sources */,
+				AA000000000000000000021E /* SafetyClassification.swift in Sources */,
+				AA000000000000000000021F /* SafetyClassifier.swift in Sources */,
+				AA0000000000000000000220 /* SafeActionSnapshotStore.swift in Sources */,
+				AA0000000000000000000221 /* SafeActionService.swift in Sources */,
+				AA0000000000000000000222 /* SafeActionPreviewSheet.swift in Sources */,
+				AA0000000000000000000223 /* SafeActionResultSheet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000000000000000000000C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000215 /* PlistParserTests.swift in Sources */,
+				AA0000000000000000000216 /* LoadStatusResolverTests.swift in Sources */,
+				AA0000000000000000000217 /* AppBundleResolverTests.swift in Sources */,
+				AA0000000000000000000218 /* LaunchAgentAcceptanceTests.swift in Sources */,
+				AA000000000000000000021D /* AppearanceModeTests.swift in Sources */,
+				AA0000000000000000000224 /* SafetyClassifierTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA0000000000000000000041 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000003 /* AutorunsLite */;
+			targetProxy = AA0000000000000000000040 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AA0000000000000000000030 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AutorunsLite/AutorunsLite.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Autoruns Lite";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000031 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AutorunsLite/AutorunsLite.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Autoruns Lite";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AA0000000000000000000032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000033 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		AA0000000000000000000034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLiteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AutorunsLite.app/Contents/MacOS/AutorunsLite";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autorunslite.AutorunsLiteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AutorunsLite.app/Contents/MacOS/AutorunsLite";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA0000000000000000000002 /* Build configuration list for PBXProject "AutorunsLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000032 /* Debug */,
+				AA0000000000000000000033 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000004 /* Build configuration list for PBXNativeTarget "AutorunsLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000030 /* Debug */,
+				AA0000000000000000000031 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000006 /* Build configuration list for PBXNativeTarget "AutorunsLiteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000034 /* Debug */,
+				AA0000000000000000000035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA0000000000000000000001 /* Project object */;
+}
